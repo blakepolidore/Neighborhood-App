@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GameOfThronesMap</string>
+    <string name="Search">Search</string>
+    <string name="searchResults">Search Results</string>
+</resources>
