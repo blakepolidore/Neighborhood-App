@@ -2,4 +2,6 @@
     <string name="app_name">GameOfThronesMap</string>
     <string name="Search">Search</string>
     <string name="searchResults">Search Results</string>
+    <string name="infoString">Search fo locations in both Essos and Westeros by house and character. Choose at least one search criteria. Click on the results to learn more about the location.
+    To start and pause the music, click on the music icon.</string>
 </resources>

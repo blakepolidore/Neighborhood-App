@@ -1,5 +1,6 @@
 package blake.com.gameofthronesmap;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ public class LocationActivity extends AppCompatActivity {
     EditText reviewEditText;
     MediaPlayer themeMediaPlayer;
     boolean playIsOn = false;
+    private Intent infoIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class LocationActivity extends AppCompatActivity {
         themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
 
         playAudio();
+        goToInfoActivity();
     }
 
     private void playAudio() {
@@ -51,6 +54,16 @@ public class LocationActivity extends AppCompatActivity {
                     themeMediaPlayer.start();
                     playIsOn = true;
                 }
+            }
+        });
+    }
+
+    private void goToInfoActivity() {
+        infoIntent = new Intent(this, InfoActivity.class);
+        infoButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(infoIntent);
             }
         });
     }
