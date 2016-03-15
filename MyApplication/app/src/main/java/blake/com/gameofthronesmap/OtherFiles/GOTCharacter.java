@@ -9,6 +9,7 @@ public class GOTCharacter {
     String sex;
     String continent;
     String house;
+    //Set icon and full size image and description
 
     public GOTCharacter(int id, String name, String sex, String continent, String house) {
         this.id = id;

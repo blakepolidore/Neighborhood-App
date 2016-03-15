@@ -72,11 +72,21 @@ public class MainActivity extends AppCompatActivity {
         database.insert(4, "Jamie Lannister", "Male", "Westeros", "Lannister");
         database.insert(5, "Cersei Lannister", "Female", "Westeros", "Lannister");
         database.insert(6, "Oberyn Martell", "Male", "Westeros", "Martell");
-        database.insert(7, "Joffery Lannister", "Male", "Westeros", "Lannister");
+        database.insert(7, "Joffery Baratheon", "Male", "Westeros", "Baratheon");
         database.insert(8, "Robert Baratheon", "Male", "Westeros", "Baratheon");
         database.insert(9, "Jorah Mormont", "Male", "Essos", "Mormont");
         database.insert(10, "Tyrion Lannister", "Male", "Both", "Lannister");
         database.insert(11, "Petyr Baelish", "Male", "Westeros", "None");
+        database.insert(12, "Lord Varys", "Male", "Both", "None");
+        database.insert(13, "Jeor Mormont", "Male", "Westeros", "Mormont");
+        database.insert(14, "Doran Martell", "Male", "Westeros", "Martell");
+        database.insert(15, "Aegon Targaryen", "Male", "Westeros", "Targaryen");
+        database.insert(16, "Eddard Stark", "Male", "Westeros", "Stark");
+        database.insert(17, "Lady Melissandre", "Female", "Westeros", "None");
+        database.insert(18, "Bran Stark", "Male", "Westeros", "Stark");
+        database.insert(19, "Tywin Lannister", "Male", "Westeros", "Lannister");
+        database.insert(20, "Viserys Targaryen", "Male", "Essos", "Targaryen");
+        database.insert(21, "Jaqen H'ghar", "Male", "Both", "None");
     }
 
     private void toSearchResults() {

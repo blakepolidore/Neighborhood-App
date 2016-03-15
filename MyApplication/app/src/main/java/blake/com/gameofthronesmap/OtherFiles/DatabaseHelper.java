@@ -41,19 +41,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert("characters", null, values);
     }
 
-    public GOTCharacter getCharacter(int id) {
+    public Cursor getCharacter(int id) {
         SQLiteDatabase db = getReadableDatabase();
         String[] projection = new String[]{ "id", "name", "sex", "continent", "house" };
         String selection = "id = ?";
         String[] selectionArgs = new String[]{ String.valueOf(id) };
         Cursor cursor = db.query("characters", projection, selection, selectionArgs, null, null, null, null);
         cursor.moveToFirst();
-        String name = cursor.getString(cursor.getColumnIndex("name"));
-        String sex = cursor.getString(cursor.getColumnIndex("sex"));
-        String continent = cursor.getString( cursor.getColumnIndex("continent") );
-        String house = cursor.getString( cursor.getColumnIndex("house") );
 
-        return new GOTCharacter(id, name, sex, continent, house);
+        return cursor;
     }
 
     public void delete(int id){
