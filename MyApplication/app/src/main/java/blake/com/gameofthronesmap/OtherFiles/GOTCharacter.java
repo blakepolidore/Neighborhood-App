@@ -1,15 +1,17 @@
-package blake.com.gameofthronesmap;
+package blake.com.gameofthronesmap.OtherFiles;
 
 /**
  * Created by Raiders on 3/14/16.
  */
 public class GOTCharacter {
+    int id;
     String name;
     String sex;
     String continent;
     String house;
 
-    public GOTCharacter(String name, String sex, String continent, String house) {
+    public GOTCharacter(int id, String name, String sex, String continent, String house) {
+        this.id = id;
         this.name = name;
         this.sex = sex;
         this.continent = continent;

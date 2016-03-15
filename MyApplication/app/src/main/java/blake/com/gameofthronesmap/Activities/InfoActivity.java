@@ -1,7 +1,9 @@
-package blake.com.gameofthronesmap;
+package blake.com.gameofthronesmap.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import blake.com.gameofthronesmap.R;
 
 /**
  * Created by Raiders on 3/13/16.

@@ -1,26 +1,25 @@
-package blake.com.gameofthronesmap;
+package blake.com.gameofthronesmap.Activities;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import blake.com.gameofthronesmap.R;
 
 /**
  * Created by Raiders on 3/12/16.
  */
-public class LocationActivity extends AppCompatActivity {
+public class SearchResultsActivity extends AppCompatActivity {
 
-    ImageButton musicButton3;
-    ImageButton infoButton3;
-    TextView locationTitleText;
-    TextView locationDescription;
-    ImageView locationImage;
-    EditText reviewEditText;
+    ImageButton musicButton2;
+    ImageButton infoButton2;
+    TextView searchResultsTextView;
+    ListView searchResultsListView;
     MediaPlayer themeMediaPlayer;
     boolean playIsOn = false;
     private Intent infoIntent;
@@ -28,14 +27,12 @@ public class LocationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_location);
+        setContentView(R.layout.activity_searchresults);
 
-        musicButton3 = (ImageButton) findViewById(R.id.musicButton3);
-        infoButton3 = (ImageButton) findViewById(R.id.infoButton3);
-        locationTitleText = (TextView) findViewById(R.id.locationTitleText);
-        locationDescription = (TextView) findViewById(R.id.locationDescription);
-        locationImage = (ImageView) findViewById(R.id.imageViewLocation);
-        reviewEditText = (EditText) findViewById(R.id.reviewEditText);
+        musicButton2 = (ImageButton) findViewById(R.id.musicButton2);
+        infoButton2 = (ImageButton) findViewById(R.id.infoButton2);
+        searchResultsTextView = (TextView) findViewById(R.id.searchResultsText);
+        searchResultsListView = (ListView) findViewById(R.id.listView);
         themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
 
         playAudio();
@@ -43,7 +40,7 @@ public class LocationActivity extends AppCompatActivity {
     }
 
     private void playAudio() {
-        musicButton3.setOnClickListener(new View.OnClickListener() {
+        musicButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 themeMediaPlayer.start();
@@ -60,7 +57,7 @@ public class LocationActivity extends AppCompatActivity {
 
     private void goToInfoActivity() {
         infoIntent = new Intent(this, InfoActivity.class);
-        infoButton3.setOnClickListener(new View.OnClickListener() {
+        infoButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(infoIntent);
