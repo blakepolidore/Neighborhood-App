@@ -98,11 +98,11 @@ public class SearchResultsActivity extends AppCompatActivity {
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
                 TextView nameText = (TextView) view.findViewById(R.id.characterNameText);
-                TextView houseText = (TextView) view.findViewById(R.id.characterHouseText);
+                TextView badassText = (TextView) view.findViewById(R.id.badassText);
                 ImageView iconImage = (ImageView) view.findViewById(R.id.iconImageView);
 
                 nameText.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_NAME)));
-                houseText.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_HOUSE)));
+                badassText.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_BADASS)));
                 int drawableID= getDrawableValue(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_HOUSE)));
                 //int drawableID= cursor.getColumnIndex(DatabaseHelper.COL_ICON_IMAGE);
                 iconImage.setBackgroundResource(drawableID);
@@ -111,7 +111,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(cursorAdapterForSearchList);
     }
-
+//MAKE BETTER PICTURES, EXACT SQUARES!!!!
     private int getDrawableValue(String house){
         switch(house){
             case "Targaryen":

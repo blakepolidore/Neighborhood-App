@@ -10,19 +10,19 @@ public class GOTCharacter {
     String house;
     String description;
     Boolean isLiked;
-    int iconImage;
     int largeImage;
+    String badAss;
     //Set icon and full size image
 
-    public GOTCharacter(String name, String sex, String continent, String house, String description, Boolean isLiked, int iconImage, int largeImage) {
+    public GOTCharacter(String name, String sex, String continent, String house, String description, Boolean isLiked, int largeImage, String badAss) {
         this.name = name;
         this.sex = sex;
         this.continent = continent;
         this.house = house;
         this.description = description;
         this.isLiked = isLiked;
-        this.iconImage = iconImage;
         this.largeImage = largeImage;
+        this.badAss = badAss;
     }
 
     public String getName() {
@@ -73,19 +73,19 @@ public class GOTCharacter {
         this.isLiked = isLiked;
     }
 
-    public int getIconImage() {
-        return iconImage;
-    }
-
-    public void setIconImage(int iconImage) {
-        this.iconImage = iconImage;
-    }
-
     public int getLargeImage() {
         return largeImage;
     }
 
     public void setLargeImage(int largeImage) {
         this.largeImage = largeImage;
+    }
+
+    public String getBadAss() {
+        return badAss;
+    }
+
+    public void setBadAss(String badAss) {
+        this.badAss = badAss;
     }
 }

@@ -2,7 +2,7 @@
     <string name="app_name">GameOfThronesMap</string>
     <string name="Search">Search</string>
     <string name="searchResults">Search Results</string>
-    <string name="infoString">Search fo locations in both Essos and Westeros by house and character. Choose at least one search criteria. Click on the results to learn more about the location.
+    <string name="infoString">Search fo locations in both Essos and Westeros by house and character. Choose zero, one, two, or three search criteria. Click on the results to learn more about the location.
     To start and pause the music, click on the music icon.</string>
     <string name="jonSnow">Bastard of Winterfell. Lord Commander of the Night\'s Watch. Courageous and loyal to a fault. Leader of men. Great Fighter. </string>
     <string name="aryaStark">Not to be underestimated. Daft and light on her feet. Trained killer out for revenge.</string>
@@ -25,4 +25,24 @@
     <string name="tywinLannister">Warden of the East and Lord of Casterly Rock. One of the richest and most powerful lords in all the kingdoms. Not a man to be messed with.</string>
     <string name="viserysTargaryen">"Rightful" heir to the Iron Throne. Tries to gain an army to take back his throne. Brother to Daenerys.</string>
     <string name="jaqenHghar">Assasain with many faces. Helps Arya in to train to be an assasain for the Many Faced God.</string>
+    <string-array name="continent">
+        <item>No Selection</item>
+        <item>Westeros</item>
+        <item>Essos</item>
+    </string-array>
+    <string-array name="sex">
+        <item>No Selection</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="house">
+        <item>No Selection</item>
+        <item>Targaryen</item>
+        <item>Stark</item>
+        <item>Martell</item>
+        <item>Mormont</item>
+        <item>Baratheon</item>
+        <item>Lannister</item>
+        <item>None</item>
+    </string-array>
 </resources>

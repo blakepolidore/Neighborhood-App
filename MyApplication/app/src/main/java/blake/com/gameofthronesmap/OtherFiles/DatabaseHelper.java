@@ -21,14 +21,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_HOUSE = "house";
     public static final String COL_DESCRIPTION = "description";
     public static final String COL_ISLIKED = "isLiked";
-    public static final String COL_ICON_IMAGE = "iconImage";
+    public static final String COL_BADASS = "badAss";
     public static final String COL_LARGE_IMAGE = "largeImage";
-    public static final String SQL_CREATE_CHARACTERS_TABLE = "CREATE TABLE " + CHARACTERS_TABLE_NAME +
+    public static final String SQL_CREATE_CHARACTERS_TABLE = "CREATE TABLE IF NOT EXISTS " + CHARACTERS_TABLE_NAME +
             "(" +
             COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             COL_NAME + " TEXT," + COL_SEX + " TEXT," + COL_CONTINENT + " TEXT," + COL_HOUSE + " TEXT," + COL_DESCRIPTION + " TEXT,"
-            + COL_ISLIKED + " BOOLEAN," + COL_ICON_IMAGE + " INTEGER," + COL_LARGE_IMAGE + " INTEGER)";
-    public static final String[] GOT_COLUMNS = {COL_ID,COL_NAME, COL_SEX, COL_CONTINENT, COL_HOUSE, COL_DESCRIPTION, COL_ISLIKED, COL_ICON_IMAGE, COL_LARGE_IMAGE};
+            + COL_ISLIKED + " BOOLEAN," + COL_LARGE_IMAGE + " INTEGER," + COL_BADASS + " TEXT)";
+    public static final String[] GOT_COLUMNS = {COL_ID,COL_NAME, COL_SEX, COL_CONTINENT, COL_HOUSE, COL_DESCRIPTION, COL_ISLIKED, COL_LARGE_IMAGE, COL_BADASS};
     public static final String SQL_DROP_CHARACTERS_TABLE = "DROP TABLE IF EXISTS characters";
 
     private static DatabaseHelper instance;
@@ -54,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insert(String name, String sex, String continent, String house, String description, Boolean isLiked, int iconImage, int largeImage) {
+    public void insert(String name, String sex, String continent, String house, String description, Boolean isLiked, int largeImage, String badAss) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COL_NAME, name);
@@ -63,8 +63,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_HOUSE, house);
         values.put(COL_DESCRIPTION, description);
         values.put(COL_ISLIKED, isLiked);
-        values.put(COL_ICON_IMAGE, iconImage);
         values.put(COL_LARGE_IMAGE, largeImage);
+        values.put(COL_BADASS, badAss);
         db.insert(CHARACTERS_TABLE_NAME, null, values);
     }
 

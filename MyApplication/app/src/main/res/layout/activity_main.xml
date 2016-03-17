@@ -47,21 +47,27 @@
         android:layout_marginBottom="10dp"/>
 
     <Spinner
-        android:id="@+id/continent"
+        android:id="@+id/continentSpinner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:spinnerMode="dialog">
     </Spinner>
 
     <Spinner
-        android:id="@+id/sex"
+        android:id="@+id/sexSpinner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:spinnerMode="dialog">
     </Spinner>
 
     <Spinner
-        android:id="@+id/house"
+        android:id="@+id/houseSpinner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:spinnerMode="dialog">
     </Spinner>
 
     <Button
