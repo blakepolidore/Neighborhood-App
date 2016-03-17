@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         playAudio();
         goToInfoActivity();
-        createSQLiteDatabase();
         toSearchResults();
+        createSQLiteDatabaseHelper();
     }
 
     private void playAudio() {
@@ -63,39 +63,40 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void createSQLiteDatabase() {
-        DatabaseHelper database = new DatabaseHelper(this);
-
-        database.insert(1, "Jon Snow", "Male", "Westeros", "Stark");
-        database.insert(2, "Arya Stark", "Female", "Both", "Stark");
-        database.insert(3, "Daenerys Targaryen", "Female", "Essos", "Targaryen");
-        database.insert(4, "Jamie Lannister", "Male", "Westeros", "Lannister");
-        database.insert(5, "Cersei Lannister", "Female", "Westeros", "Lannister");
-        database.insert(6, "Oberyn Martell", "Male", "Westeros", "Martell");
-        database.insert(7, "Joffery Baratheon", "Male", "Westeros", "Baratheon");
-        database.insert(8, "Robert Baratheon", "Male", "Westeros", "Baratheon");
-        database.insert(9, "Jorah Mormont", "Male", "Essos", "Mormont");
-        database.insert(10, "Tyrion Lannister", "Male", "Both", "Lannister");
-        database.insert(11, "Petyr Baelish", "Male", "Westeros", "None");
-        database.insert(12, "Lord Varys", "Male", "Both", "None");
-        database.insert(13, "Jeor Mormont", "Male", "Westeros", "Mormont");
-        database.insert(14, "Doran Martell", "Male", "Westeros", "Martell");
-        database.insert(15, "Aegon Targaryen", "Male", "Westeros", "Targaryen");
-        database.insert(16, "Eddard Stark", "Male", "Westeros", "Stark");
-        database.insert(17, "Lady Melissandre", "Female", "Westeros", "None");
-        database.insert(18, "Bran Stark", "Male", "Westeros", "Stark");
-        database.insert(19, "Tywin Lannister", "Male", "Westeros", "Lannister");
-        database.insert(20, "Viserys Targaryen", "Male", "Essos", "Targaryen");
-        database.insert(21, "Jaqen H'ghar", "Male", "Both", "None");
-    }
-
     private void toSearchResults() {
         final Intent searchResultsIntent = new Intent(this, SearchResultsActivity.class);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(searchResultsIntent,SEARCH_RESULTS_REQUEST_CODE);
+                startActivityForResult(searchResultsIntent, SEARCH_RESULTS_REQUEST_CODE);
             }
         });
+    }
+
+    private void createSQLiteDatabaseHelper() {
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(MainActivity.this);
+        //Add Tyrell, Stannis
+        databaseHelper.insert("Jon Snow", "Male", "Westeros", "Stark", getString(R.string.jonSnow), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Arya Stark", "Female", "Both", "Stark", getString(R.string.aryaStark), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Daenerys Targaryen", "Female", "Essos", "Targaryen", getString(R.string.danyTargaryen), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Jamie Lannister", "Male", "Westeros", "Lannister", getString(R.string.jaimeLannister), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Cersei Lannister", "Female", "Westeros", "Lannister", getString(R.string.cerseiLannister), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Oberyn Martell", "Male", "Westeros", "Martell", getString(R.string.oberynMartell), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Joffery Baratheon", "Male", "Westeros", "Baratheon", getString(R.string.jofferyBaratheon), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Robert Baratheon", "Male", "Westeros", "Baratheon", getString(R.string.robertBaratheon), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Jorah Mormont", "Male", "Essos", "Mormont", getString(R.string.jorahMormont), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Tyrion Lannister", "Male", "Both", "Lannister", getString(R.string.tyrionLannister), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Petyr Baelish", "Male", "Westeros", "None", getString(R.string.petyrBaelish), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Lord Varys", "Male", "Both", "None", getString(R.string.varys), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Jeor Mormont", "Male", "Westeros", "Mormont", getString(R.string.jeorMormont), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Doran Martell", "Male", "Westeros", "Martell", getString(R.string.doranMartell), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Aegon Targaryen", "Male", "Westeros", "Targaryen", getString(R.string.aegonTargaryen), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Eddard Stark", "Male", "Westeros", "Stark", getString(R.string.eddardStark), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Lady Melissandre", "Female", "Westeros", "None", getString(R.string.melissandre), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Bran Stark", "Male", "Westeros", "Stark", getString(R.string.branStark), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Tywin Lannister", "Male", "Westeros", "Lannister", getString(R.string.tywinLannister), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Viserys Targaryen", "Male", "Essos", "Targaryen", getString(R.string.viserysTargaryen), false, R.drawable.got, R.drawable.got);
+        databaseHelper.insert("Jaqen H'ghar", "Male", "Both", "None", getString(R.string.jaqenHghar), false, R.drawable.got, R.drawable.got);
+
     }
 }

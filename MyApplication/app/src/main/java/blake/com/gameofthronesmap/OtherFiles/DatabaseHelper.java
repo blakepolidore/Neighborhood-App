@@ -11,10 +11,34 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "characters.db";
-    public static final String SQL_CREATE_CHARACTERS_TABLE = "CREATE TABLE characters (id INTEGER PRIMARY KEY, name TEXT, sex TEXT, continent TEXT, house TEXT)";
+    public static final String CHARACTERS_TABLE_NAME = "characters";
+    public static final String COL_ID = "_id";
+    public static final String COL_NAME = "name";
+    public static final String COL_SEX = "sex";
+    public static final String COL_CONTINENT = "continent";
+    public static final String COL_HOUSE = "house";
+    public static final String COL_DESCRIPTION = "description";
+    public static final String COL_ISLIKED = "isLiked";
+    public static final String COL_ICON_IMAGE = "iconImage";
+    public static final String COL_LARGE_IMAGE = "largeImage";
+    public static final String SQL_CREATE_CHARACTERS_TABLE = "CREATE TABLE " + CHARACTERS_TABLE_NAME +
+            "(" +
+            COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            COL_NAME + " TEXT," + COL_SEX + " TEXT," + COL_CONTINENT + " TEXT," + COL_HOUSE + " TEXT," + COL_DESCRIPTION + " TEXT,"
+            + COL_ISLIKED + " BOOLEAN," + COL_ICON_IMAGE + " INTEGER," + COL_LARGE_IMAGE + " INTEGER)";
+    public static final String[] GOT_COLUMNS = {COL_ID,COL_NAME, COL_SEX, COL_CONTINENT, COL_HOUSE, COL_DESCRIPTION, COL_ISLIKED, COL_ICON_IMAGE, COL_LARGE_IMAGE};
     public static final String SQL_DROP_CHARACTERS_TABLE = "DROP TABLE IF EXISTS characters";
+
+    private static DatabaseHelper instance;
+
+    public static DatabaseHelper getInstance(Context context){
+        if(instance == null){
+            instance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return instance;
+    }
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -30,32 +54,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insert(int id, String name, String sex, String continent, String house) {
+    public void insert(String name, String sex, String continent, String house, String description, Boolean isLiked, int iconImage, int largeImage) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("id", id);
-        values.put("name", name);
-        values.put("sex", sex);
-        values.put("continent", continent);
-        values.put("house", house);
-        db.insert("characters", null, values);
+        values.put(COL_NAME, name);
+        values.put(COL_SEX, sex);
+        values.put(COL_CONTINENT, continent);
+        values.put(COL_HOUSE, house);
+        values.put(COL_DESCRIPTION, description);
+        values.put(COL_ISLIKED, isLiked);
+        values.put(COL_ICON_IMAGE, iconImage);
+        values.put(COL_LARGE_IMAGE, largeImage);
+        db.insert(CHARACTERS_TABLE_NAME, null, values);
     }
 
     public Cursor getCharacter(int id) {
         SQLiteDatabase db = getReadableDatabase();
-        String[] projection = new String[]{ "id", "name", "sex", "continent", "house" };
-        String selection = "id = ?";
-        String[] selectionArgs = new String[]{ String.valueOf(id) };
-        Cursor cursor = db.query("characters", projection, selection, selectionArgs, null, null, null, null);
+        Cursor cursor = db.query(CHARACTERS_TABLE_NAME, GOT_COLUMNS, null, null, null, null, null, null);
         cursor.moveToFirst();
-
         return cursor;
     }
 
     public void delete(int id){
         SQLiteDatabase db = getWritableDatabase();
-        String selection = "id = ?";
+        String selection = "_id = ?";
         String[] selectionArgs = new String[]{ String.valueOf(id) };
-        db.delete("characters", selection, selectionArgs);
+        db.delete(CHARACTERS_TABLE_NAME, selection, selectionArgs);
     }
+
 }

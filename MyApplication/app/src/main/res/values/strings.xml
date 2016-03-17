@@ -4,4 +4,25 @@
     <string name="searchResults">Search Results</string>
     <string name="infoString">Search fo locations in both Essos and Westeros by house and character. Choose at least one search criteria. Click on the results to learn more about the location.
     To start and pause the music, click on the music icon.</string>
+    <string name="jonSnow">Bastard of Winterfell. Lord Commander of the Night\'s Watch. Courageous and loyal to a fault. Leader of men. Great Fighter. </string>
+    <string name="aryaStark">Not to be underestimated. Daft and light on her feet. Trained killer out for revenge.</string>
+    <string name="danyTargaryen">Mother of Dragons. Fighting to get back to Westeros to regain the crown for the Targaryens. Married Khal Drogo. We\'re waiting for her to do something badass with her dragons.</string>
+    <string name="jaimeLannister">Kingslayer. Killed King Aerys Targaryen to end the reign of the Targaryens. Member of the Kingsguard. Brother of Cersei Lannister. A true tail of redemption.</string>
+    <string name="cerseiLannister">Queen regent. Mother to King\'s Joffery and Tommen. She\'s loyal to her house and will do nothing to secure it\'s success. A real bitch.</string>
+    <string name="oberynMartell">Best damn character on the show. Awesome with a spear. Wants to know who killed his sister. Suffers from massive headaches.</string>
+    <string name="jofferyBaratheon">King of the Andals. Protector of the realms of man and a little bitch. Seriously may be the most disliked person in literary and televisoin history.</string>
+    <string name="robertBaratheon">Rose up in rebellion and secured the iron throne. Husband to Cersei. A drunk and an all around great ruler.</string>
+    <string name="jorahMormont">Sir Friendzone. Loyal to Daenerys Targaryen and banned from the seven kingdoms. Best voice in all the world.</string>
+    <string name="tyrionLannister">Cunning and wise. The only Lannister worth a damn. Don\'t let his height full you. If he dies this show might as well end.</string>
+    <string name="petyrBaelish">Kniving, and cunning. His motives are never known. Never to be trusted. Rose to power from nothing.</string>
+    <string name="varys">Sneaky unich from essos. Master of whispers, he knows all that happens in the kingdom. His allegiances lie with to Westeros.</string>
+    <string name="jeorMormont">Commander of the Night\'s Watch. Father to Jorah.</string>
+    <string name="doranMartell">Lord of Dorne. A cripple. A man with a plan to be revealed soon.</string>
+    <string name="aegonTargaryen">Conquered the seven kingdoms with his dragons. Last of the great Valyrian Empire.</string>
+    <string name="eddardStark">Loyal man, Warden of the North, and Lord of Winterfell. Robert Baratheon\'s righthand man in his rebellion.</string>
+    <string name="melissandre">Red Woman. Priestess for the Lord of Light. Believees Stannis Baratheon is the reincarnated Azor Ahai.</string>
+    <string name="branStark">Crippled who can see visions. Son of Eddard Stark. Hopefully his role get more interesting.</string>
+    <string name="tywinLannister">Warden of the East and Lord of Casterly Rock. One of the richest and most powerful lords in all the kingdoms. Not a man to be messed with.</string>
+    <string name="viserysTargaryen">"Rightful" heir to the Iron Throne. Tries to gain an army to take back his throne. Brother to Daenerys.</string>
+    <string name="jaqenHghar">Assasain with many faces. Helps Arya in to train to be an assasain for the Many Faced God.</string>
 </resources>
