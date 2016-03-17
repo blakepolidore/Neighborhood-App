@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -48,6 +49,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         createDatabase();
         Cursor cursor = createCursor();
         createCursorAdapterForSearchList(cursor);
+        setOnListItemClickListerners(searchResultsListView, cursor);
     }
 
     private void playAudio() {
@@ -131,5 +133,17 @@ public class SearchResultsActivity extends AppCompatActivity {
             default:
                 return 0;
         }
+    }
+
+    private void setOnListItemClickListerners(ListView listView, final Cursor cursor) {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent listItemIntent =  new Intent(SearchResultsActivity.this, LocationActivity.class);
+                cursor.moveToPosition(position);
+                listItemIntent.putExtra("id", cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
+                startActivity(listItemIntent);
+            }
+        });
     }
 }

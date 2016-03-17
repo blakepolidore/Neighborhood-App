@@ -82,4 +82,71 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(CHARACTERS_TABLE_NAME, selection, selectionArgs);
     }
 
+    public String[] getCharacterStringDetails(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(CHARACTERS_TABLE_NAME,
+                new String[]{COL_NAME, COL_DESCRIPTION},
+                COL_ID+" = ?",
+                new String[]{String.valueOf(id)},
+                null,
+                null,
+                null,
+                null);
+
+        if(cursor.moveToFirst()){
+            String colName = cursor.getString(cursor.getColumnIndex(COL_NAME));
+            String colDescription = cursor.getString(cursor.getColumnIndex(COL_DESCRIPTION));
+            String[] stringsInArray= new String[2];
+            stringsInArray[0] = colName;
+            stringsInArray[1] = colDescription;
+            return stringsInArray;
+        } else {
+            return null;
+        }
+    }
+
+    public int getCharacterImage(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(CHARACTERS_TABLE_NAME,
+                new String[]{COL_LARGE_IMAGE},
+                COL_ID+" = ?",
+                new String[]{String.valueOf(id)},
+                null,
+                null,
+                null,
+                null);
+
+        if(cursor.moveToFirst()){
+            int colImage = cursor.getInt(cursor.getColumnIndex(COL_LARGE_IMAGE));
+            return colImage;
+        } else {
+            return 0;
+        }
+    }
+
+    public String[] getCharacterNameAndBadass(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(CHARACTERS_TABLE_NAME,
+                new String[]{COL_NAME, COL_BADASS},
+                COL_ID+" = ?",
+                new String[]{String.valueOf(id)},
+                null,
+                null,
+                null,
+                null);
+
+        if(cursor.moveToFirst()){
+            String colName = cursor.getString(cursor.getColumnIndex(COL_NAME));
+            String colBadass = cursor.getString(cursor.getColumnIndex(COL_BADASS));
+            String[] stringsInArray= new String[2];
+            stringsInArray[0] = colName;
+            stringsInArray[1] = colBadass;
+            return stringsInArray;
+        } else {
+            return null;
+        }
+    }
 }

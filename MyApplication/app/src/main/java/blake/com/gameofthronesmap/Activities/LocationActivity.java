@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
 import blake.com.gameofthronesmap.R;
 
 /**
@@ -42,6 +43,7 @@ public class LocationActivity extends AppCompatActivity {
 
         playAudio();
         goToInfoActivity();
+        getCharacterDetails();
     }
 
     private void playAudio() {
@@ -68,5 +70,25 @@ public class LocationActivity extends AppCompatActivity {
                 startActivity(infoIntent);
             }
         });
+    }
+
+    private DatabaseHelper databaseHelper() {
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(LocationActivity.this);
+        return databaseHelper;
+    }
+
+    private void getCharacterDetails() {
+        int id = getIntent().getIntExtra("id", -1);
+        if(id >= 0){
+            String characterNameText = databaseHelper().getCharacterStringDetails(id)[0];
+            TextView nameText = (TextView)findViewById(R.id.locationTitleText);
+            nameText.setText(characterNameText);
+            String characterDescriptionText = databaseHelper().getCharacterStringDetails(id)[1];
+            TextView descriptionText = (TextView)findViewById(R.id.locationDescription);
+            descriptionText.setText(characterDescriptionText);
+            int characterPicture = databaseHelper().getCharacterImage(id);
+            ImageView characterImage = (ImageView)findViewById(R.id.imageViewLocation);
+            characterImage.setBackgroundResource(characterPicture);
+        }
     }
 }

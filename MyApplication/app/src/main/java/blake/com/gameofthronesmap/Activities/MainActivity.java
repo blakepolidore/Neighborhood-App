@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
         fillSpinners();
         playAudio();
         goToInfoActivity();
-        toSearchResults();
         createSQLiteDatabaseHelper();
+        toSearchResults();
     }
 
     private void intstantiateItems() {
@@ -95,16 +95,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void toSearchResults() {
-        final Intent searchResultsIntent = new Intent(this, SearchResultsActivity.class);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(searchResultsIntent, SEARCH_RESULTS_REQUEST_CODE);
-            }
-        });
-    }
-
     private void createSQLiteDatabaseHelper() {
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(MainActivity.this);
         //Add Tyrell, Stannis
@@ -136,5 +126,18 @@ public class MainActivity extends AppCompatActivity {
             databaseHelper.insert("Viserys Targaryen", "Male", "Essos", "Targaryen", getString(R.string.viserysTargaryen), false, R.drawable.got, "Sucks");
             databaseHelper.insert("Jaqen H'ghar", "Male", "Both", "None", getString(R.string.jaqenHghar), false, R.drawable.got, "Many-faced Badass");
         }
+    }
+
+    private void toSearchResults() {
+        final Intent searchResultsIntent = new Intent(this, SearchResultsActivity.class);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent characterSearchCriteriaIntent = new Intent(MainActivity.this, SearchResultsActivity.class);
+//                cursor.moveToFirst();
+//                characterSearchCriteriaIntent.putExtra("id",cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
+                startActivityForResult(searchResultsIntent, SEARCH_RESULTS_REQUEST_CODE);
+            }
+        });
     }
 }
