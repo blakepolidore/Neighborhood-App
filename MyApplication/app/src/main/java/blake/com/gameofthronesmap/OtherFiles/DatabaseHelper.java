@@ -79,10 +79,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase dbWritable = getWritableDatabase();
         SQLiteDatabase dbReadable = this.getReadableDatabase();
         ContentValues values = new ContentValues();
+        String[] idArguments = new String[]{String.valueOf(id)};
         Cursor cursor = dbReadable.query(CHARACTERS_TABLE_NAME,
                 new String[]{COL_ISLIKED},
                 COL_ID+" = ?",
-                new String[]{String.valueOf(id)},
+                idArguments,
                 null,
                 null,
                 null,
@@ -96,7 +97,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         String selection = COL_ID+" = ?";
-        dbWritable.update(CHARACTERS_TABLE_NAME, values, selection, null);
+        dbWritable.update(CHARACTERS_TABLE_NAME, values, selection, idArguments);
     }
 
     public boolean getCharacterIsLikedBoolean(int id){
@@ -113,11 +114,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()){
             boolean colIsLiked = cursor.getInt(cursor.getColumnIndex(COL_ISLIKED)) > 0;
+            db.close();
             return colIsLiked;
         } else {
             return false;
         }
     }
+
+//    public Cursor getCharacterIsLiked() {
+//        SQLiteDatabase db = getReadableDatabase();
+//        Cursor cursor = db.query(CHARACTERS_TABLE_NAME,
+//                new String[]{COL_ISLIKED},
+//                null,
+//                new String[]{String.valueOf(true)},
+//                null, null, null, null);
+//        cursor.moveToFirst();
+//        return cursor;
+//    }
 
     public Cursor getCharacter(int id) {
         SQLiteDatabase db = getReadableDatabase();

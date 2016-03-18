@@ -25,6 +25,7 @@
     <string name="tywinLannister">Warden of the East and Lord of Casterly Rock. One of the richest and most powerful lords in all the kingdoms. Not a man to be messed with.</string>
     <string name="viserysTargaryen">"Rightful" heir to the Iron Throne. Tries to gain an army to take back his throne. Brother to Daenerys.</string>
     <string name="jaqenHghar">Assasain with many faces. Helps Arya in to train to be an assasain for the Many Faced God.</string>
+    <string name="favorites">Favorites</string>
     <string-array name="continent">
         <item>No Selection</item>
         <item>Westeros</item>

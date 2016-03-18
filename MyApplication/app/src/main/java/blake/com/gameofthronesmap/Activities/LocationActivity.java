@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,6 +43,7 @@ public class LocationActivity extends AppCompatActivity {
         playAudio();
         goToInfoActivity();
         getCharacterDetails();
+        setIcon();
         setIsLikedButton();
     }
 
@@ -104,6 +104,18 @@ public class LocationActivity extends AppCompatActivity {
         }
     }
 
+    private void setIcon() {
+        final int id = getIntent().getIntExtra("id", -1);
+        if(id >= 0) {
+            boolean isLiked = databaseHelper().getCharacterIsLikedBoolean(id);
+            if (isLiked) {
+                likedIcon.setVisibility(View.VISIBLE);
+            } else {
+                likedIcon.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
     private void setIsLikedButton() {
         final int id = getIntent().getIntExtra("id", -1);
         isLikedButton.setOnClickListener(new View.OnClickListener() {
@@ -116,13 +128,11 @@ public class LocationActivity extends AppCompatActivity {
                     if (isLiked) {
                         characterLiked = "You liked " + characterNameText;
                         Toast.makeText(LocationActivity.this , characterLiked, Toast.LENGTH_SHORT).show();
-                        likedIcon.setImageAlpha(1);
-                        likedIcon.startAnimation(AnimationUtils.loadAnimation(LocationActivity.this, android.R.anim.fade_in));
+                        likedIcon.setVisibility(View.VISIBLE);
                     } else {
                         characterLiked = "You don't like " + characterNameText + " anymore";
                         Toast.makeText(LocationActivity.this , characterLiked, Toast.LENGTH_SHORT).show();
-                        likedIcon.setImageAlpha(0);
-                        likedIcon.startAnimation(AnimationUtils.loadAnimation(LocationActivity.this, android.R.anim.fade_out));
+                        likedIcon.setVisibility(View.INVISIBLE);
                     }
                 }
             }
