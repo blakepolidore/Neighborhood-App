@@ -25,6 +25,10 @@ import blake.com.gameofthronesmap.R;
  */
 public class SearchResultsActivity extends AppCompatActivity {
 
+    public static final String CONTINENT_KEY = "CONTINENT";
+    public static final String SEX_KEY = "SEX";
+    public static final String HOUSE_KEY = "HOUSE";
+
     ImageButton musicButton2;
     ImageButton infoButton2;
     TextView searchResultsTextView;
@@ -32,24 +36,26 @@ public class SearchResultsActivity extends AppCompatActivity {
     MediaPlayer themeMediaPlayer;
     boolean playIsOn = false;
     private Intent infoIntent;
+    String characterContinent, characterSex, characterHouse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchresults);
 
+        themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
+        instantiateItems();
+        playAudio();
+        goToInfoActivity();
+        getMainActivityIntent();
+        createDatabase();
+    }
+
+    private void instantiateItems() {
         musicButton2 = (ImageButton) findViewById(R.id.musicButton2);
         infoButton2 = (ImageButton) findViewById(R.id.infoButton2);
         searchResultsTextView = (TextView) findViewById(R.id.searchResultsText);
         searchResultsListView = (ListView) findViewById(R.id.listView);
-        themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
-
-        playAudio();
-        goToInfoActivity();
-        createDatabase();
-        Cursor cursor = createCursor();
-        createCursorAdapterForSearchList(cursor);
-        setOnListItemClickListerners(searchResultsListView, cursor);
     }
 
     private void playAudio() {
@@ -68,6 +74,19 @@ public class SearchResultsActivity extends AppCompatActivity {
         });
     }
 
+    private void getMainActivityIntent() {
+        Intent intent = getIntent();
+        if (intent.getExtras() != null){ //If the intents are not null get the spinner selection strings
+            characterContinent = intent.getExtras().getString(CONTINENT_KEY);
+            characterSex = intent.getExtras().getString(SEX_KEY);
+            characterHouse = intent.getExtras().getString(HOUSE_KEY);
+
+            Cursor cursor = searchDatabase(characterContinent, characterSex, characterHouse); //Create cursor from selection criteria
+            createCursorAdapterForSearchList(cursor);
+            setOnListItemClickListerners(searchResultsListView, cursor);
+        }
+    }
+
     private void goToInfoActivity() {
         infoIntent = new Intent(this, InfoActivity.class);
         infoButton2.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +97,9 @@ public class SearchResultsActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    Create the instance of the database helper and create the database
+     */
     private SQLiteDatabase createDatabase() {
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(SearchResultsActivity.this);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
@@ -85,7 +107,37 @@ public class SearchResultsActivity extends AppCompatActivity {
         return db;
     }
 
-    private Cursor createCursor() {
+    private Cursor searchDatabase(String continent, String sex, String house){
+        if (continent.equalsIgnoreCase("No Selection") && sex.equalsIgnoreCase("No Selection") &&
+                house.equalsIgnoreCase("No Selection")){
+            return createDefaultCursor(); //If no selections use default cursor for all columns and rows
+        } else {
+            if (continent.equalsIgnoreCase("No Selection")){
+                continent = "'%'";//Searches for all amounts of characters in this column
+            } else {
+                continent = "'"+continent+"'"; //only searches for this keyword in the column
+            }
+            if (sex.equalsIgnoreCase("No Selection")){
+                sex = "'%'";
+            } else {
+                sex = "'" + sex + "'";
+            }
+            if (house.equalsIgnoreCase("No Selection")){
+                house = "'%'";
+            } else {
+                house = "'" + house + "'";
+            }
+
+            String queryString =  "SELECT * FROM "+DatabaseHelper.CHARACTERS_TABLE_NAME+
+                    " WHERE "+DatabaseHelper.COL_CONTINENT+" LIKE "+continent+" AND "
+                    +DatabaseHelper.COL_SEX+" LIKE "+sex+
+                    " AND "+DatabaseHelper.COL_HOUSE+" LIKE "+house+";";
+            Cursor cursor = createDatabase().rawQuery(queryString, null);
+            return cursor;
+        }
+    }
+
+    private Cursor createDefaultCursor() {
         Cursor cursor = createDatabase().query(DatabaseHelper.CHARACTERS_TABLE_NAME, null, null, null, null, null, null);
         return cursor;
     }

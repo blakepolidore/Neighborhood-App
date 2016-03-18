@@ -33,17 +33,20 @@ public class LocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
 
+        themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
+        instantiateItems();
+        playAudio();
+        goToInfoActivity();
+        getCharacterDetails();
+    }
+
+    private void instantiateItems() {
         musicButton3 = (ImageButton) findViewById(R.id.musicButton3);
         infoButton3 = (ImageButton) findViewById(R.id.infoButton3);
         locationTitleText = (TextView) findViewById(R.id.locationTitleText);
         locationDescription = (TextView) findViewById(R.id.locationDescription);
         locationImage = (ImageView) findViewById(R.id.imageViewLocation);
         reviewEditText = (EditText) findViewById(R.id.reviewEditText);
-        themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
-
-        playAudio();
-        goToInfoActivity();
-        getCharacterDetails();
     }
 
     private void playAudio() {

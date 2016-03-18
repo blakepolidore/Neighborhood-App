@@ -125,43 +125,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return 0;
         }
     }
-
-    public String[] getCharacterNameAndBadass(int id){
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(CHARACTERS_TABLE_NAME,
-                new String[]{COL_NAME, COL_BADASS},
-                COL_ID+" = ?",
-                new String[]{String.valueOf(id)},
-                null,
-                null,
-                null,
-                null);
-
-        if(cursor.moveToFirst()){
-            String colName = cursor.getString(cursor.getColumnIndex(COL_NAME));
-            String colBadass = cursor.getString(cursor.getColumnIndex(COL_BADASS));
-            String[] stringsInArray= new String[2];
-            stringsInArray[0] = colName;
-            stringsInArray[1] = colBadass;
-            return stringsInArray;
-        } else {
-            return null;
-        }
-    }
-
-    public Cursor searchCriteriaCursor() {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(CHARACTERS_TABLE_NAME, // a. table
-                GOT_COLUMNS, // b. column names
-                null, // c. selections
-                null, // d. selections args
-                null, // e. group by
-                null, // f. having
-                null, // g. order by
-                null); // h. limit
-
-        return cursor;
-    }
+    //Custom cursor for query on instance of the database helper DO THIS IF TIME
+//    public Cursor searchCriteriaCursor() {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//
+//        Cursor cursor = db.query(CHARACTERS_TABLE_NAME, // a. table
+//                new String[]{COL_NAME, COL_BADASS}, // b. column names
+//                null, // c. selections
+//                null, // d. selections args
+//                null, // e. group by
+//                null, // f. having
+//                null, // g. order by
+//                null); // h. limit
+//
+//        return cursor;
+//    }
 }
