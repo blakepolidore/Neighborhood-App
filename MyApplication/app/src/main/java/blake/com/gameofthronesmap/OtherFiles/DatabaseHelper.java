@@ -149,4 +149,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return null;
         }
     }
+
+    public Cursor searchCriteriaCursor() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(CHARACTERS_TABLE_NAME, // a. table
+                GOT_COLUMNS, // b. column names
+                null, // c. selections
+                null, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+
+        return cursor;
+    }
 }
