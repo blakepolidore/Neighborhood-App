@@ -46,6 +46,12 @@
         android:src="@drawable/got"
         android:layout_marginBottom="10dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Continent"
+        android:layout_marginLeft="10dp"/>
+
     <Spinner
         android:id="@+id/continentSpinner"
         android:layout_width="wrap_content"
@@ -54,6 +60,12 @@
         android:spinnerMode="dialog">
     </Spinner>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Gender"
+        android:layout_marginLeft="10dp"/>
+
     <Spinner
         android:id="@+id/sexSpinner"
         android:layout_width="wrap_content"
@@ -61,6 +73,12 @@
         android:layout_margin="10dp"
         android:spinnerMode="dialog">
     </Spinner>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select House"
+        android:layout_marginLeft="10dp"/>
 
     <Spinner
         android:id="@+id/houseSpinner"

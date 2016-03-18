@@ -3,12 +3,15 @@ package blake.com.gameofthronesmap.Activities;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
 import blake.com.gameofthronesmap.R;
@@ -25,8 +28,11 @@ public class LocationActivity extends AppCompatActivity {
     ImageView locationImage;
     EditText reviewEditText;
     MediaPlayer themeMediaPlayer;
+    String characterNameText;
     boolean playIsOn = false;
     private Intent infoIntent;
+    FloatingActionButton isLikedButton;
+    ImageView likedIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,7 @@ public class LocationActivity extends AppCompatActivity {
         playAudio();
         goToInfoActivity();
         getCharacterDetails();
+        setIsLikedButton();
     }
 
     private void instantiateItems() {
@@ -47,6 +54,8 @@ public class LocationActivity extends AppCompatActivity {
         locationDescription = (TextView) findViewById(R.id.locationDescription);
         locationImage = (ImageView) findViewById(R.id.imageViewLocation);
         reviewEditText = (EditText) findViewById(R.id.reviewEditText);
+        isLikedButton = (FloatingActionButton) findViewById(R.id.fabButton);
+        likedIcon = (ImageView) findViewById(R.id.likedImage);
     }
 
     private void playAudio() {
@@ -83,7 +92,7 @@ public class LocationActivity extends AppCompatActivity {
     private void getCharacterDetails() {
         int id = getIntent().getIntExtra("id", -1);
         if(id >= 0){
-            String characterNameText = databaseHelper().getCharacterStringDetails(id)[0];
+            characterNameText = databaseHelper().getCharacterStringDetails(id)[0];
             TextView nameText = (TextView)findViewById(R.id.locationTitleText);
             nameText.setText(characterNameText);
             String characterDescriptionText = databaseHelper().getCharacterStringDetails(id)[1];
@@ -93,5 +102,30 @@ public class LocationActivity extends AppCompatActivity {
             ImageView characterImage = (ImageView)findViewById(R.id.imageViewLocation);
             characterImage.setBackgroundResource(characterPicture);
         }
+    }
+
+    private void setIsLikedButton() {
+        final int id = getIntent().getIntExtra("id", -1);
+        isLikedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(id >= 0) {
+                    databaseHelper().changeIsLikedColumn(id);
+                    boolean isLiked = databaseHelper().getCharacterIsLikedBoolean(id);
+                    String characterLiked;
+                    if (isLiked) {
+                        characterLiked = "You liked " + characterNameText;
+                        Toast.makeText(LocationActivity.this , characterLiked, Toast.LENGTH_SHORT).show();
+                        likedIcon.setImageAlpha(1);
+                        likedIcon.startAnimation(AnimationUtils.loadAnimation(LocationActivity.this, android.R.anim.fade_in));
+                    } else {
+                        characterLiked = "You don't like " + characterNameText + " anymore";
+                        Toast.makeText(LocationActivity.this , characterLiked, Toast.LENGTH_SHORT).show();
+                        likedIcon.setImageAlpha(0);
+                        likedIcon.startAnimation(AnimationUtils.loadAnimation(LocationActivity.this, android.R.anim.fade_out));
+                    }
+                }
+            }
+        });
     }
 }

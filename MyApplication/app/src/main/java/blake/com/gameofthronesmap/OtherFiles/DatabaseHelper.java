@@ -25,9 +25,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_LARGE_IMAGE = "largeImage";
     public static final String SQL_CREATE_CHARACTERS_TABLE = "CREATE TABLE IF NOT EXISTS " + CHARACTERS_TABLE_NAME +
             "(" +
-            COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            COL_NAME + " TEXT," + COL_SEX + " TEXT," + COL_CONTINENT + " TEXT," + COL_HOUSE + " TEXT," + COL_DESCRIPTION + " TEXT,"
-            + COL_ISLIKED + " BOOLEAN," + COL_LARGE_IMAGE + " INTEGER," + COL_BADASS + " TEXT)";
+            COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COL_NAME + " TEXT,"
+            + COL_SEX + " TEXT,"
+            + COL_CONTINENT + " TEXT,"
+            + COL_HOUSE + " TEXT,"
+            + COL_DESCRIPTION + " TEXT,"
+            + COL_ISLIKED + " BOOLEAN,"
+            + COL_LARGE_IMAGE + " INTEGER,"
+            + COL_BADASS + " TEXT)";
+
     public static final String[] GOT_COLUMNS = {COL_ID,COL_NAME, COL_SEX, COL_CONTINENT, COL_HOUSE, COL_DESCRIPTION, COL_ISLIKED, COL_LARGE_IMAGE, COL_BADASS};
     public static final String SQL_DROP_CHARACTERS_TABLE = "DROP TABLE IF EXISTS characters";
 
@@ -68,6 +75,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(CHARACTERS_TABLE_NAME, null, values);
     }
 
+    public void changeIsLikedColumn(int id) {
+        SQLiteDatabase dbWritable = getWritableDatabase();
+        SQLiteDatabase dbReadable = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        Cursor cursor = dbReadable.query(CHARACTERS_TABLE_NAME,
+                new String[]{COL_ISLIKED},
+                COL_ID+" = ?",
+                new String[]{String.valueOf(id)},
+                null,
+                null,
+                null,
+                null);
+        if(cursor.moveToFirst()){
+            boolean colIsLiked = cursor.getInt(cursor.getColumnIndex(COL_ISLIKED)) > 0;
+            if (colIsLiked) {
+                values.put(COL_ISLIKED, false);
+            } else {
+                values.put(COL_ISLIKED, true);
+            }
+        }
+        String selection = COL_ID+" = ?";
+        dbWritable.update(CHARACTERS_TABLE_NAME, values, selection, null);
+    }
+
+    public boolean getCharacterIsLikedBoolean(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(CHARACTERS_TABLE_NAME,
+                new String[]{COL_ISLIKED},
+                COL_ID + " = ?",
+                new String[]{String.valueOf(id)},
+                null,
+                null,
+                null,
+                null);
+
+        if(cursor.moveToFirst()){
+            boolean colIsLiked = cursor.getInt(cursor.getColumnIndex(COL_ISLIKED)) > 0;
+            return colIsLiked;
+        } else {
+            return false;
+        }
+    }
+
     public Cursor getCharacter(int id) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(CHARACTERS_TABLE_NAME, GOT_COLUMNS, null, null, null, null, null, null);
@@ -77,7 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void delete(int id){
         SQLiteDatabase db = getWritableDatabase();
-        String selection = "_id = ?";
+        String selection = COL_ID+" = ?";
         String[] selectionArgs = new String[]{ String.valueOf(id) };
         db.delete(CHARACTERS_TABLE_NAME, selection, selectionArgs);
     }
