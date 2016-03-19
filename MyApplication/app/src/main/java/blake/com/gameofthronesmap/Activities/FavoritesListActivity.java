@@ -8,10 +8,13 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,13 +27,10 @@ import blake.com.gameofthronesmap.R;
  */
 public class FavoritesListActivity extends AppCompatActivity{
 
-    ImageButton musicButtonFavorite1;
-    ImageButton infoButtonFavorite1;
     TextView searchResultsTextView;
     ListView searchResultsListView;
     MediaPlayer themeMediaPlayer;
     boolean playIsOn = false;
-    private Intent infoIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,22 +39,29 @@ public class FavoritesListActivity extends AppCompatActivity{
 
         themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
         instantiateItems();
-        playAudio();
-        goToInfoActivity();
         createCursorAdapterForSearchList(cursorForFavorites());
+        setOnListItemClickListerners(searchResultsListView, cursorForFavorites());
     }
 
-    private void instantiateItems() {
-        musicButtonFavorite1 = (ImageButton) findViewById(R.id.musicButtonFavorite1);
-        infoButtonFavorite1 = (ImageButton) findViewById(R.id.infoButtonFavorite1);
-        searchResultsTextView = (TextView) findViewById(R.id.searchResultsTextFavorite1);
-        searchResultsListView = (ListView) findViewById(R.id.listViewFavorite);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
     }
 
-    private void playAudio() {
-        musicButtonFavorite1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.favorites:
+                Intent intent = new Intent(getApplicationContext(), FavoritesListActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.infoActivity:
+                Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
+                startActivity(infoIntent);
+                return true;
+            case R.id.musicActivity:
                 themeMediaPlayer.start();
                 if (playIsOn) {
                     themeMediaPlayer.pause();
@@ -63,18 +70,15 @@ public class FavoritesListActivity extends AppCompatActivity{
                     themeMediaPlayer.start();
                     playIsOn = true;
                 }
-            }
-        });
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
-    private void goToInfoActivity() {
-        infoIntent = new Intent(this, InfoActivity.class);
-        infoButtonFavorite1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(infoIntent);
-            }
-        });
+    private void instantiateItems() {
+        searchResultsTextView = (TextView) findViewById(R.id.searchResultsTextFavorite1);
+        searchResultsListView = (ListView) findViewById(R.id.listViewFavorite);
     }
 
     private SQLiteDatabase getDatabaseForFavorites() {
@@ -133,6 +137,18 @@ public class FavoritesListActivity extends AppCompatActivity{
             default:
                 return 0;
         }
+    }
+
+    private void setOnListItemClickListerners(ListView listView, final Cursor cursor) {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent listItemIntent =  new Intent(FavoritesListActivity.this, FavoriteItemActivity.class);
+                cursor.moveToPosition(position);
+                listItemIntent.putExtra("idFavorite", cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
+                startActivity(listItemIntent);
+            }
+        });
     }
 
 }

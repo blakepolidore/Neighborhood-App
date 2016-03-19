@@ -1,13 +1,18 @@
 package blake.com.gameofthronesmap.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,8 +25,6 @@ import blake.com.gameofthronesmap.R;
  */
 public class LocationActivity extends AppCompatActivity {
 
-    ImageButton musicButton3;
-    ImageButton infoButton3;
     TextView locationTitleText;
     TextView locationDescription;
     ImageView locationImage;
@@ -29,9 +32,11 @@ public class LocationActivity extends AppCompatActivity {
     MediaPlayer themeMediaPlayer;
     String characterNameText;
     boolean playIsOn = false;
-    private Intent infoIntent;
     FloatingActionButton isLikedButton;
+    Button reviewButton;
     ImageView likedIcon;
+    public static final String REQUEST_CODE_FOR_TITLE = "characterNameForReviewActivity";
+    public static final String REQUEST_CODE_FOR_COMMENT = "characterReviewForReviewActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,28 +45,31 @@ public class LocationActivity extends AppCompatActivity {
 
         themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
         instantiateItems();
-        playAudio();
-        goToInfoActivity();
         getCharacterDetails();
         setIcon();
         setIsLikedButton();
+        setReviewButton();
     }
 
-    private void instantiateItems() {
-        musicButton3 = (ImageButton) findViewById(R.id.musicButton3);
-        infoButton3 = (ImageButton) findViewById(R.id.infoButton3);
-        locationTitleText = (TextView) findViewById(R.id.locationTitleText);
-        locationDescription = (TextView) findViewById(R.id.locationDescription);
-        locationImage = (ImageView) findViewById(R.id.imageViewLocation);
-        reviewEditText = (EditText) findViewById(R.id.reviewEditText);
-        isLikedButton = (FloatingActionButton) findViewById(R.id.fabButton);
-        likedIcon = (ImageView) findViewById(R.id.likedImage);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
     }
 
-    private void playAudio() {
-        musicButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.favorites:
+                Intent intent = new Intent(getApplicationContext(), FavoritesListActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.infoActivity:
+                Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
+                startActivity(infoIntent);
+                return true;
+            case R.id.musicActivity:
                 themeMediaPlayer.start();
                 if (playIsOn) {
                     themeMediaPlayer.pause();
@@ -70,18 +78,20 @@ public class LocationActivity extends AppCompatActivity {
                     themeMediaPlayer.start();
                     playIsOn = true;
                 }
-            }
-        });
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
-    private void goToInfoActivity() {
-        infoIntent = new Intent(this, InfoActivity.class);
-        infoButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(infoIntent);
-            }
-        });
+    private void instantiateItems() {
+        locationTitleText = (TextView) findViewById(R.id.locationTitleText);
+        locationDescription = (TextView) findViewById(R.id.locationDescription);
+        locationImage = (ImageView) findViewById(R.id.imageViewLocation);
+        reviewEditText = (EditText) findViewById(R.id.reviewEditText);
+        isLikedButton = (FloatingActionButton) findViewById(R.id.fabButton);
+        likedIcon = (ImageView) findViewById(R.id.likedImage);
+        reviewButton = (Button) findViewById(R.id.enterReviewButton);
     }
 
     private DatabaseHelper databaseHelper() {
@@ -137,5 +147,27 @@ public class LocationActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setReviewButton() {
+        if (reviewEditText.getText().toString() != null) {
+            reviewButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createSharedPreferences();
+                    Intent reviewIntent = new Intent(LocationActivity.this, ReviewActivity.class);
+                    startActivity(reviewIntent);
+                }
+            });
+        }
+    }
+
+    private void createSharedPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocationActivity.this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(REQUEST_CODE_FOR_TITLE, characterNameText);
+        String characterReview = reviewEditText.getText().toString();
+        editor.putString(REQUEST_CODE_FOR_COMMENT, characterReview);
+        editor.commit();
     }
 }

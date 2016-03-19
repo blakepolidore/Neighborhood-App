@@ -12,6 +12,8 @@
         <activity android:name=".Activities.LocationActivity" />
         <activity android:name=".Activities.SearchResultsActivity" />
         <activity android:name=".Activities.FavoritesListActivity"/>
+        <activity android:name=".Activities.FavoriteItemActivity"/>
+        <activity android:name=".Activities.ReviewActivity"/>
         <activity android:name=".Activities.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

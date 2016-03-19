@@ -8,11 +8,13 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,13 +31,10 @@ public class SearchResultsActivity extends AppCompatActivity {
     public static final String SEX_KEY = "SEX";
     public static final String HOUSE_KEY = "HOUSE";
 
-    ImageButton musicButton2;
-    ImageButton infoButton2;
     TextView searchResultsTextView;
     ListView searchResultsListView;
     MediaPlayer themeMediaPlayer;
     boolean playIsOn = false;
-    private Intent infoIntent;
     String characterContinent, characterSex, characterHouse;
 
     @Override
@@ -45,23 +44,29 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
         instantiateItems();
-        playAudio();
-        goToInfoActivity();
         getMainActivityIntent();
         createDatabase();
     }
 
-    private void instantiateItems() {
-        musicButton2 = (ImageButton) findViewById(R.id.musicButton2);
-        infoButton2 = (ImageButton) findViewById(R.id.infoButton2);
-        searchResultsTextView = (TextView) findViewById(R.id.searchResultsText);
-        searchResultsListView = (ListView) findViewById(R.id.listView);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
     }
 
-    private void playAudio() {
-        musicButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.favorites:
+                Intent intent = new Intent(getApplicationContext(), FavoritesListActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.infoActivity:
+                Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
+                startActivity(infoIntent);
+                return true;
+            case R.id.musicActivity:
                 themeMediaPlayer.start();
                 if (playIsOn) {
                     themeMediaPlayer.pause();
@@ -70,8 +75,15 @@ public class SearchResultsActivity extends AppCompatActivity {
                     themeMediaPlayer.start();
                     playIsOn = true;
                 }
-            }
-        });
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void instantiateItems() {
+        searchResultsTextView = (TextView) findViewById(R.id.searchResultsText);
+        searchResultsListView = (ListView) findViewById(R.id.listView);
     }
 
     private void getMainActivityIntent() {
@@ -85,16 +97,6 @@ public class SearchResultsActivity extends AppCompatActivity {
             createCursorAdapterForSearchList(cursor);
             setOnListItemClickListerners(searchResultsListView, cursor);
         }
-    }
-
-    private void goToInfoActivity() {
-        infoIntent = new Intent(this, InfoActivity.class);
-        infoButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(infoIntent);
-            }
-        });
     }
 
     /*

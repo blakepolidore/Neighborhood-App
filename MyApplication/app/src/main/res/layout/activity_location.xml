@@ -4,43 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/locationTitleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp">
-
-        <ImageButton
-            android:id="@+id/infoButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_dialog_info"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"/>
-
-        <ImageButton
-            android:id="@+id/musicButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/music"
-            android:layout_alignParentTop="true"
-            />
-
-        <TextView
-            android:id="@+id/locationTitleText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="28sp"
-            android:text="Title"
-            android:textAlignment="center"
-            android:layout_marginTop="10dp"/>
-    </RelativeLayout>
+        android:textSize="28sp"
+        android:text="Title"
+        android:textAlignment="center"
+        android:layout_margin="8dp"/>
 
     <ImageView
         android:id="@+id/imageViewLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_gravity="center_horizontal"/>
 
     <ImageView
@@ -57,11 +35,19 @@
         android:layout_height="wrap_content"
         android:text="This is the description"
         android:textSize="20sp"
-        android:layout_margin="10dp" />
+        android:layout_margin="8dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/enterReviewButton"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="ENTER REVIEW"/>
 
     <EditText
         android:id="@+id/reviewEditText"
@@ -69,12 +55,12 @@
         android:layout_height="wrap_content"
         android:hint="Leave a Review"
         android:textSize="20sp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="4dp"
         android:layout_centerHorizontal="true"
-        android:focusable="false"
-        android:focusableInTouchMode="true"/>
+        android:layout_above="@id/enterReviewButton"
+        />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabButton"
@@ -85,9 +71,8 @@
             android:src="@android:drawable/star_big_on"
             android:layout_marginLeft="@dimen/fab_margin"
             android:layout_marginRight="@dimen/fab_margin"
-            android:layout_above="@+id/reviewEditText"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            />
 
     </RelativeLayout>
 

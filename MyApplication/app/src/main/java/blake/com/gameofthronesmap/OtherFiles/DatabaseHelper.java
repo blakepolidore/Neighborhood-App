@@ -121,17 +121,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-//    public Cursor getCharacterIsLiked() {
-//        SQLiteDatabase db = getReadableDatabase();
-//        Cursor cursor = db.query(CHARACTERS_TABLE_NAME,
-//                new String[]{COL_ISLIKED},
-//                null,
-//                new String[]{String.valueOf(true)},
-//                null, null, null, null);
-//        cursor.moveToFirst();
-//        return cursor;
-//    }
-
     public Cursor getCharacter(int id) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(CHARACTERS_TABLE_NAME, GOT_COLUMNS, null, null, null, null, null, null);
