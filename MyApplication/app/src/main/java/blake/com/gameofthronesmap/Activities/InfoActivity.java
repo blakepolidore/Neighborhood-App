@@ -7,6 +7,8 @@ import blake.com.gameofthronesmap.R;
 
 /**
  * Created by Raiders on 3/13/16.
+ * <h1>Info Activity</h1>
+ * Explains to user how to use the app
  */
 public class InfoActivity extends AppCompatActivity {
 

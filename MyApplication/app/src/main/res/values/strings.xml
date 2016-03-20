@@ -27,6 +27,7 @@
     <string name="viserysTargaryen">"Rightful" heir to the Iron Throne. Tries to gain an army to take back his throne. Brother to Daenerys. He\'s a large douche.</string>
     <string name="jaqenHghar">Assasain with many faces. Helps Arya in to train to be an assasain for the Many Faced God.</string>
     <string name="favorites">Favorites</string>
+    <string name="search_hint">Search for character</string>
     <string-array name="continent">
         <item>No Selection</item>
         <item>Westeros</item>

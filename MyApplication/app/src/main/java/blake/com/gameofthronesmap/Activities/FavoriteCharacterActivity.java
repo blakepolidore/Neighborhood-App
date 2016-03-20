@@ -17,8 +17,10 @@ import blake.com.gameofthronesmap.R;
 
 /**
  * Created by Raiders on 3/18/16.
+ * <h1>Favorite Character Page</h1>
+ * Same as Character Activity but without ability to favorite the character since it has already been favorited.
  */
-public class FavoriteItemActivity extends AppCompatActivity {
+public class FavoriteCharacterActivity extends AppCompatActivity {
 
     TextView locationTitleTextFavorite;
     TextView locationDescriptionFavorite;
@@ -40,6 +42,11 @@ public class FavoriteItemActivity extends AppCompatActivity {
         setIcon();
     }
 
+    /**
+     * Creates menu at the top
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -47,6 +54,11 @@ public class FavoriteItemActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Allows you to click on options in the menu bar.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -81,11 +93,18 @@ public class FavoriteItemActivity extends AppCompatActivity {
         likedIcon = (ImageView) findViewById(R.id.likedImageFavorite);
     }
 
+    /**
+     * Creates instance of the database helper in this class
+     * @return
+     */
     private DatabaseHelper databaseHelper() {
-        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(FavoriteItemActivity.this);
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(FavoriteCharacterActivity.this);
         return databaseHelper;
     }
 
+    /**
+     * Gets character details and shows them in the activity
+     */
     private void getCharacterDetails() {
         int id = getIntent().getIntExtra("idFavorite", -1);
         if(id >= 0){

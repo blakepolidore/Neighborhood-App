@@ -2,8 +2,26 @@ package blake.com.gameofthronesmap.OtherFiles;
 
 /**
  * Created by Raiders on 3/14/16.
+ * <h1>Game of Thrones Characters</h1>
+ * Creates the data necessary for each character in the database.
+ *@author Blake Polidore
+ * @version 1.0
+ * @since 2016-03-20
  */
 public class GOTCharacter {
+
+    /**
+     * This class creates the parameters necessary for each character.
+     * This class makes a series of methods that allows you to manipulate and search through the database of these characters.
+     * @param name Name of character
+     * @param sex Sex of character
+     * @param continent Continent the character is currently on. Sorry for spoilers
+     * @param house House allegiances for character
+     * @param description Description of the character
+     * @param isLiked Boolean for whether or not the user has "liked" the character
+     * @param largeImage integer id for character's picture in database
+     * @param badAss my (The developer's) opinion of how badass the character is
+     */
     String name;
     String sex;
     String continent;
@@ -12,8 +30,10 @@ public class GOTCharacter {
     Boolean isLiked;
     int largeImage;
     String badAss;
-    //Set icon and full size image
 
+    /*
+    Constructor for character. Each character must have all of these traits.
+     */
     public GOTCharacter(String name, String sex, String continent, String house, String description, Boolean isLiked, int largeImage, String badAss) {
         this.name = name;
         this.sex = sex;

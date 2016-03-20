@@ -85,7 +85,7 @@ public class ReviewActivity extends AppCompatActivity {
 
     private String getTitlePreferences() {
         SharedPreferences getPreferences = PreferenceManager.getDefaultSharedPreferences(ReviewActivity.this);
-        return getPreferences.getString(LocationActivity.REQUEST_CODE_FOR_TITLE, null);
+        return getPreferences.getString(CharacterActivity.REQUEST_CODE_FOR_TITLE, null);
     }
 
     private void setTitleString() {
@@ -96,7 +96,7 @@ public class ReviewActivity extends AppCompatActivity {
 
     private String getReviewPreferences() {
         SharedPreferences getPreferences = PreferenceManager.getDefaultSharedPreferences(ReviewActivity.this);
-        return getPreferences.getString(LocationActivity.REQUEST_CODE_FOR_COMMENT, null);
+        return getPreferences.getString(CharacterActivity.REQUEST_CODE_FOR_COMMENT, null);
     }
 
 }

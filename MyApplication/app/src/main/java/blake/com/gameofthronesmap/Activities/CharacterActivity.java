@@ -22,8 +22,14 @@ import blake.com.gameofthronesmap.R;
 
 /**
  * Created by Raiders on 3/12/16.
+ * <h1>Character's page</h1>
+ * This activity is for each character. It gives a description of the character and a picture.
+ * It also allows the user to favorite the character and leave a comment about the character.
+ *
+ * @author Blake
+ * @version 1.0
  */
-public class LocationActivity extends AppCompatActivity {
+public class CharacterActivity extends AppCompatActivity {
 
     TextView locationTitleText;
     TextView locationDescription;
@@ -49,8 +55,21 @@ public class LocationActivity extends AppCompatActivity {
         setIcon();
         setIsLikedButton();
         setReviewButton();
+
+        locationTitleText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent reviewIntent = new Intent(CharacterActivity.this, ReviewActivity.class);
+                startActivity(reviewIntent);
+            }
+        });
     }
 
+    /**
+     * Creates menu at the top
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -58,6 +77,11 @@ public class LocationActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Allows you to click on options in the menu bar.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -94,11 +118,18 @@ public class LocationActivity extends AppCompatActivity {
         reviewButton = (Button) findViewById(R.id.enterReviewButton);
     }
 
+    /**
+     * Creates instance of the database helper in this class
+     * @return
+     */
     private DatabaseHelper databaseHelper() {
-        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(LocationActivity.this);
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(CharacterActivity.this);
         return databaseHelper;
     }
 
+    /**
+     * Gets character details and name and shows them in the activity
+     */
     private void getCharacterDetails() {
         int id = getIntent().getIntExtra("id", -1);
         if(id >= 0){
@@ -114,6 +145,9 @@ public class LocationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Shows the favorited icon if the character is favorited
+     */
     private void setIcon() {
         final int id = getIntent().getIntExtra("id", -1);
         if(id >= 0) {
@@ -126,6 +160,9 @@ public class LocationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Allows you to click on the fab and like or unlike a character. Liking a character stores them in your favorites
+     */
     private void setIsLikedButton() {
         final int id = getIntent().getIntExtra("id", -1);
         isLikedButton.setOnClickListener(new View.OnClickListener() {
@@ -137,11 +174,11 @@ public class LocationActivity extends AppCompatActivity {
                     String characterLiked;
                     if (isLiked) {
                         characterLiked = "You liked " + characterNameText;
-                        Toast.makeText(LocationActivity.this , characterLiked, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CharacterActivity.this , characterLiked, Toast.LENGTH_SHORT).show();
                         likedIcon.setVisibility(View.VISIBLE);
                     } else {
                         characterLiked = "You don't like " + characterNameText + " anymore";
-                        Toast.makeText(LocationActivity.this , characterLiked, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CharacterActivity.this , characterLiked, Toast.LENGTH_SHORT).show();
                         likedIcon.setVisibility(View.INVISIBLE);
                     }
                 }
@@ -149,25 +186,31 @@ public class LocationActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Grabs the comments left by a user and sends them to the ReviewActivity
+     */
     private void setReviewButton() {
-        if (reviewEditText.getText().toString() != null) {
+        if ((reviewEditText.getText().toString().isEmpty())) {
             reviewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     createSharedPreferences();
-                    Intent reviewIntent = new Intent(LocationActivity.this, ReviewActivity.class);
+                    Intent reviewIntent = new Intent(CharacterActivity.this, ReviewActivity.class);
                     startActivity(reviewIntent);
                 }
             });
         }
     }
 
+    /**
+     * Creates shared preferences so the user's comments can be left on the ReviewActivity
+     */
     private void createSharedPreferences() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocationActivity.this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CharacterActivity.this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(REQUEST_CODE_FOR_TITLE, characterNameText);
         String characterReview = reviewEditText.getText().toString();
         editor.putString(REQUEST_CODE_FOR_COMMENT, characterReview);
-        editor.commit();
+        editor.apply();
     }
 }

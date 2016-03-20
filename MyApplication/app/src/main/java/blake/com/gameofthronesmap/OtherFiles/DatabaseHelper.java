@@ -8,9 +8,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by Raiders on 3/14/16.
+ * <h1>Help creates the database for each character</h1>
+ * Contains Strings for the SQLiteDatabase to use to write the database.
+ * Creates methods to manipulate database.
+ * @author Blake
+ * @version 1.0
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    /**
+     * Creates all final strings to be used, written in SQL.
+     */
     public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "characters.db";
     public static final String CHARACTERS_TABLE_NAME = "characters";
@@ -40,6 +48,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static DatabaseHelper instance;
 
+    /**
+     * Creates the instance for the helper once and can be called throughout the application.
+     * @param context
+     * @return
+     */
     public static DatabaseHelper getInstance(Context context){
         if(instance == null){
             instance = new DatabaseHelper(context.getApplicationContext());
@@ -61,6 +74,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * Method to create a new character in the database.
+     * @param name
+     * @param sex
+     * @param continent
+     * @param house
+     * @param description
+     * @param isLiked
+     * @param largeImage
+     * @param badAss
+     */
     public void insert(String name, String sex, String continent, String house, String description, Boolean isLiked, int largeImage, String badAss) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -75,6 +99,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(CHARACTERS_TABLE_NAME, null, values);
     }
 
+    /**
+     * Method to favorite a character and change it in the database.
+     * @param id
+     */
     public void changeIsLikedColumn(int id) {
         SQLiteDatabase dbWritable = getWritableDatabase();
         SQLiteDatabase dbReadable = this.getReadableDatabase();
@@ -100,6 +128,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         dbWritable.update(CHARACTERS_TABLE_NAME, values, selection, idArguments);
     }
 
+    /**
+     *
+     * @param id
+     * @return returns the boolean whether or not the character has been liked
+     */
     public boolean getCharacterIsLikedBoolean(int id){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -121,13 +154,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getCharacter(int id) {
+    /**
+     * Not used in this current version but gives the ability to return all characters in database
+     * @return
+     */
+    public Cursor getCharacter() {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(CHARACTERS_TABLE_NAME, GOT_COLUMNS, null, null, null, null, null, null);
         cursor.moveToFirst();
         return cursor;
     }
 
+    /**
+     * Not used in this version but method gives the ability to delete character from database.
+     * @param id
+     */
     public void delete(int id){
         SQLiteDatabase db = getWritableDatabase();
         String selection = COL_ID+" = ?";
@@ -135,6 +176,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(CHARACTERS_TABLE_NAME, selection, selectionArgs);
     }
 
+    /**
+     * Method gives character details to put on individual character page.
+     * @param id
+     * @return Character name and description
+     */
     public String[] getCharacterStringDetails(int id){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -159,6 +205,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Returns  character image for character page.
+     * @param id
+     * @return image of character
+     */
     public int getCharacterImage(int id){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -178,19 +229,83 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return 0;
         }
     }
+
+    /**
+     * Allows user to search database for character by name
+     * @param query
+     * @return cursor for search
+     */
+    public Cursor getCharactersBySearch(String query){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(CHARACTERS_TABLE_NAME, // a. table
+                GOT_COLUMNS, // b. column names
+                COL_NAME + " LIKE ?", // c. selections
+                new String[]{"%" +query + "%"}, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+
+        return cursor;
+    }
+
+    /**
+     * Allows user to search database for character by name but only for characters that have been favorited
+     * @param query
+     * @return cursor for search
+     */
+    public Cursor getCharactersBySearchOfFavorites(String query){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(CHARACTERS_TABLE_NAME, // a. table
+                GOT_COLUMNS, // b. column names
+                COL_NAME + " LIKE ? AND " + COL_ISLIKED + " = " + 1, // c. selections
+                new String[]{"%" +query + "%"}, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+
+        return cursor;
+    }
     //Custom cursor for query on instance of the database helper DO THIS IF TIME
-//    public Cursor searchCriteriaCursor() {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//
-//        Cursor cursor = db.query(CHARACTERS_TABLE_NAME, // a. table
-//                new String[]{COL_NAME, COL_BADASS}, // b. column names
-//                null, // c. selections
-//                null, // d. selections args
-//                null, // e. group by
-//                null, // f. having
-//                null, // g. order by
-//                null); // h. limit
-//
-//        return cursor;
-//    }
+    public Cursor searchCriteriaCursor(String continent, String sex, String house) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (continent.equalsIgnoreCase("No Selection") && sex.equalsIgnoreCase("No Selection") &&
+                house.equalsIgnoreCase("No Selection")){
+            return getCharacter(); //If no selections use default cursor for all columns and rows
+        } else {
+            if (continent.equalsIgnoreCase("No Selection")) {
+                continent = "'%'";//Searches for all amounts of characters in this column
+            } else {
+                continent = "'" + continent + "'"; //only searches for this keyword in the column
+            }
+            if (sex.equalsIgnoreCase("No Selection")) {
+                sex = "'%'";
+            } else {
+                sex = "'" + sex + "'";
+            }
+            if (house.equalsIgnoreCase("No Selection")) {
+                house = "'%'";
+            } else {
+                house = "'" + house + "'";
+            }
+
+            Cursor cursor = db.query(CHARACTERS_TABLE_NAME, // a. table
+                    GOT_COLUMNS, // b. column names
+                    DatabaseHelper.COL_CONTINENT+" LIKE "+continent+" AND "
+                            +DatabaseHelper.COL_SEX+" LIKE "+sex+
+                            " AND "+DatabaseHelper.COL_HOUSE+" LIKE "+house, // c. selections
+                    null, // d. selections args
+                    null, // e. group by
+                    null, // f. having
+                    null, // g. order by
+                    null); // h. limit
+
+            return cursor;
+        }
+    }
 }

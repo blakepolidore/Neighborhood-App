@@ -1,5 +1,6 @@
 package blake.com.gameofthronesmap.Activities;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -24,6 +25,8 @@ import blake.com.gameofthronesmap.R;
 
 /**
  * Created by Raiders on 3/18/16.
+ * <h1>List of favorite characters</h1>
+ * Same as SearchResultsActivity but just for favorite characters
  */
 public class FavoritesListActivity extends AppCompatActivity{
 
@@ -31,6 +34,7 @@ public class FavoritesListActivity extends AppCompatActivity{
     ListView searchResultsListView;
     MediaPlayer themeMediaPlayer;
     boolean playIsOn = false;
+    private CursorAdapter cursorAdapterForSearchList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +45,35 @@ public class FavoritesListActivity extends AppCompatActivity{
         instantiateItems();
         createCursorAdapterForSearchList(cursorForFavorites());
         setOnListItemClickListerners(searchResultsListView, cursorForFavorites());
+        handleIntent(getIntent());
     }
 
+    /**
+     * Creates menu at the top
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.menu_with_search, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    /**
+     * Allows you to click on options in the menu bar.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -81,12 +105,20 @@ public class FavoritesListActivity extends AppCompatActivity{
         searchResultsListView = (ListView) findViewById(R.id.listViewFavorite);
     }
 
+    /**
+     * Creates database instance in this class
+     * @return
+     */
     private SQLiteDatabase getDatabaseForFavorites() {
         DatabaseHelper dbHelper = DatabaseHelper.getInstance(FavoritesListActivity.this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         return db;
     }
 
+    /**
+     * Creates cursor for searching for favorited characters
+     * @return
+     */
     private Cursor cursorForFavorites() {
         String queryString =  "SELECT * FROM "+DatabaseHelper.CHARACTERS_TABLE_NAME+
                 " WHERE "+DatabaseHelper.COL_ISLIKED+" LIKE "+1+";";
@@ -94,8 +126,12 @@ public class FavoritesListActivity extends AppCompatActivity{
         return cursor;
     }
 
+    /**
+     * Custom cursor adapter for list view
+     * @param cursor
+     */
     private void createCursorAdapterForSearchList(Cursor cursor) {
-        CursorAdapter cursorAdapterForSearchList = new CursorAdapter(FavoritesListActivity.this, cursor, 0) {
+        cursorAdapterForSearchList = new CursorAdapter(FavoritesListActivity.this, cursor, 0) {
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
                 return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
@@ -117,6 +153,12 @@ public class FavoritesListActivity extends AppCompatActivity{
         ListView listView = (ListView) findViewById(R.id.listViewFavorite);
         listView.setAdapter(cursorAdapterForSearchList);
     }
+
+    /**
+     * Gets icon for listview depending on the house of the favorited characters
+     * @param house
+     * @return
+     */
     //MAKE BETTER PICTURES, EXACT SQUARES!!!!
     private int getDrawableValue(String house){
         switch(house){
@@ -139,16 +181,34 @@ public class FavoritesListActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * Allows user to click on character and go to the characters page with more descriptions
+     * @param listView
+     * @param cursor
+     */
     private void setOnListItemClickListerners(ListView listView, final Cursor cursor) {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent listItemIntent =  new Intent(FavoritesListActivity.this, FavoriteItemActivity.class);
+                Intent listItemIntent =  new Intent(FavoritesListActivity.this, FavoriteCharacterActivity.class);
                 cursor.moveToPosition(position);
                 listItemIntent.putExtra("idFavorite", cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
                 startActivity(listItemIntent);
             }
         });
+    }
+
+    /**
+     * Allows user to search by name for a character in the database
+     * @param intent
+     */
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Cursor cursor = DatabaseHelper.getInstance(FavoritesListActivity.this).getCharactersBySearchOfFavorites(query);
+            cursorAdapterForSearchList.swapCursor(cursor);
+            cursorAdapterForSearchList.notifyDataSetChanged();
+        }
     }
 
 }

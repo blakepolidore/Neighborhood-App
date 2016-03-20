@@ -1,10 +1,12 @@
 package blake.com.gameofthronesmap.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +20,18 @@ import android.widget.TextView;
 import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
 import blake.com.gameofthronesmap.R;
 
+/**
+ * <h1>Main Activity for GOT Characters App</h1>
+ * This is the main page for the application.
+ * From here you can search for various characters in the books and show based on several criteria.
+ * You can also access other activities such as the informational activity and favorite characters list from the menu bar.
+ * You can also play music from the menu bar.
+ *
+ * @author Blake Polidore
+ * @version 1.0
+ * @since 2016 03 25
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     Button searchButton;
@@ -25,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
     Spinner continentSpinner;
     Spinner sexSpinner;
     Spinner houseSpinner;
-    boolean playIsOn = false;
+    boolean playIsOn = true;
+    public static final String REQUEST_CODE_FOR_MEDIAPLAYER = "mediaPlayer";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +48,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
+        themeMediaPlayer.start();
         intstantiateItems();
         fillSpinners();
         createSQLiteDatabaseHelper();
         toSearchResults();
+        createSharedPreferences();
     }
 
+    /**
+     * Creates menu at the top with the options to go to the favorites, the info screen, or play music
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -46,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Allows you to click on options in the menu bar.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -72,6 +99,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+//    @Override
+//    protected void onPause() {
+//        if (playIsOn) {
+//            themeMediaPlayer.pause();
+//            playIsOn = false;
+//        }
+//        super.onPause();
+//    }
+
     private void intstantiateItems() {
         searchButton = (Button) findViewById(R.id.searchButton);
         continentSpinner = (Spinner) findViewById(R.id.continentSpinner);
@@ -79,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
         houseSpinner = (Spinner) findViewById(R.id.houseSpinner);
     }
 
+    /**
+     * Fills the search spinners with the appropriate search criteria options.
+     */
     private void fillSpinners() {
         ArrayAdapter<CharSequence> adapterContinent = ArrayAdapter.createFromResource(this,
                 R.array.continent, android.R.layout.simple_spinner_item);
@@ -97,6 +136,10 @@ public class MainActivity extends AppCompatActivity {
         houseSpinner.setPrompt("Select House");
     }
 
+    /**
+     * Creates the database and fills it with the characters.
+     * The database is only created once
+     */
     private void createSQLiteDatabaseHelper() {
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(MainActivity.this);
         //Add Tyrell, Stannis
@@ -130,6 +173,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Takes the search criteria in an intent and moves the user and the intent to the search results activity.
+     */
     private void toSearchResults() {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,12 +191,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    /*
-    Put in spinners and receive selection text from each spinner
+
+    /**
+     * Get the chosen search criteria from the spinners
+     * @param spinner
+     * @return
      */
     private String getSpinnerSelections(Spinner spinner) {
         TextView textView = (TextView) spinner.getSelectedView();
         String spinnerText = textView.getText().toString();
         return spinnerText;
+    }
+
+    private void createSharedPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(REQUEST_CODE_FOR_MEDIAPLAYER, playIsOn);
+        editor.apply();
     }
 }

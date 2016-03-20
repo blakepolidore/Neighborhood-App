@@ -1,5 +1,6 @@
 package blake.com.gameofthronesmap.Activities;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -24,6 +25,8 @@ import blake.com.gameofthronesmap.R;
 
 /**
  * Created by Raiders on 3/12/16.
+ * <h1>Search Results</h1>
+ * Shows the results of the user's search
  */
 public class SearchResultsActivity extends AppCompatActivity {
 
@@ -36,6 +39,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     MediaPlayer themeMediaPlayer;
     boolean playIsOn = false;
     String characterContinent, characterSex, characterHouse;
+    private CursorAdapter cursorAdapterForSearchList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +50,36 @@ public class SearchResultsActivity extends AppCompatActivity {
         instantiateItems();
         getMainActivityIntent();
         createDatabase();
+        handleIntent(getIntent());
     }
 
+    /**
+     * Creates menu at the top
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.menu_with_search, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
         return true;
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    /**
+     * Allows you to click on options in the menu bar.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -76,6 +101,9 @@ public class SearchResultsActivity extends AppCompatActivity {
                     playIsOn = true;
                 }
                 return true;
+            case R.id.search:
+                handleIntent(getIntent());
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -86,6 +114,9 @@ public class SearchResultsActivity extends AppCompatActivity {
         searchResultsListView = (ListView) findViewById(R.id.listView);
     }
 
+    /**
+     * Gets the intent from the main activity. Cursor searches the database with the criteria from the main activity.
+     */
     private void getMainActivityIntent() {
         Intent intent = getIntent();
         if (intent.getExtras() != null){ //If the intents are not null get the spinner selection strings
@@ -94,13 +125,14 @@ public class SearchResultsActivity extends AppCompatActivity {
             characterHouse = intent.getExtras().getString(HOUSE_KEY);
 
             Cursor cursor = searchDatabase(characterContinent, characterSex, characterHouse); //Create cursor from selection criteria
-            createCursorAdapterForSearchList(cursor);
-            setOnListItemClickListerners(searchResultsListView, cursor);
+            createCursorAdapterForSearchList(cursor); //Puts cursor in custom cursor adaapter
+            setOnListItemClickListerners(searchResultsListView, cursor); //Set on item click listener for each character
         }
     }
 
-    /*
-    Create the instance of the database helper and create the database
+    /**
+     * Creates database instance in this class
+     * @return
      */
     private SQLiteDatabase createDatabase() {
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(SearchResultsActivity.this);
@@ -109,6 +141,13 @@ public class SearchResultsActivity extends AppCompatActivity {
         return db;
     }
 
+    /**
+     * Takes parameters from the spinner in the main activity and creates a cursor based off of this search criteria.
+     * @param continent
+     * @param sex
+     * @param house
+     * @return
+     */
     private Cursor searchDatabase(String continent, String sex, String house){
         if (continent.equalsIgnoreCase("No Selection") && sex.equalsIgnoreCase("No Selection") &&
                 house.equalsIgnoreCase("No Selection")){
@@ -139,13 +178,21 @@ public class SearchResultsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * If not search criteria is chosen by the user, the search results show all characters in database
+     * @return
+     */
     private Cursor createDefaultCursor() {
         Cursor cursor = createDatabase().query(DatabaseHelper.CHARACTERS_TABLE_NAME, null, null, null, null, null, null);
         return cursor;
     }
 
+    /**
+     * Custom cursor adapter for list view
+     * @param cursor
+     */
     private void createCursorAdapterForSearchList(Cursor cursor) {
-        CursorAdapter cursorAdapterForSearchList = new CursorAdapter(SearchResultsActivity.this, cursor, 0) {
+        cursorAdapterForSearchList = new CursorAdapter(SearchResultsActivity.this, cursor, 0) {
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
                 return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
@@ -167,6 +214,11 @@ public class SearchResultsActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(cursorAdapterForSearchList);
     }
+    /**
+     * Gets icon for listview depending on the house of the favorited characters
+     * @param house
+     * @return
+     */
 //MAKE BETTER PICTURES, EXACT SQUARES!!!!
     private int getDrawableValue(String house){
         switch(house){
@@ -189,15 +241,39 @@ public class SearchResultsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Allows user to click on character and go to the characters page with more descriptions
+     * @param listView
+     * @param cursor
+     */
     private void setOnListItemClickListerners(ListView listView, final Cursor cursor) {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent listItemIntent =  new Intent(SearchResultsActivity.this, LocationActivity.class);
+                Intent listItemIntent =  new Intent(SearchResultsActivity.this, CharacterActivity.class);
                 cursor.moveToPosition(position);
                 listItemIntent.putExtra("id", cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
                 startActivity(listItemIntent);
             }
         });
     }
+
+    /**
+     * Allows user to search by name for a character in the database.
+     * This action is done in the menu bar at the top of the activity
+     * @param intent
+     */
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Cursor cursor = DatabaseHelper.getInstance(SearchResultsActivity.this).getCharactersBySearch(query);
+            cursorAdapterForSearchList.swapCursor(cursor);
+            cursorAdapterForSearchList.notifyDataSetChanged();
+        }
+    }
+
+//    private boolean getMediaPlayerBoolean() {
+//        SharedPreferences mediaPlayerBooleanPreferences = PreferenceManager.getDefaultSharedPreferences(SearchResultsActivity.this);
+//        return mediaPlayerBooleanPreferences.getBoolean(MainActivity.REQUEST_CODE_FOR_MEDIAPLAYER, false);
+//    }
 }
