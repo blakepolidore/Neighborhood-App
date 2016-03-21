@@ -2,7 +2,6 @@ package blake.com.gameofthronesmap.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
+import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
 /**
@@ -35,9 +35,8 @@ public class CharacterActivity extends AppCompatActivity {
     TextView locationDescription;
     ImageView locationImage;
     EditText reviewEditText;
-    MediaPlayer themeMediaPlayer;
     String characterNameText;
-    boolean playIsOn = false;
+    boolean playIsOn;
     FloatingActionButton isLikedButton;
     Button reviewButton;
     ImageView likedIcon;
@@ -49,12 +48,12 @@ public class CharacterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
 
-        themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
         instantiateItems();
         getCharacterDetails();
         setIcon();
         setIsLikedButton();
         setReviewButton();
+        playIsOn= SongService.isPlayOn;
 
         locationTitleText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,12 +93,11 @@ public class CharacterActivity extends AppCompatActivity {
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
-                themeMediaPlayer.start();
                 if (playIsOn) {
-                    themeMediaPlayer.pause();
+                    stopService(new Intent(this, SongService.class));
                     playIsOn = false;
                 } else {
-                    themeMediaPlayer.start();
+                    startService(new Intent(this, SongService.class));
                     playIsOn = true;
                 }
                 return true;

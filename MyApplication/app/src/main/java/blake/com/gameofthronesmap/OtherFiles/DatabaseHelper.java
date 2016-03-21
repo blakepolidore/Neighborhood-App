@@ -155,7 +155,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Not used in this current version but gives the ability to return all characters in database
+     * Gives the user the ability to return all characters in database. Used when no search criteria is specified
      * @return
      */
     public Cursor getCharacter() {
@@ -271,7 +271,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return cursor;
     }
-    //Custom cursor for query on instance of the database helper DO THIS IF TIME
+
+    /**
+     * Cursor for choosing based on search criteria from spinners. Uses default search if no search criteria is specified
+     * @param continent
+     * @param sex
+     * @param house
+     * @return
+     */
     public Cursor searchCriteriaCursor(String continent, String sex, String house) {
         SQLiteDatabase db = this.getReadableDatabase();
         if (continent.equalsIgnoreCase("No Selection") && sex.equalsIgnoreCase("No Selection") &&

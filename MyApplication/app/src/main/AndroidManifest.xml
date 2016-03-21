@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat" >
+        <service android:name=".OtherFiles.SongService"/>
         <activity android:name=".Activities.InfoActivity" />
         <activity android:name=".Activities.CharacterActivity" />
         <activity android:name=".Activities.SearchResultsActivity" android:launchMode="singleTop">

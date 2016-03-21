@@ -4,8 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -21,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
+import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
 /**
@@ -36,8 +35,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     TextView searchResultsTextView;
     ListView searchResultsListView;
-    MediaPlayer themeMediaPlayer;
-    boolean playIsOn = false;
+    boolean playIsOn;
     String characterContinent, characterSex, characterHouse;
     private CursorAdapter cursorAdapterForSearchList;
 
@@ -46,11 +44,11 @@ public class SearchResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchresults);
 
-        themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
         instantiateItems();
         getMainActivityIntent();
-        createDatabase();
+        cursorFromSearch();
         handleIntent(getIntent());
+        playIsOn = SongService.isPlayOn;
     }
 
     /**
@@ -92,12 +90,11 @@ public class SearchResultsActivity extends AppCompatActivity {
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
-                themeMediaPlayer.start();
                 if (playIsOn) {
-                    themeMediaPlayer.pause();
+                    stopService(new Intent(this, SongService.class));
                     playIsOn = false;
                 } else {
-                    themeMediaPlayer.start();
+                    startService(new Intent(this, SongService.class));
                     playIsOn = true;
                 }
                 return true;
@@ -124,8 +121,8 @@ public class SearchResultsActivity extends AppCompatActivity {
             characterSex = intent.getExtras().getString(SEX_KEY);
             characterHouse = intent.getExtras().getString(HOUSE_KEY);
 
-            Cursor cursor = searchDatabase(characterContinent, characterSex, characterHouse); //Create cursor from selection criteria
-            createCursorAdapterForSearchList(cursor); //Puts cursor in custom cursor adaapter
+            Cursor cursor = cursorFromSearch().searchCriteriaCursor(characterContinent, characterSex, characterHouse); //Creates cursor from selection criteria
+            createCursorAdapterForSearchList(cursor); //Puts cursor in custom cursor adapter
             setOnListItemClickListerners(searchResultsListView, cursor); //Set on item click listener for each character
         }
     }
@@ -134,11 +131,10 @@ public class SearchResultsActivity extends AppCompatActivity {
      * Creates database instance in this class
      * @return
      */
-    private SQLiteDatabase createDatabase() {
+    private DatabaseHelper cursorFromSearch() {
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(SearchResultsActivity.this);
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-
-        return db;
+        //SQLiteDatabase db = databaseHelper.getReadableDatabase(); For raw query search
+        return databaseHelper;
     }
 
     /**
@@ -148,44 +144,35 @@ public class SearchResultsActivity extends AppCompatActivity {
      * @param house
      * @return
      */
-    private Cursor searchDatabase(String continent, String sex, String house){
-        if (continent.equalsIgnoreCase("No Selection") && sex.equalsIgnoreCase("No Selection") &&
-                house.equalsIgnoreCase("No Selection")){
-            return createDefaultCursor(); //If no selections use default cursor for all columns and rows
-        } else {
-            if (continent.equalsIgnoreCase("No Selection")){
-                continent = "'%'";//Searches for all amounts of characters in this column
-            } else {
-                continent = "'"+continent+"'"; //only searches for this keyword in the column
-            }
-            if (sex.equalsIgnoreCase("No Selection")){
-                sex = "'%'";
-            } else {
-                sex = "'" + sex + "'";
-            }
-            if (house.equalsIgnoreCase("No Selection")){
-                house = "'%'";
-            } else {
-                house = "'" + house + "'";
-            }
-
-            String queryString =  "SELECT * FROM "+DatabaseHelper.CHARACTERS_TABLE_NAME+
-                    " WHERE "+DatabaseHelper.COL_CONTINENT+" LIKE "+continent+" AND "
-                    +DatabaseHelper.COL_SEX+" LIKE "+sex+
-                    " AND "+DatabaseHelper.COL_HOUSE+" LIKE "+house+";";
-            Cursor cursor = createDatabase().rawQuery(queryString, null);
-            return cursor;
-        }
-    }
-
-    /**
-     * If not search criteria is chosen by the user, the search results show all characters in database
-     * @return
-     */
-    private Cursor createDefaultCursor() {
-        Cursor cursor = createDatabase().query(DatabaseHelper.CHARACTERS_TABLE_NAME, null, null, null, null, null, null);
-        return cursor;
-    }
+//    private Cursor searchDatabase(String continent, String sex, String house){
+//        if (continent.equalsIgnoreCase("No Selection") && sex.equalsIgnoreCase("No Selection") &&
+//                house.equalsIgnoreCase("No Selection")){
+//            return cursorFromSearch.getCharacter(); //If no selections use default cursor for all columns and rows
+//        } else {
+//            if (continent.equalsIgnoreCase("No Selection")){
+//                continent = "'%'";//Searches for all amounts of characters in this column
+//            } else {
+//                continent = "'"+continent+"'"; //only searches for this keyword in the column
+//            }
+//            if (sex.equalsIgnoreCase("No Selection")){
+//                sex = "'%'";
+//            } else {
+//                sex = "'" + sex + "'";
+//            }
+//            if (house.equalsIgnoreCase("No Selection")){
+//                house = "'%'";
+//            } else {
+//                house = "'" + house + "'";
+//            }
+//
+//            String queryString =  "SELECT * FROM "+DatabaseHelper.CHARACTERS_TABLE_NAME+
+//                    " WHERE "+DatabaseHelper.COL_CONTINENT+" LIKE "+continent+" AND "
+//                    +DatabaseHelper.COL_SEX+" LIKE "+sex+
+//                    " AND "+DatabaseHelper.COL_HOUSE+" LIKE "+house+";";
+//            Cursor cursor = cursorFromSearch().rawQuery(queryString, null);
+//            return cursor;
+//        }
+//    }
 
     /**
      * Custom cursor adapter for list view
@@ -272,8 +259,4 @@ public class SearchResultsActivity extends AppCompatActivity {
         }
     }
 
-//    private boolean getMediaPlayerBoolean() {
-//        SharedPreferences mediaPlayerBooleanPreferences = PreferenceManager.getDefaultSharedPreferences(SearchResultsActivity.this);
-//        return mediaPlayerBooleanPreferences.getBoolean(MainActivity.REQUEST_CODE_FOR_MEDIAPLAYER, false);
-//    }
 }

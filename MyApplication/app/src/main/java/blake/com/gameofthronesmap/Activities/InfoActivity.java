@@ -1,8 +1,13 @@
 package blake.com.gameofthronesmap.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
+import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
 /**
@@ -12,9 +17,56 @@ import blake.com.gameofthronesmap.R;
  */
 public class InfoActivity extends AppCompatActivity {
 
+    boolean playIsOn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_screen);
+
+        playIsOn = SongService.isPlayOn;
     }
+
+    /**
+     * Creates menu at the top
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    /**
+     * Allows you to click on options in the menu bar.
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.favorites:
+                Intent intent = new Intent(getApplicationContext(), FavoritesListActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.infoActivity:
+                Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
+                startActivity(infoIntent);
+                return true;
+            case R.id.musicActivity:
+                if (playIsOn) {
+                    stopService(new Intent(this, SongService.class));
+                    playIsOn = false;
+                } else {
+                    startService(new Intent(this, SongService.class));
+                    playIsOn = true;
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }

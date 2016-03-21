@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -21,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
+import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
 /**
@@ -32,8 +32,7 @@ public class FavoritesListActivity extends AppCompatActivity{
 
     TextView searchResultsTextView;
     ListView searchResultsListView;
-    MediaPlayer themeMediaPlayer;
-    boolean playIsOn = false;
+    boolean playIsOn;
     private CursorAdapter cursorAdapterForSearchList;
 
     @Override
@@ -41,7 +40,7 @@ public class FavoritesListActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_list);
 
-        themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
+        playIsOn = SongService.isPlayOn;
         instantiateItems();
         createCursorAdapterForSearchList(cursorForFavorites());
         setOnListItemClickListerners(searchResultsListView, cursorForFavorites());
@@ -86,12 +85,11 @@ public class FavoritesListActivity extends AppCompatActivity{
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
-                themeMediaPlayer.start();
                 if (playIsOn) {
-                    themeMediaPlayer.pause();
+                    stopService(new Intent(this, SongService.class));
                     playIsOn = false;
                 } else {
-                    themeMediaPlayer.start();
+                    startService(new Intent(this, SongService.class));
                     playIsOn = true;
                 }
                 return true;
@@ -190,7 +188,7 @@ public class FavoritesListActivity extends AppCompatActivity{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent listItemIntent =  new Intent(FavoritesListActivity.this, FavoriteCharacterActivity.class);
+                Intent listItemIntent = new Intent(FavoritesListActivity.this, FavoriteCharacterActivity.class);
                 cursor.moveToPosition(position);
                 listItemIntent.putExtra("idFavorite", cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
                 startActivity(listItemIntent);

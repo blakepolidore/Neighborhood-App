@@ -1,7 +1,6 @@
 package blake.com.gameofthronesmap.Activities;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -13,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
+import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
 /**
@@ -26,9 +26,8 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
     TextView locationDescriptionFavorite;
     ImageView locationImageFavorite;
     EditText reviewEditTextFavorite;
-    MediaPlayer themeMediaPlayer;
     String characterNameText;
-    boolean playIsOn = false;
+    boolean playIsOn;
     ImageView likedIcon;
 
     @Override
@@ -36,7 +35,7 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_item);
 
-        themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
+        playIsOn = SongService.isPlayOn;
         instantiateItems();
         getCharacterDetails();
         setIcon();
@@ -71,12 +70,11 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
-                themeMediaPlayer.start();
                 if (playIsOn) {
-                    themeMediaPlayer.pause();
+                    stopService(new Intent(this, SongService.class));
                     playIsOn = false;
                 } else {
-                    themeMediaPlayer.start();
+                    startService(new Intent(this, SongService.class));
                     playIsOn = true;
                 }
                 return true;

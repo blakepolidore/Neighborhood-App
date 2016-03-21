@@ -2,7 +2,6 @@ package blake.com.gameofthronesmap.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
 /**
@@ -25,8 +25,7 @@ public class ReviewActivity extends AppCompatActivity {
     TextView reviewTitleText;
     ListView reviewListView;
     ArrayList<String> reviewsArrayList;
-    MediaPlayer themeMediaPlayer;
-    boolean playIsOn = false;
+    boolean playIsOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class ReviewActivity extends AppCompatActivity {
 
         instantiateItems();
         setTitleString();
-        themeMediaPlayer = MediaPlayer.create(this, R.raw.gottheme);
+        playIsOn = SongService.isPlayOn;
         reviewsArrayList = new ArrayList<>();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, reviewsArrayList);
         if (getReviewPreferences() != null) {
@@ -64,12 +63,11 @@ public class ReviewActivity extends AppCompatActivity {
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
-                themeMediaPlayer.start();
                 if (playIsOn) {
-                    themeMediaPlayer.pause();
+                    stopService(new Intent(this, SongService.class));
                     playIsOn = false;
                 } else {
-                    themeMediaPlayer.start();
+                    startService(new Intent(this, SongService.class));
                     playIsOn = true;
                 }
                 return true;
