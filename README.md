@@ -11,7 +11,9 @@ Features
 -Users can leave comments about GOT characters
 
 Source
+
 https://github.com/blakepolidore/Neighborhood-App
 
 Contact
+
 Developer: Blake Polidore blakepolidore@gmail.com
