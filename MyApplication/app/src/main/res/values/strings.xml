@@ -2,7 +2,7 @@
     <string name="app_name">GameOfThronesMap</string>
     <string name="Search">Search</string>
     <string name="searchResults">Search Results</string>
-    <string name="infoString">Search fo characters by continent, gender and house. Choose zero, one, two, or three search criteria. Click on the results to learn more about the character.
+    <string name="infoString">Search fo characters by continent, gender and house. Choose zero, one, two, or three search criteria. To search by the character by name, click on the search method in the menu bar. Click on the results to learn more about the character.
     To start and pause the music, click on the music icon.
     To store a character into favorites, click the floating action button at the bottom of the screen. To leave a comment on the character, enter it into the edit text and press submit.</string>
     <string name="jonSnow">Bastard of Winterfell. Lord Commander of the Night\'s Watch. Courageous and loyal to a fault. Leader of men. Great Fighter. </string>
@@ -28,6 +28,9 @@
     <string name="jaqenHghar">Assasain with many faces. Helps Arya in to train to be an assasain for the Many Faced God.</string>
     <string name="favorites">Favorites</string>
     <string name="search_hint">Search for character</string>
+    <string name="margaery">Desperately wants to queen. She will marry anyone in order to secure that. Well versed in the Game of Thrones.</string>
+    <string name="loras">Member of the Kingsguard, a gifted knight and jouster. He likes dudes.</string>
+    <string name="stannis">Younger brother to Robert. Father of the year candidate. Entitled to the throne in his opinion. Believer in the Lord of Light.</string>
     <string-array name="continent">
         <item>No Selection</item>
         <item>Westeros</item>
@@ -46,6 +49,7 @@
         <item>Mormont</item>
         <item>Baratheon</item>
         <item>Lannister</item>
+        <item>Tyrell</item>
         <item>None</item>
     </string-array>
 </resources>

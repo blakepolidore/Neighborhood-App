@@ -221,6 +221,8 @@ public class SearchResultsActivity extends AppCompatActivity {
                 return R.drawable.mormont;
             case "Baratheon":
                 return R.drawable.baratheon;
+            case "Tyrell":
+                return R.drawable.tyrell;
             case "None":
                 return R.drawable.none;
             default:

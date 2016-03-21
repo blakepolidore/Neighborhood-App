@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void createSQLiteDatabaseHelper() {
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(MainActivity.this);
-        //Add Tyrell, Stannis
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         String count = "SELECT count(*) FROM " + DatabaseHelper.CHARACTERS_TABLE_NAME;
         Cursor mcursor = db.rawQuery(count, null);
@@ -155,6 +154,9 @@ public class MainActivity extends AppCompatActivity {
             databaseHelper.insert("Tywin Lannister", "Male", "Westeros", "Lannister", getString(R.string.tywinLannister), false, R.drawable.tywin, "Disliked Badass", "");
             databaseHelper.insert("Viserys Targaryen", "Male", "Essos", "Targaryen", getString(R.string.viserysTargaryen), false, R.drawable.viserys, "Sucks", "");
             databaseHelper.insert("Jaqen H'ghar", "Male", "Essos", "None", getString(R.string.jaqenHghar), false, R.drawable.jaqen, "Many-faced Badass", "");
+            databaseHelper.insert("Margaery Tyrell", "Female", "Westeros", "Tyrell", getString(R.string.margaery), false, R.drawable.margaery, "Badass Queen", "");
+            databaseHelper.insert("Loras Tyrell", "Male", "Westeros", "Tyrell", getString(R.string.loras), false, R.drawable.loras, "Flowery Badass", "");
+            databaseHelper.insert("Stannis Baratheon", "Male", "Westeros", "Baratheon", getString(R.string.stannis), false, R.drawable.stannis, "Stern Badass", "");
         }
     }
 
