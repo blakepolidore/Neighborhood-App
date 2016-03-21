@@ -21,6 +21,7 @@ public class GOTCharacter {
      * @param isLiked Boolean for whether or not the user has "liked" the character
      * @param largeImage integer id for character's picture in database
      * @param badAss my (The developer's) opinion of how badass the character is
+     * @param characterReviews User can leave reviews of the character
      */
     String name;
     String sex;
@@ -30,11 +31,13 @@ public class GOTCharacter {
     Boolean isLiked;
     int largeImage;
     String badAss;
+    String characterReviews;
 
     /*
     Constructor for character. Each character must have all of these traits.
      */
-    public GOTCharacter(String name, String sex, String continent, String house, String description, Boolean isLiked, int largeImage, String badAss) {
+    public GOTCharacter(String name, String sex, String continent, String house, String description,
+                        Boolean isLiked, int largeImage, String badAss, String characterReviews) {
         this.name = name;
         this.sex = sex;
         this.continent = continent;
@@ -43,6 +46,7 @@ public class GOTCharacter {
         this.isLiked = isLiked;
         this.largeImage = largeImage;
         this.badAss = badAss;
+        this.characterReviews = characterReviews;
     }
 
     public String getName() {
@@ -107,5 +111,13 @@ public class GOTCharacter {
 
     public void setBadAss(String badAss) {
         this.badAss = badAss;
+    }
+
+    public String getCharacterReviews() {
+        return characterReviews;
+    }
+
+    public void setCharacterReviews(String characterReviews) {
+        this.characterReviews = characterReviews;
     }
 }

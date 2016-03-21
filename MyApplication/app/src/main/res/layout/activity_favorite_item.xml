@@ -40,6 +40,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/enterReviewButtonFavorite"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="ENTER REVIEW"/>
+
         <EditText
             android:id="@+id/reviewEditTextFavorite"
             android:layout_width="match_parent"
@@ -48,10 +56,8 @@
             android:textSize="20sp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:focusable="false"
-            android:focusableInTouchMode="true"/>
+            android:layout_above="@id/enterReviewButtonFavorite"/>
 
     </RelativeLayout>
 

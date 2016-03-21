@@ -1,9 +1,7 @@
 package blake.com.gameofthronesmap.Activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -41,12 +39,11 @@ public class CharacterActivity extends AppCompatActivity {
     Button reviewButton;
     ImageView likedIcon;
     public static final String REQUEST_CODE_FOR_TITLE = "characterNameForReviewActivity";
-    public static final String REQUEST_CODE_FOR_COMMENT = "characterReviewForReviewActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_location);
+        setContentView(R.layout.activity_character);
 
         instantiateItems();
         getCharacterDetails();
@@ -54,14 +51,6 @@ public class CharacterActivity extends AppCompatActivity {
         setIsLikedButton();
         setReviewButton();
         playIsOn= SongService.isPlayOn;
-
-        locationTitleText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent reviewIntent = new Intent(CharacterActivity.this, ReviewActivity.class);
-                startActivity(reviewIntent);
-            }
-        });
     }
 
     /**
@@ -184,31 +173,31 @@ public class CharacterActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Grabs the comments left by a user and sends them to the ReviewActivity
-     */
-    private void setReviewButton() {
-        if ((reviewEditText.getText().toString().isEmpty())) {
-            reviewButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    createSharedPreferences();
-                    Intent reviewIntent = new Intent(CharacterActivity.this, ReviewActivity.class);
-                    startActivity(reviewIntent);
-                }
-            });
-        }
+    private String userComment() {
+        String inputText = reviewEditText.getText().toString();
+        return inputText;
     }
 
     /**
-     * Creates shared preferences so the user's comments can be left on the ReviewActivity
+     * Grabs the comments left by a user and adds them to the database. Then sends the user to the ReviewActivity
      */
-    private void createSharedPreferences() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CharacterActivity.this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(REQUEST_CODE_FOR_TITLE, characterNameText);
-        String characterReview = reviewEditText.getText().toString();
-        editor.putString(REQUEST_CODE_FOR_COMMENT, characterReview);
-        editor.apply();
+    private void setReviewButton() {
+        final int id = getIntent().getIntExtra("id", -1);
+        reviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (id >= 0) {
+                    if (!(userComment().isEmpty())) {
+                        databaseHelper().addReviewOfCharacter(id, userComment());
+                    }
+                    Intent goToReviewActivityIntent = new Intent(CharacterActivity.this, ReviewActivity.class);
+                    goToReviewActivityIntent.putExtra(REQUEST_CODE_FOR_TITLE, characterNameText);
+                    goToReviewActivityIntent.putExtra("id2", id);
+                    startActivity(goToReviewActivityIntent);
+                }
+            }
+        });
+
     }
+
 }

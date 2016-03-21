@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.Date;
+
 /**
  * Created by Raiders on 3/14/16.
  * <h1>Help creates the database for each character</h1>
@@ -31,6 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_ISLIKED = "isLiked";
     public static final String COL_BADASS = "badAss";
     public static final String COL_LARGE_IMAGE = "largeImage";
+    public static final String COL_REVIEWS = "characterReview";
     public static final String SQL_CREATE_CHARACTERS_TABLE = "CREATE TABLE IF NOT EXISTS " + CHARACTERS_TABLE_NAME +
             "(" +
             COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -41,9 +46,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COL_DESCRIPTION + " TEXT,"
             + COL_ISLIKED + " BOOLEAN,"
             + COL_LARGE_IMAGE + " INTEGER,"
-            + COL_BADASS + " TEXT)";
+            + COL_BADASS + " TEXT,"
+            + COL_REVIEWS + " TEXT)";
 
-    public static final String[] GOT_COLUMNS = {COL_ID,COL_NAME, COL_SEX, COL_CONTINENT, COL_HOUSE, COL_DESCRIPTION, COL_ISLIKED, COL_LARGE_IMAGE, COL_BADASS};
+    public static final String[] GOT_COLUMNS = {COL_ID,COL_NAME, COL_SEX, COL_CONTINENT, COL_HOUSE, COL_DESCRIPTION, COL_ISLIKED, COL_LARGE_IMAGE, COL_BADASS, COL_REVIEWS};
     public static final String SQL_DROP_CHARACTERS_TABLE = "DROP TABLE IF EXISTS characters";
 
     private static DatabaseHelper instance;
@@ -84,8 +90,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param isLiked
      * @param largeImage
      * @param badAss
+     * @param characterReviews
      */
-    public void insert(String name, String sex, String continent, String house, String description, Boolean isLiked, int largeImage, String badAss) {
+    public void insert(String name, String sex, String continent, String house, String description,
+                       Boolean isLiked, int largeImage, String badAss, String characterReviews) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COL_NAME, name);
@@ -96,6 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_ISLIKED, isLiked);
         values.put(COL_LARGE_IMAGE, largeImage);
         values.put(COL_BADASS, badAss);
+        values.put(COL_REVIEWS, characterReviews);
         db.insert(CHARACTERS_TABLE_NAME, null, values);
     }
 
@@ -314,5 +323,67 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             return cursor;
         }
+    }
+
+    /**
+     * Allows user to leave a review of the character and updates the database.
+     * @param id
+     * @param inputText
+     */
+    public void addReviewOfCharacter(int id, String inputText) {
+        SQLiteDatabase dbWritable = getWritableDatabase();
+        SQLiteDatabase dbReadable = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        String[] idArguments = new String[]{String.valueOf(id)};
+        Cursor cursor = dbReadable.query(CHARACTERS_TABLE_NAME,
+                new String[]{COL_REVIEWS},
+                COL_ID+" = ?",
+                idArguments,
+                null,
+                null,
+                null,
+                null);
+        if(cursor.moveToFirst()) {
+            String colReview = cursor.getString(cursor.getColumnIndex(COL_REVIEWS));
+            values.put(COL_REVIEWS, inputText + " " + getDateTime() + " aintNuthingButAGThang297 " +  colReview);
+        }
+        String selection = COL_ID+" = ?";
+        dbWritable.update(CHARACTERS_TABLE_NAME, values, selection, idArguments);
+    }
+
+    /**
+     * Gets the users comments on the characters.
+     * @param id
+     * @return
+     */
+    public String getUsersReview(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(CHARACTERS_TABLE_NAME,
+                new String[]{COL_REVIEWS},
+                COL_ID + " = ?",
+                new String[]{String.valueOf(id)},
+                null,
+                null,
+                null,
+                null);
+
+        if(cursor.moveToFirst()){
+            String colReview = cursor.getString(cursor.getColumnIndex(COL_REVIEWS));
+            return colReview;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Creates a timestamp. This gets put in the comments section.
+     * @return
+     */
+    public String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 }

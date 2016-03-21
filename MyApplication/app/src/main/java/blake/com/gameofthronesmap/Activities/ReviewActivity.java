@@ -1,9 +1,7 @@
 package blake.com.gameofthronesmap.Activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
 import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
@@ -37,10 +36,8 @@ public class ReviewActivity extends AppCompatActivity {
         playIsOn = SongService.isPlayOn;
         reviewsArrayList = new ArrayList<>();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, reviewsArrayList);
-        if (getReviewPreferences() != null) {
-            reviewsArrayList.add(getReviewPreferences());
-            arrayAdapter.notifyDataSetChanged();
-        }
+        getCharacterReviews();
+        arrayAdapter.notifyDataSetChanged();
         reviewListView.setAdapter(arrayAdapter);
     }
 
@@ -81,20 +78,43 @@ public class ReviewActivity extends AppCompatActivity {
         reviewTitleText = (TextView) findViewById(R.id.reviewTitleText);
     }
 
-    private String getTitlePreferences() {
-        SharedPreferences getPreferences = PreferenceManager.getDefaultSharedPreferences(ReviewActivity.this);
-        return getPreferences.getString(CharacterActivity.REQUEST_CODE_FOR_TITLE, null);
+    /**
+     * Gets character name
+     * @return
+     */
+    private String getNameIntent() {
+        String characterName = getIntent().getStringExtra(CharacterActivity.REQUEST_CODE_FOR_TITLE);
+        return characterName;
     }
 
+    /**
+     * Sets the character's name at the top of the activity
+     */
     private void setTitleString() {
-        if (getTitlePreferences() != null) {
-            reviewTitleText.setText(getTitlePreferences());
+        if (getNameIntent() != null) {
+            reviewTitleText.setText(getNameIntent());
         }
     }
 
-    private String getReviewPreferences() {
-        SharedPreferences getPreferences = PreferenceManager.getDefaultSharedPreferences(ReviewActivity.this);
-        return getPreferences.getString(CharacterActivity.REQUEST_CODE_FOR_COMMENT, null);
+    private DatabaseHelper databaseHelper() {
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(ReviewActivity.this);
+        return databaseHelper;
+    }
+
+    /**
+     * Gets the reviews left by users of the characters and displays them
+     */
+    private void getCharacterReviews() {
+        final int id = getIntent().getIntExtra("id2", -1);
+        if (id >= 0) {
+            String userComments = databaseHelper().getUsersReview(id);
+            String[] arrayOfComments = userComments.split("aintNuthingButAGThang297");
+            if (userComments != null) {
+                for (int i = 0; i < arrayOfComments.length; i++) {
+                    reviewsArrayList.add(arrayOfComments[i]);
+                }
+            }
+        }
     }
 
 }

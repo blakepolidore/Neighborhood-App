@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
     String characterNameText;
     boolean playIsOn;
     ImageView likedIcon;
+    Button enterCommentFromFavoritesButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
         instantiateItems();
         getCharacterDetails();
         setIcon();
+        setReviewButton();
     }
 
     /**
@@ -89,6 +92,7 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
         locationImageFavorite = (ImageView) findViewById(R.id.imageViewLocationFavorite);
         reviewEditTextFavorite = (EditText) findViewById(R.id.reviewEditTextFavorite);
         likedIcon = (ImageView) findViewById(R.id.likedImageFavorite);
+        enterCommentFromFavoritesButton = (Button) findViewById(R.id.enterReviewButtonFavorite);
     }
 
     /**
@@ -128,5 +132,32 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
                 likedIcon.setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+    private String userComment() {
+        String inputText = reviewEditTextFavorite.getText().toString();
+        return inputText;
+    }
+
+    /**
+     * Grabs the comments left by a user and adds them to the database. Then sends the user to the ReviewActivity
+     */
+    private void setReviewButton() {
+        final int id = getIntent().getIntExtra("idFavorite", -1);
+        enterCommentFromFavoritesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (id >= 0) {
+                    if (!(userComment().isEmpty())) {
+                        databaseHelper().addReviewOfCharacter(id, userComment());
+                    }
+                    Intent goToReviewActivityIntent = new Intent(FavoriteCharacterActivity.this, ReviewActivity.class);
+                    goToReviewActivityIntent.putExtra(CharacterActivity.REQUEST_CODE_FOR_TITLE, characterNameText);
+                    goToReviewActivityIntent.putExtra("id2", id);
+                    startActivity(goToReviewActivityIntent);
+                }
+            }
+        });
+
     }
 }
