@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
+import blake.com.gameofthronesmap.OtherFiles.MusicStateSingleton;
 import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
@@ -36,19 +37,20 @@ public class MainActivity extends AppCompatActivity {
     Spinner continentSpinner;
     Spinner sexSpinner;
     Spinner houseSpinner;
-    boolean playIsOn;
+    MusicStateSingleton musicState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        musicState = MusicStateSingleton.getInstance();
         startService(new Intent(this, SongService.class));
         intstantiateItems();
         fillSpinners();
         createSQLiteDatabaseHelper();
         toSearchResults();
-        playIsOn = SongService.isPlayOn;
+
     }
 
     /**
@@ -80,12 +82,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
-                if (playIsOn) {
+                if (musicState.isPlaying()) {
                     stopService(new Intent(this, SongService.class));
-                    playIsOn = false;
                 } else {
                     startService(new Intent(this, SongService.class));
-                    playIsOn = true;
                 }
                 return true;
             default:

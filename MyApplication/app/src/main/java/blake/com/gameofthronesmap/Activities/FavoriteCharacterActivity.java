@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
+import blake.com.gameofthronesmap.OtherFiles.MusicStateSingleton;
 import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
@@ -28,16 +29,16 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
     ImageView locationImageFavorite;
     EditText reviewEditTextFavorite;
     String characterNameText;
-    boolean playIsOn;
     ImageView likedIcon;
     Button enterCommentFromFavoritesButton;
+    MusicStateSingleton musicState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_item);
 
-        playIsOn = SongService.isPlayOn;
+        musicState = MusicStateSingleton.getInstance();
         instantiateItems();
         getCharacterDetails();
         setIcon();
@@ -73,12 +74,10 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
-                if (playIsOn) {
+                if (musicState.isPlaying()) {
                     stopService(new Intent(this, SongService.class));
-                    playIsOn = false;
                 } else {
                     startService(new Intent(this, SongService.class));
-                    playIsOn = true;
                 }
                 return true;
             default:
@@ -110,10 +109,10 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
     private void getCharacterDetails() {
         int id = getIntent().getIntExtra("idFavorite", -1);
         if(id >= 0){
-            characterNameText = databaseHelper().getCharacterStringDetails(id)[0];
+            characterNameText = databaseHelper().getCharacterNameAndDescription(id)[0];
             TextView nameText = (TextView)findViewById(R.id.locationTitleTextFavorite);
             nameText.setText(characterNameText);
-            String characterDescriptionText = databaseHelper().getCharacterStringDetails(id)[1];
+            String characterDescriptionText = databaseHelper().getCharacterNameAndDescription(id)[1];
             TextView descriptionText = (TextView)findViewById(R.id.locationDescriptionFavorite);
             descriptionText.setText(characterDescriptionText);
             int characterPicture = databaseHelper().getCharacterImage(id);
@@ -152,7 +151,6 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
                         databaseHelper().addReviewOfCharacter(id, userComment());
                     }
                     Intent goToReviewActivityIntent = new Intent(FavoriteCharacterActivity.this, ReviewActivity.class);
-                    goToReviewActivityIntent.putExtra(CharacterActivity.REQUEST_CODE_FOR_TITLE, characterNameText);
                     goToReviewActivityIntent.putExtra("id2", id);
                     startActivity(goToReviewActivityIntent);
                 }

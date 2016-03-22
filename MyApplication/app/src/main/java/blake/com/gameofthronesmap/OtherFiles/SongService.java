@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import blake.com.gameofthronesmap.R;
 
@@ -15,9 +16,9 @@ import blake.com.gameofthronesmap.R;
  * and play the song on any activity.
  */
 public class SongService extends Service {
+    public static final String TAG = SongService.class.getSimpleName();
 
     MediaPlayer themeMediaPlayer;
-    public static boolean isPlayOn = true;
 
     @Nullable
     @Override
@@ -41,9 +42,11 @@ public class SongService extends Service {
      */
     @Override
     public void onDestroy() {
-        super.onDestroy();
+        Log.d(TAG, "Destroyed: Stopping our music");
         themeMediaPlayer.stop();
-        isPlayOn = false;
+        MusicStateSingleton.getInstance().setIsPlaying(false);
+        super.onDestroy();
+
     }
 
     /**
@@ -56,7 +59,7 @@ public class SongService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         themeMediaPlayer.start();
-        isPlayOn = true;
+        MusicStateSingleton.getInstance().setIsPlaying(true);
         return super.onStartCommand(intent, flags, startId);
     }
 

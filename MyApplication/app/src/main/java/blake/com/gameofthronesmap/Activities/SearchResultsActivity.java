@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
+import blake.com.gameofthronesmap.OtherFiles.MusicStateSingleton;
 import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
@@ -35,9 +36,9 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     TextView searchResultsTextView;
     ListView searchResultsListView;
-    boolean playIsOn;
     String characterContinent, characterSex, characterHouse;
     private CursorAdapter cursorAdapterForSearchList;
+    MusicStateSingleton musicState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         getMainActivityIntent();
         cursorFromSearch();
         handleIntent(getIntent());
-        playIsOn = SongService.isPlayOn;
+        musicState = MusicStateSingleton.getInstance();
     }
 
     /**
@@ -90,12 +91,10 @@ public class SearchResultsActivity extends AppCompatActivity {
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
-                if (playIsOn) {
+                if (musicState.isPlaying()) {
                     stopService(new Intent(this, SongService.class));
-                    playIsOn = false;
                 } else {
                     startService(new Intent(this, SongService.class));
-                    playIsOn = true;
                 }
                 return true;
             case R.id.search:
@@ -240,7 +239,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent listItemIntent =  new Intent(SearchResultsActivity.this, CharacterActivity.class);
-                cursor.moveToPosition(position);
+                cursor.moveToPosition(((int) id-1));
                 listItemIntent.putExtra("id", cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
                 startActivity(listItemIntent);
             }
@@ -255,7 +254,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Cursor cursor = DatabaseHelper.getInstance(SearchResultsActivity.this).getCharactersBySearch(query);
+            Cursor cursor = DatabaseHelper.getInstance(SearchResultsActivity.this).getCharacterByNameSearch(query);
             cursorAdapterForSearchList.swapCursor(cursor);
             cursorAdapterForSearchList.notifyDataSetChanged();
         }

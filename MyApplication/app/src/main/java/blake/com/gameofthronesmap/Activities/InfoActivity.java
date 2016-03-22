@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import blake.com.gameofthronesmap.OtherFiles.MusicStateSingleton;
 import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
@@ -17,14 +18,14 @@ import blake.com.gameofthronesmap.R;
  */
 public class InfoActivity extends AppCompatActivity {
 
-    boolean playIsOn;
+    MusicStateSingleton musicState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_screen);
 
-        playIsOn = SongService.isPlayOn;
+        musicState = MusicStateSingleton.getInstance();
     }
 
     /**
@@ -56,12 +57,10 @@ public class InfoActivity extends AppCompatActivity {
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
-                if (playIsOn) {
+                if (musicState.isPlaying()) {
                     stopService(new Intent(this, SongService.class));
-                    playIsOn = false;
                 } else {
                     startService(new Intent(this, SongService.class));
-                    playIsOn = true;
                 }
                 return true;
             default:

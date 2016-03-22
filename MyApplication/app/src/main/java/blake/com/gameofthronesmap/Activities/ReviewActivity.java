@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
+import blake.com.gameofthronesmap.OtherFiles.MusicStateSingleton;
 import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
@@ -24,7 +25,7 @@ public class ReviewActivity extends AppCompatActivity {
     TextView reviewTitleText;
     ListView reviewListView;
     ArrayList<String> reviewsArrayList;
-    boolean playIsOn;
+    MusicStateSingleton musicState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +33,7 @@ public class ReviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reviews);
 
         instantiateItems();
-        setTitleString();
-        playIsOn = SongService.isPlayOn;
+        musicState = MusicStateSingleton.getInstance();
         reviewsArrayList = new ArrayList<>();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, reviewsArrayList);
         getCharacterReviews();
@@ -60,12 +60,10 @@ public class ReviewActivity extends AppCompatActivity {
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
-                if (playIsOn) {
+                if (musicState.isPlaying()) {
                     stopService(new Intent(this, SongService.class));
-                    playIsOn = false;
                 } else {
                     startService(new Intent(this, SongService.class));
-                    playIsOn = true;
                 }
                 return true;
             default:
@@ -76,24 +74,6 @@ public class ReviewActivity extends AppCompatActivity {
     private void instantiateItems() {
         reviewListView = (ListView) findViewById(R.id.reviewsListView);
         reviewTitleText = (TextView) findViewById(R.id.reviewTitleText);
-    }
-
-    /**
-     * Gets character name
-     * @return
-     */
-    private String getNameIntent() {
-        String characterName = getIntent().getStringExtra(CharacterActivity.REQUEST_CODE_FOR_TITLE);
-        return characterName;
-    }
-
-    /**
-     * Sets the character's name at the top of the activity
-     */
-    private void setTitleString() {
-        if (getNameIntent() != null) {
-            reviewTitleText.setText(getNameIntent());
-        }
     }
 
     private DatabaseHelper databaseHelper() {
@@ -109,6 +89,7 @@ public class ReviewActivity extends AppCompatActivity {
         if (id >= 0) {
             String userComments = databaseHelper().getUsersReview(id);
             String[] arrayOfComments = userComments.split("aintNuthingButAGThang297");
+            reviewTitleText.setText(databaseHelper().getCharacterNameAndDescription(id)[0]);
             if (userComments != null) {
                 for (int i = 0; i < arrayOfComments.length; i++) {
                     reviewsArrayList.add(arrayOfComments[i]);

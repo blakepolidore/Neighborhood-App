@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
+import blake.com.gameofthronesmap.OtherFiles.MusicStateSingleton;
 import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
@@ -34,11 +35,10 @@ public class CharacterActivity extends AppCompatActivity {
     ImageView locationImage;
     EditText reviewEditText;
     String characterNameText;
-    boolean playIsOn;
     FloatingActionButton isLikedButton;
     Button reviewButton;
     ImageView likedIcon;
-    public static final String REQUEST_CODE_FOR_TITLE = "characterNameForReviewActivity";
+    MusicStateSingleton musicState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +50,12 @@ public class CharacterActivity extends AppCompatActivity {
         setIcon();
         setIsLikedButton();
         setReviewButton();
-        playIsOn= SongService.isPlayOn;
+        musicState = MusicStateSingleton.getInstance();
     }
 
     /**
      * Creates menu at the top
+     *
      * @param menu
      * @return
      */
@@ -67,6 +68,7 @@ public class CharacterActivity extends AppCompatActivity {
 
     /**
      * Allows you to click on options in the menu bar.
+     *
      * @param item
      * @return
      */
@@ -82,12 +84,10 @@ public class CharacterActivity extends AppCompatActivity {
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
-                if (playIsOn) {
+                if (musicState.isPlaying()) {
                     stopService(new Intent(this, SongService.class));
-                    playIsOn = false;
                 } else {
                     startService(new Intent(this, SongService.class));
-                    playIsOn = true;
                 }
                 return true;
             default:
@@ -107,6 +107,7 @@ public class CharacterActivity extends AppCompatActivity {
 
     /**
      * Creates instance of the database helper in this class
+     *
      * @return
      */
     private DatabaseHelper databaseHelper() {
@@ -119,15 +120,15 @@ public class CharacterActivity extends AppCompatActivity {
      */
     private void getCharacterDetails() {
         int id = getIntent().getIntExtra("id", -1);
-        if(id >= 0){
-            characterNameText = databaseHelper().getCharacterStringDetails(id)[0];
-            TextView nameText = (TextView)findViewById(R.id.locationTitleText);
+        if (id >= 0) {
+            characterNameText = databaseHelper().getCharacterNameAndDescription(id)[0];
+            TextView nameText = (TextView) findViewById(R.id.locationTitleText);
             nameText.setText(characterNameText);
-            String characterDescriptionText = databaseHelper().getCharacterStringDetails(id)[1];
-            TextView descriptionText = (TextView)findViewById(R.id.locationDescription);
+            String characterDescriptionText = databaseHelper().getCharacterNameAndDescription(id)[1];
+            TextView descriptionText = (TextView) findViewById(R.id.locationDescription);
             descriptionText.setText(characterDescriptionText);
             int characterPicture = databaseHelper().getCharacterImage(id);
-            ImageView characterImage = (ImageView)findViewById(R.id.imageViewLocation);
+            ImageView characterImage = (ImageView) findViewById(R.id.imageViewLocation);
             characterImage.setBackgroundResource(characterPicture);
         }
     }
@@ -137,7 +138,7 @@ public class CharacterActivity extends AppCompatActivity {
      */
     private void setIcon() {
         final int id = getIntent().getIntExtra("id", -1);
-        if(id >= 0) {
+        if (id >= 0) {
             boolean isLiked = databaseHelper().getCharacterIsLikedBoolean(id);
             if (isLiked) {
                 likedIcon.setVisibility(View.VISIBLE);
@@ -155,17 +156,17 @@ public class CharacterActivity extends AppCompatActivity {
         isLikedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(id >= 0) {
+                if (id >= 0) {
                     databaseHelper().changeIsLikedColumn(id);
                     boolean isLiked = databaseHelper().getCharacterIsLikedBoolean(id);
                     String characterLiked;
                     if (isLiked) {
                         characterLiked = "You liked " + characterNameText;
-                        Toast.makeText(CharacterActivity.this , characterLiked, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CharacterActivity.this, characterLiked, Toast.LENGTH_SHORT).show();
                         likedIcon.setVisibility(View.VISIBLE);
                     } else {
                         characterLiked = "You don't like " + characterNameText + " anymore";
-                        Toast.makeText(CharacterActivity.this , characterLiked, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CharacterActivity.this, characterLiked, Toast.LENGTH_SHORT).show();
                         likedIcon.setVisibility(View.INVISIBLE);
                     }
                 }
@@ -191,7 +192,6 @@ public class CharacterActivity extends AppCompatActivity {
                         databaseHelper().addReviewOfCharacter(id, userComment());
                     }
                     Intent goToReviewActivityIntent = new Intent(CharacterActivity.this, ReviewActivity.class);
-                    goToReviewActivityIntent.putExtra(REQUEST_CODE_FOR_TITLE, characterNameText);
                     goToReviewActivityIntent.putExtra("id2", id);
                     startActivity(goToReviewActivityIntent);
                 }

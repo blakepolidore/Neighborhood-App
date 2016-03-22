@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
+import blake.com.gameofthronesmap.OtherFiles.MusicStateSingleton;
 import blake.com.gameofthronesmap.OtherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
@@ -32,15 +33,15 @@ public class FavoritesListActivity extends AppCompatActivity{
 
     TextView searchResultsTextView;
     ListView searchResultsListView;
-    boolean playIsOn;
     private CursorAdapter cursorAdapterForSearchList;
+    MusicStateSingleton musicState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_list);
 
-        playIsOn = SongService.isPlayOn;
+        musicState = MusicStateSingleton.getInstance();
         instantiateItems();
         createCursorAdapterForSearchList(cursorForFavorites());
         setOnListItemClickListerners(searchResultsListView, cursorForFavorites());
@@ -85,12 +86,10 @@ public class FavoritesListActivity extends AppCompatActivity{
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
-                if (playIsOn) {
+                if (musicState.isPlaying()) {
                     stopService(new Intent(this, SongService.class));
-                    playIsOn = false;
                 } else {
                     startService(new Intent(this, SongService.class));
-                    playIsOn = true;
                 }
                 return true;
             default:
@@ -189,7 +188,7 @@ public class FavoritesListActivity extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent listItemIntent = new Intent(FavoritesListActivity.this, FavoriteCharacterActivity.class);
-                cursor.moveToPosition(position);
+                cursor.moveToPosition(((int) id - 1));
                 listItemIntent.putExtra("idFavorite", cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
                 startActivity(listItemIntent);
             }

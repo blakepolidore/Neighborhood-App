@@ -190,7 +190,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param id
      * @return Character name and description
      */
-    public String[] getCharacterStringDetails(int id){
+    public String[] getCharacterNameAndDescription(int id){
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(CHARACTERS_TABLE_NAME,
@@ -244,7 +244,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param query
      * @return cursor for search
      */
-    public Cursor getCharactersBySearch(String query){
+    public Cursor getCharacterByNameSearch(String query){
 
         SQLiteDatabase db = this.getReadableDatabase();
 
