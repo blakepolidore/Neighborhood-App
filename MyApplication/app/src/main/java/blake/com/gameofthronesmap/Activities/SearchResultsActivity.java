@@ -39,6 +39,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     String characterContinent, characterSex, characterHouse;
     private CursorAdapter cursorAdapterForSearchList;
     MusicStateSingleton musicState;
+    Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         instantiateItems();
         getMainActivityIntent();
-        cursorFromSearch();
+        getDatabaseHelper();
         handleIntent(getIntent());
         musicState = MusicStateSingleton.getInstance();
     }
@@ -120,7 +121,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             characterSex = intent.getExtras().getString(SEX_KEY);
             characterHouse = intent.getExtras().getString(HOUSE_KEY);
 
-            Cursor cursor = cursorFromSearch().searchCriteriaCursor(characterContinent, characterSex, characterHouse); //Creates cursor from selection criteria
+            cursor = getDatabaseHelper().searchCriteriaCursor(characterContinent, characterSex, characterHouse); //Creates cursor from selection criteria
             createCursorAdapterForSearchList(cursor); //Puts cursor in custom cursor adapter
             setOnListItemClickListerners(searchResultsListView, cursor); //Set on item click listener for each character
         }
@@ -130,48 +131,10 @@ public class SearchResultsActivity extends AppCompatActivity {
      * Creates database instance in this class
      * @return
      */
-    private DatabaseHelper cursorFromSearch() {
+    private DatabaseHelper getDatabaseHelper() {
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(SearchResultsActivity.this);
-        //SQLiteDatabase db = databaseHelper.getReadableDatabase(); For raw query search
         return databaseHelper;
     }
-
-    /**
-     * Takes parameters from the spinner in the main activity and creates a cursor based off of this search criteria.
-     * @param continent
-     * @param sex
-     * @param house
-     * @return
-     */
-//    private Cursor searchDatabase(String continent, String sex, String house){
-//        if (continent.equalsIgnoreCase("No Selection") && sex.equalsIgnoreCase("No Selection") &&
-//                house.equalsIgnoreCase("No Selection")){
-//            return cursorFromSearch.getCharacter(); //If no selections use default cursor for all columns and rows
-//        } else {
-//            if (continent.equalsIgnoreCase("No Selection")){
-//                continent = "'%'";//Searches for all amounts of characters in this column
-//            } else {
-//                continent = "'"+continent+"'"; //only searches for this keyword in the column
-//            }
-//            if (sex.equalsIgnoreCase("No Selection")){
-//                sex = "'%'";
-//            } else {
-//                sex = "'" + sex + "'";
-//            }
-//            if (house.equalsIgnoreCase("No Selection")){
-//                house = "'%'";
-//            } else {
-//                house = "'" + house + "'";
-//            }
-//
-//            String queryString =  "SELECT * FROM "+DatabaseHelper.CHARACTERS_TABLE_NAME+
-//                    " WHERE "+DatabaseHelper.COL_CONTINENT+" LIKE "+continent+" AND "
-//                    +DatabaseHelper.COL_SEX+" LIKE "+sex+
-//                    " AND "+DatabaseHelper.COL_HOUSE+" LIKE "+house+";";
-//            Cursor cursor = cursorFromSearch().rawQuery(queryString, null);
-//            return cursor;
-//        }
-//    }
 
     /**
      * Custom cursor adapter for list view
@@ -193,7 +156,6 @@ public class SearchResultsActivity extends AppCompatActivity {
                 nameText.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_NAME)));
                 badassText.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_BADASS)));
                 int drawableID= getDrawableValue(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_HOUSE)));
-                //int drawableID= cursor.getColumnIndex(DatabaseHelper.COL_ICON_IMAGE);
                 iconImage.setBackgroundResource(drawableID);
             }
         };
@@ -239,7 +201,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent listItemIntent =  new Intent(SearchResultsActivity.this, CharacterActivity.class);
-                cursor.moveToPosition(((int) id-1));
+                cursor.moveToPosition(position);
                 listItemIntent.putExtra("id", cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
                 startActivity(listItemIntent);
             }
@@ -254,9 +216,10 @@ public class SearchResultsActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Cursor cursor = DatabaseHelper.getInstance(SearchResultsActivity.this).getCharacterByNameSearch(query);
+            cursor = DatabaseHelper.getInstance(SearchResultsActivity.this).getCharacterByNameSearch(query);
             cursorAdapterForSearchList.swapCursor(cursor);
             cursorAdapterForSearchList.notifyDataSetChanged();
+            setOnListItemClickListerners(searchResultsListView, cursor);
         }
     }
 

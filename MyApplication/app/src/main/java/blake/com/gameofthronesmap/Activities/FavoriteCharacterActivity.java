@@ -111,18 +111,24 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
         if(id >= 0){
             characterNameText = databaseHelper().getCharacterNameAndDescription(id)[0];
             TextView nameText = (TextView)findViewById(R.id.locationTitleTextFavorite);
-            nameText.setText(characterNameText);
+            if (!characterNameText.isEmpty()) {
+                nameText.setText(characterNameText);
+            }
             String characterDescriptionText = databaseHelper().getCharacterNameAndDescription(id)[1];
             TextView descriptionText = (TextView)findViewById(R.id.locationDescriptionFavorite);
-            descriptionText.setText(characterDescriptionText);
+            if (!characterDescriptionText.isEmpty()) {
+                descriptionText.setText(characterDescriptionText);
+            }
             int characterPicture = databaseHelper().getCharacterImage(id);
             ImageView characterImage = (ImageView)findViewById(R.id.imageViewLocationFavorite);
-            characterImage.setBackgroundResource(characterPicture);
+            if (characterPicture != -1) {
+                characterImage.setBackgroundResource(characterPicture);
+            }
         }
     }
 
     private void setIcon() {
-        final int id = getIntent().getIntExtra("id", -1);
+        final int id = getIntent().getIntExtra("idFavorite", -1);
         if(id >= 0) {
             boolean isLiked = databaseHelper().getCharacterIsLikedBoolean(id);
             if (isLiked) {

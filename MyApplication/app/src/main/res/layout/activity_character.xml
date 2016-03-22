@@ -21,13 +21,40 @@
         android:layout_marginBottom="8dp"
         android:layout_gravity="center_horizontal"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/likedImage"
-        android:layout_gravity="end"
-        android:src="@android:drawable/star_on"
-        android:visibility="invisible"/>
+        android:orientation="horizontal"
+        >
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:tint="@android:color/white"
+            android:src="@android:drawable/star_big_on"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:layout_alignParentBottom="true"
+            />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:id="@+id/likedImage"
+                android:layout_gravity="end"
+                android:src="@android:drawable/star_on"
+                android:visibility="invisible"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -50,9 +77,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/enterReviewButton"
-            android:layout_alignParentEnd="true"
+            android:text="ENTER REVIEW"
             android:layout_alignParentBottom="true"
-            android:text="ENTER REVIEW"/>
+            android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/reviewEditText"
@@ -67,17 +94,7 @@
         android:layout_above="@id/enterReviewButton"
         />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:tint="@android:color/white"
-            android:src="@android:drawable/star_big_on"
-            android:layout_marginLeft="@dimen/fab_margin"
-            android:layout_marginRight="@dimen/fab_margin"
-            android:layout_alignParentBottom="true"
-            />
+
 
     </RelativeLayout>
 

@@ -123,13 +123,19 @@ public class CharacterActivity extends AppCompatActivity {
         if (id >= 0) {
             characterNameText = databaseHelper().getCharacterNameAndDescription(id)[0];
             TextView nameText = (TextView) findViewById(R.id.locationTitleText);
-            nameText.setText(characterNameText);
+            if (!characterNameText.isEmpty()) {
+                nameText.setText(characterNameText);
+            }
             String characterDescriptionText = databaseHelper().getCharacterNameAndDescription(id)[1];
             TextView descriptionText = (TextView) findViewById(R.id.locationDescription);
-            descriptionText.setText(characterDescriptionText);
+            if (!characterDescriptionText.isEmpty()) {
+                descriptionText.setText(characterDescriptionText);
+            }
             int characterPicture = databaseHelper().getCharacterImage(id);
             ImageView characterImage = (ImageView) findViewById(R.id.imageViewLocation);
-            characterImage.setBackgroundResource(characterPicture);
+            if (characterPicture != -1) {
+                characterImage.setBackgroundResource(characterPicture);
+            }
         }
     }
 

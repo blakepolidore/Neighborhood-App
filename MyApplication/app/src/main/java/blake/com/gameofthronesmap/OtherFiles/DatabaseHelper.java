@@ -235,7 +235,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int colImage = cursor.getInt(cursor.getColumnIndex(COL_LARGE_IMAGE));
             return colImage;
         } else {
-            return 0;
+            return -1;
         }
     }
 
@@ -370,9 +370,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()){
             String colReview = cursor.getString(cursor.getColumnIndex(COL_REVIEWS));
+            cursor.close();
             return colReview;
         } else {
-            return null;
+            return "No Reviews Found";
         }
     }
 

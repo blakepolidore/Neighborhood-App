@@ -9,25 +9,36 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat" >
         <service android:name=".OtherFiles.SongService"/>
-        <activity android:name=".Activities.InfoActivity" />
-        <activity android:name=".Activities.CharacterActivity" />
-        <activity android:name=".Activities.SearchResultsActivity" android:launchMode="singleTop">
+        <activity android:name=".Activities.InfoActivity"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Activities.CharacterActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Activities.SearchResultsActivity"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
             </activity>
-        <activity android:name=".Activities.FavoritesListActivity" android:launchMode="singleTop">
+        <activity android:name=".Activities.FavoritesListActivity"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".Activities.FavoriteCharacterActivity"/>
-        <activity android:name=".Activities.ReviewActivity"/>
-        <activity android:name=".Activities.MainActivity" >
+        <activity android:name=".Activities.FavoriteCharacterActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Activities.ReviewActivity"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Activities.MainActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -188,7 +188,7 @@ public class FavoritesListActivity extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent listItemIntent = new Intent(FavoritesListActivity.this, FavoriteCharacterActivity.class);
-                cursor.moveToPosition(((int) id - 1));
+                cursor.moveToPosition(position);
                 listItemIntent.putExtra("idFavorite", cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
                 startActivity(listItemIntent);
             }
