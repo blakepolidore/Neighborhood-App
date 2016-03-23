@@ -19,6 +19,8 @@ import blake.com.gameofthronesmap.R;
 
 /**
  * Created by Raiders on 3/19/16.
+ * <h1>User Comments</h1>
+ * Shows the users comments and when the user made the comments for the selected character.
  */
 public class ReviewActivity extends AppCompatActivity {
 
@@ -33,7 +35,7 @@ public class ReviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reviews);
 
         instantiateItems();
-        musicState = MusicStateSingleton.getInstance();
+        musicState = MusicStateSingleton.getInstance(); //Creates instance of the music state
         reviewsArrayList = new ArrayList<>();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, reviewsArrayList);
         getCharacterReviews();
@@ -48,6 +50,11 @@ public class ReviewActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Creates menu bar for the activity
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -76,6 +83,10 @@ public class ReviewActivity extends AppCompatActivity {
         reviewTitleText = (TextView) findViewById(R.id.reviewTitleText);
     }
 
+    /**
+     * Creates instance of the databasehelper
+     * @return
+     */
     private DatabaseHelper databaseHelper() {
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(ReviewActivity.this);
         return databaseHelper;
@@ -88,11 +99,11 @@ public class ReviewActivity extends AppCompatActivity {
         final int id = getIntent().getIntExtra("id2", -1);
         if (id >= 0) {
             String userComments = databaseHelper().getUsersReview(id);
-            String[] arrayOfComments = userComments.split("aintNuthingButAGThang297");
+            String[] arrayOfComments = userComments.split("aintNuthingButAGThang297"); //Unique string to split user comments string by. The array holds all the user comments
             reviewTitleText.setText(databaseHelper().getCharacterNameAndDescription(id)[0]);
             if (userComments != null) {
                 for (int i = 0; i < arrayOfComments.length; i++) {
-                    reviewsArrayList.add(arrayOfComments[i]);
+                    reviewsArrayList.add(arrayOfComments[i]); //Puts all comments into the list to be displayed
                 }
             }
         }

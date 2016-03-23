@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        musicState = MusicStateSingleton.getInstance();
-        startService(new Intent(this, SongService.class));
+        musicState = MusicStateSingleton.getInstance(); //Creates instance of music state in this class
+        startService(new Intent(this, SongService.class)); //Starts the music when the app starts
         intstantiateItems();
         fillSpinners();
         createSQLiteDatabaseHelper();
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor mcursor = db.rawQuery(count, null);
         mcursor.moveToFirst();
         int icount = mcursor.getInt(0);
-        if(icount<=0) {
+        if(icount<=0) { //If statement ensures the database is created once. It is created when the user first turns on the app
             databaseHelper.insert("Jon Snow", "Male", "Westeros", "Stark", getString(R.string.jonSnow), false, R.drawable.jon_snow, "Brooding Badass", "");
             databaseHelper.insert("Arya Stark", "Female", "Essos", "Stark", getString(R.string.aryaStark), false, R.drawable.arya, "Badass with a needle", "");
             databaseHelper.insert("Daenerys Targaryen", "Female", "Essos", "Targaryen", getString(R.string.danyTargaryen), false, R.drawable.daenerys, "Badass with Dragons", "");

@@ -3,7 +3,7 @@ package blake.com.gameofthronesmap.otherFiles;
 /**
  * Created by Raiders on 3/14/16.
  * <h1>Game of Thrones Characters</h1>
- * Creates the data necessary for each character in the database.
+ * Default character object that gets put into the database.
  *@author Blake Polidore
  * @version 1.0
  * @since 2016-03-20

@@ -35,7 +35,7 @@ public class SongService extends Service {
     }
 
     /**
-     * Stops the song when called and changes the boolean to false.
+     * Stops the song when called and changes the music state boolean to false.
      * The boolean notifies the activities if the song is playing or not.
      */
     @Override
@@ -47,7 +47,7 @@ public class SongService extends Service {
     }
 
     /**
-     * Starts the song.
+     * Starts the song. Changes the music state boolean
      * @param intent
      * @param flags
      * @param startId

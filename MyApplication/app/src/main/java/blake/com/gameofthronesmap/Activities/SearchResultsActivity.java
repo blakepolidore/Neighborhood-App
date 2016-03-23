@@ -26,7 +26,7 @@ import blake.com.gameofthronesmap.otherFiles.SongService;
 /**
  * Created by Raiders on 3/12/16.
  * <h1>Search Results</h1>
- * Shows the results of the user's search
+ * Shows the results of the user's search in a list view
  */
 public class SearchResultsActivity extends AppCompatActivity {
 
@@ -50,11 +50,12 @@ public class SearchResultsActivity extends AppCompatActivity {
         getMainActivityIntent();
         getDatabaseHelper();
         handleIntent(getIntent());
-        musicState = MusicStateSingleton.getInstance();
+        musicState = MusicStateSingleton.getInstance(); //Creates music state instance
     }
 
     /**
      * Creates menu at the top
+     * Search lines allow user to search for characters by name
      * @param menu
      * @return
      */

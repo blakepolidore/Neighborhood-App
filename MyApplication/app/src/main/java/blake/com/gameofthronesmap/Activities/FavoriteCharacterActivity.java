@@ -21,6 +21,7 @@ import blake.com.gameofthronesmap.R;
  * Created by Raiders on 3/18/16.
  * <h1>Favorite Character Page</h1>
  * Same as Character Activity but without ability to favorite the character since it has already been favorited.
+ * Shows character details drawn from the database.
  */
 public class FavoriteCharacterActivity extends AppCompatActivity {
 
@@ -38,7 +39,7 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_character);
 
-        musicState = MusicStateSingleton.getInstance();
+        musicState = MusicStateSingleton.getInstance(); //Creates instance of the music state in this activity
         instantiateItems();
         getCharacterDetails();
         setIcon();
@@ -104,7 +105,7 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
     }
 
     /**
-     * Gets character details and shows them in the activity
+     * Gets character details from database and shows them in the activity
      */
     private void getCharacterDetails() {
         int id = getIntent().getIntExtra("idFavorite", -1);
@@ -127,6 +128,9 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Shows the favorited icon if the character is favorited
+     */
     private void setIcon() {
         final int id = getIntent().getIntExtra("idFavorite", -1);
         if(id >= 0) {

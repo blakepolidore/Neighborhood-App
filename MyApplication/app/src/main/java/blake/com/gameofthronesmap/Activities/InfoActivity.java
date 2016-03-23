@@ -25,7 +25,7 @@ public class InfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_screen);
 
-        musicState = MusicStateSingleton.getInstance();
+        musicState = MusicStateSingleton.getInstance(); //Creates music state instance in this class
     }
 
     /**

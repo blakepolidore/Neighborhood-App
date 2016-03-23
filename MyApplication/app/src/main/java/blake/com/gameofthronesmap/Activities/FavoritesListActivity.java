@@ -42,7 +42,7 @@ public class FavoritesListActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_list);
 
-        musicState = MusicStateSingleton.getInstance();
+        musicState = MusicStateSingleton.getInstance(); // Creates music state instance in this class
         instantiateItems();
         createCursorAdapterForSearchList(cursorForFavorites());
         setOnListItemClickListerners(searchResultsListView, cursorForFavorites());
@@ -135,6 +135,10 @@ public class FavoritesListActivity extends AppCompatActivity{
 //        return cursor;
 //    }
 
+    /**
+     * Creates database helper instance for this class
+     * @return
+     */
     private Cursor cursorForFavorites() {
         cursor = getDatabaseHelperForFavorites().getFavoriteCharacterCursor();
         return cursor;
@@ -194,7 +198,7 @@ public class FavoritesListActivity extends AppCompatActivity{
     }
 
     /**
-     * Allows user to click on character and go to the characters page with more descriptions
+     * Allows user to click on character and go to the characters page with the character details from the database
      * @param listView
      * @param cursor
      */

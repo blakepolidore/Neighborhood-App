@@ -26,6 +26,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "characters.db";
     public static final String CHARACTERS_TABLE_NAME = "characters";
+    /*
+    Columns for the database
+     */
     public static final String COL_ID = "_id";
     public static final String COL_NAME = "name";
     public static final String COL_SEX = "sex";
@@ -36,6 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_BADASS = "badAss";
     public static final String COL_LARGE_IMAGE = "largeImage";
     public static final String COL_REVIEWS = "characterReview";
+
     public static final String SQL_CREATE_CHARACTERS_TABLE = "CREATE TABLE IF NOT EXISTS " + CHARACTERS_TABLE_NAME +
             "(" +
             COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -109,7 +113,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Method to favorite a character and change it in the database.
+     * Method to favorite a character and change the isLiked boolean in the database.
      * @param id
      */
     public void changeIsLikedColumn(int id) {
@@ -138,7 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     *
+     *Get the isLiked boolean for a character
      * @param id
      * @return returns the boolean whether or not the character has been liked
      */
@@ -186,9 +190,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Method gives character details to put on individual character page.
+     * Method gives character name and description strings to put on individual character page.
      * @param id
-     * @return Character name and description
+     * @return Character name and description strings in an array of strings.
      */
     public String[] getCharacterNameAndDescription(int id){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -262,8 +266,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     /**
-     * Allows user to search database for character by name
-     * @param query
+     * Allows user to search for favorited characters
      * @return cursor for search
      */
     public Cursor getFavoriteCharacterCursor(){
@@ -400,7 +403,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Creates a timestamp. This gets put in the comments section.
+     * Creates a timestamp (only date). This gets put in the comments section.
      * @return
      */
     public String getDateTime() {

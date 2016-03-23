@@ -50,7 +50,7 @@ public class CharacterActivity extends AppCompatActivity {
         setIcon();
         setIsLikedButton();
         setReviewButton();
-        musicState = MusicStateSingleton.getInstance();
+        musicState = MusicStateSingleton.getInstance(); //Creates instance of the music state
     }
 
     /**
@@ -116,7 +116,7 @@ public class CharacterActivity extends AppCompatActivity {
     }
 
     /**
-     * Gets character details and name and shows them in the activity
+     * Gets character details and name from the database and shows them in the activity
      */
     private void getCharacterDetails() {
         int id = getIntent().getIntExtra("id", -1);
@@ -171,7 +171,7 @@ public class CharacterActivity extends AppCompatActivity {
                         Toast.makeText(CharacterActivity.this, characterLiked, Toast.LENGTH_SHORT).show();
                         likedIcon.setVisibility(View.VISIBLE);
                     } else {
-                        characterLiked = "You don't like " + characterNameText + " anymore";
+                        characterLiked = characterNameText + " is now swine to you!";
                         Toast.makeText(CharacterActivity.this, characterLiked, Toast.LENGTH_SHORT).show();
                         likedIcon.setVisibility(View.INVISIBLE);
                     }
@@ -180,6 +180,10 @@ public class CharacterActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Gets the users comments from the edit text and puts them in a string.
+     * @return
+     */
     private String userComment() {
         String inputText = reviewEditText.getText().toString();
         return inputText;
