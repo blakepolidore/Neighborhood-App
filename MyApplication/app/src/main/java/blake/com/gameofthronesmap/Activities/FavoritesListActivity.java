@@ -35,6 +35,7 @@ public class FavoritesListActivity extends AppCompatActivity{
     ListView searchResultsListView;
     private CursorAdapter cursorAdapterForSearchList;
     MusicStateSingleton musicState;
+    Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +104,8 @@ public class FavoritesListActivity extends AppCompatActivity{
     }
 
     /**
-     * Creates database instance in this class
+     * Creates database instance in this class. This is for making a raw query.
+     * Raw query is not used in this version but I wanted to remember how to do this.
      * @return
      */
     private SQLiteDatabase getDatabaseForFavorites() {
@@ -113,13 +115,28 @@ public class FavoritesListActivity extends AppCompatActivity{
     }
 
     /**
-     * Creates cursor for searching for favorited characters
+     * Creates instance of the database helper in this activity
      * @return
      */
+    private DatabaseHelper getDatabaseHelperForFavorites() {
+        DatabaseHelper dbHelper = DatabaseHelper.getInstance(FavoritesListActivity.this);
+        return dbHelper;
+    }
+
+    /**
+     * Creates cursor for searching for favorited characters
+     * This is the raw query I wanted to know how to do.
+     * @return
+     */
+//    private Cursor cursorForFavorites() {
+//        String queryString =  "SELECT * FROM "+DatabaseHelper.CHARACTERS_TABLE_NAME+
+//                " WHERE "+DatabaseHelper.COL_ISLIKED+" LIKE "+1+";";
+//        cursor = getDatabaseForFavorites().rawQuery(queryString, null);
+//        return cursor;
+//    }
+
     private Cursor cursorForFavorites() {
-        String queryString =  "SELECT * FROM "+DatabaseHelper.CHARACTERS_TABLE_NAME+
-                " WHERE "+DatabaseHelper.COL_ISLIKED+" LIKE "+1+";";
-        Cursor cursor = getDatabaseForFavorites().rawQuery(queryString, null);
+        cursor = getDatabaseHelperForFavorites().getFavoriteCharacterCursor();
         return cursor;
     }
 
@@ -143,7 +160,6 @@ public class FavoritesListActivity extends AppCompatActivity{
                 nameText.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_NAME)));
                 badassText.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_BADASS)));
                 int drawableID= getDrawableValue(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_HOUSE)));
-                //int drawableID= cursor.getColumnIndex(DatabaseHelper.COL_ICON_IMAGE);
                 iconImage.setBackgroundResource(drawableID);
             }
         };
@@ -156,7 +172,6 @@ public class FavoritesListActivity extends AppCompatActivity{
      * @param house
      * @return
      */
-    //MAKE BETTER PICTURES, EXACT SQUARES!!!!
     private int getDrawableValue(String house){
         switch(house){
             case "Targaryen":
@@ -202,7 +217,7 @@ public class FavoritesListActivity extends AppCompatActivity{
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Cursor cursor = DatabaseHelper.getInstance(FavoritesListActivity.this).getCharactersBySearchOfFavorites(query);
+            cursor = getDatabaseHelperForFavorites().getCharactersBySearchOfFavorites(query);
             cursorAdapterForSearchList.swapCursor(cursor);
             cursorAdapterForSearchList.notifyDataSetChanged();
         }

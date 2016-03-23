@@ -260,6 +260,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+
+    /**
+     * Allows user to search database for character by name
+     * @param query
+     * @return cursor for search
+     */
+    public Cursor getFavoriteCharacterCursor(){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(CHARACTERS_TABLE_NAME, // a. table
+                GOT_COLUMNS, // b. column names
+                COL_ISLIKED + " = " + 1, // c. selections
+                null, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+
+        return cursor;
+    }
+
     /**
      * Allows user to search database for character by name but only for characters that have been favorited
      * @param query

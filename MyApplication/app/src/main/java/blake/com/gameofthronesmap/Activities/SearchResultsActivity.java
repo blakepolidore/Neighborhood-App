@@ -167,7 +167,6 @@ public class SearchResultsActivity extends AppCompatActivity {
      * @param house
      * @return
      */
-//MAKE BETTER PICTURES, EXACT SQUARES!!!!
     private int getDrawableValue(String house){
         switch(house){
             case "Targaryen":
@@ -218,7 +217,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            cursor = DatabaseHelper.getInstance(SearchResultsActivity.this).getCharacterByNameSearch(query);
+            cursor = getDatabaseHelper().getCharacterByNameSearch(query);
             cursorAdapterForSearchList.swapCursor(cursor);
             cursorAdapterForSearchList.notifyDataSetChanged();
             setOnListItemClickListerners(searchResultsListView, cursor);
