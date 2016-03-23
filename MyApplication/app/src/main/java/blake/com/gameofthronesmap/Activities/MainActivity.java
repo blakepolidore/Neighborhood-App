@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             databaseHelper.insert("Jorah Mormont", "Male", "Essos", "Mormont", getString(R.string.jorahMormont), false, R.drawable.jorah, "Badass Voice", "");
             databaseHelper.insert("Tyrion Lannister", "Male", "Essos", "Lannister", getString(R.string.tyrionLannister), false, R.drawable.tyrion_crossbow, "Mega Badass", "");
             databaseHelper.insert("Petyr Baelish", "Male", "Westeros", "None", getString(R.string.petyrBaelish), false, R.drawable.baelish, "Sneaky Badass", "");
-            databaseHelper.insert("Lord Varys", "Male", "Essos", "None", getString(R.string.varys), false, R.drawable.varys, "Unich Badass", "");
+            databaseHelper.insert("Lord Varys", "Male", "Essos", "None", getString(R.string.varys), false, R.drawable.varys, "Eunuch Badass", "");
             databaseHelper.insert("Jeor Mormont", "Male", "Westeros", "Mormont", getString(R.string.jeorMormont), false, R.drawable.jeor, "Badass-ish", "");
             databaseHelper.insert("Doran Martell", "Male", "Westeros", "Martell", getString(R.string.doranMartell), false, R.drawable.doran, "Ehh", "");
             databaseHelper.insert("Aegon Targaryen", "Male", "Westeros", "Targaryen", getString(R.string.aegonTargaryen), false, R.drawable.aegon, "Original Badass", "");
