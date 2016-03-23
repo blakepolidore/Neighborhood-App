@@ -1,4 +1,4 @@
-package blake.com.gameofthronesmap.Activities;
+package blake.com.gameofthronesmap.activities;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,9 +14,9 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
-import blake.com.gameofthronesmap.OtherFiles.MusicStateSingleton;
-import blake.com.gameofthronesmap.OtherFiles.SongService;
+import blake.com.gameofthronesmap.otherFiles.DatabaseHelper;
+import blake.com.gameofthronesmap.otherFiles.MusicStateSingleton;
+import blake.com.gameofthronesmap.otherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
 /**
@@ -157,6 +157,17 @@ public class MainActivity extends AppCompatActivity {
             databaseHelper.insert("Margaery Tyrell", "Female", "Westeros", "Tyrell", getString(R.string.margaery), false, R.drawable.margaery, "Badass Queen", "");
             databaseHelper.insert("Loras Tyrell", "Male", "Westeros", "Tyrell", getString(R.string.loras), false, R.drawable.loras, "Flowery Badass", "");
             databaseHelper.insert("Stannis Baratheon", "Male", "Westeros", "Baratheon", getString(R.string.stannis), false, R.drawable.stannis, "Stern Badass", "");
+            databaseHelper.insert("Sansa Stark", "Female", "Westeros", "Stark", getString(R.string.sansa), false, R.drawable.sansa, "Unfortunate Badass", "");
+            databaseHelper.insert("Ramsay Snow/Bolton", "Male", "Westeros", "Bolton", getString(R.string.ramsay), false, R.drawable.ramsay, "Pure Evil", "");
+            databaseHelper.insert("Roose Bolton", "Male", "Westeros", "Bolton", getString(R.string.roose), false, R.drawable.roose, "Backstabber", "");
+            databaseHelper.insert("Davos Seaworth", "Male", "Westeros", "None", getString(R.string.davos), false, R.drawable.davos, "Captain Badass", "");
+            databaseHelper.insert("Robb Stark", "Male", "Westeros", "Stark", getString(R.string.robb), false, R.drawable.robb, "Northern Badass", "");
+            databaseHelper.insert("Bronn", "Male", "Westeros", "None", getString(R.string.bronn), false, R.drawable.bronn, "Sellsword Badass", "");
+            databaseHelper.insert("Briene of Tarth", "Female", "Westeros", "None", getString(R.string.brienne), false, R.drawable.brienne, "Badass Knight", "");
+            databaseHelper.insert("Hodor", "Male", "Westeros", "Stark", getString(R.string.hodor), false, R.drawable.hodor, "Badass Hodor", "");
+            databaseHelper.insert("Khal Drogo", "Male", "Essos", "None", getString(R.string.khal), false, R.drawable.khal, "Badass Horselord", "");
+            databaseHelper.insert("Olenna Tyrell", "Female", "Westeros", "Tyrell", getString(R.string.olenna), false, R.drawable.olenna, "Badass Grandma", "");
+            databaseHelper.insert("Tommen Baratheon", "Male", "Westeros", "Baratheon", getString(R.string.tommen), false, R.drawable.tommen, "Chode", "");
         }
     }
 

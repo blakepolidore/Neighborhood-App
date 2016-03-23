@@ -1,4 +1,4 @@
-package blake.com.gameofthronesmap.Activities;
+package blake.com.gameofthronesmap.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import blake.com.gameofthronesmap.OtherFiles.DatabaseHelper;
-import blake.com.gameofthronesmap.OtherFiles.MusicStateSingleton;
-import blake.com.gameofthronesmap.OtherFiles.SongService;
+import blake.com.gameofthronesmap.otherFiles.DatabaseHelper;
+import blake.com.gameofthronesmap.otherFiles.MusicStateSingleton;
+import blake.com.gameofthronesmap.otherFiles.SongService;
 import blake.com.gameofthronesmap.R;
 
 /**

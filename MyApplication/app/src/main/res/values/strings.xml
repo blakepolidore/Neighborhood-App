@@ -1,27 +1,27 @@
 <resources>
-    <string name="app_name">GameOfThronesMap</string>
+    <string name="app_name">Game Of Thrones</string>
     <string name="Search">Search</string>
     <string name="searchResults">Search Results</string>
     <string name="infoString">Search fo characters by continent, gender and house. Choose zero, one, two, or three search criteria. To search by the character by name, click on the search method in the menu bar. Click on the results to learn more about the character.
     To start and pause the music, click on the music icon.
     To store a character into favorites, click the floating action button at the bottom of the screen. To leave a comment on the character, enter it into the edit text and press submit.</string>
-    <string name="jonSnow">Bastard of Winterfell. Lord Commander of the Night\'s Watch. Courageous and loyal to a fault. Leader of men. Great Fighter. </string>
-    <string name="aryaStark">Not to be underestimated. Daft and light on her feet. Trained killer out for revenge.</string>
+    <string name="jonSnow">Bastard of Winterfell. Lord Commander of the Night\'s Watch. Courageous and loyal to a fault. Leader of men. Great Fighter. He knows nothing.</string>
+    <string name="aryaStark">Not to be underestimated. Daft and light on her feet. Trained killer out for revenge. A girl must know her place.</string>
     <string name="danyTargaryen">Mother of Dragons. Fighting to get back to Westeros to regain the crown for the Targaryens. Married Khal Drogo. We\'re waiting for her to do something badass with her dragons.</string>
     <string name="jaimeLannister">Kingslayer. Killed King Aerys Targaryen to end the reign of the Targaryens. Member of the Kingsguard. Brother of Cersei Lannister. A true tale of redemption.</string>
     <string name="cerseiLannister">Queen regent. Mother to King\'s Joffery and Tommen. She\'s loyal to her house and will do nothing to secure it\'s success. A real beezy. Shwerd and manipulative are her best qualities.</string>
-    <string name="oberynMartell">Best damn character on the show. Awesome with a spear. Wants to know who killed his sister. Not a fan of the Lannisters. Suffers from massive headaches.</string>
+    <string name="oberynMartell">The VIPER!! Best damn character on the show. Awesome with a spear. Wants to know who killed his sister. Not a fan of the Lannisters. Suffers from massive headaches.</string>
     <string name="jofferyBaratheon">King of the Andals. Protector of the realms of man and a little bitch. Seriously may be the most disliked person in literary and television history.</string>
     <string name="robertBaratheon">Rose up in rebellion and secured the iron throne. Husband to Cersei. A drunk and an all around great ruler.</string>
     <string name="jorahMormont">Sir Friendzone. Loyal to Daenerys Targaryen and banned from the seven kingdoms. Best voice in all the world.</string>
-    <string name="tyrionLannister">Cunning and wise. The only Lannister worth a damn. Don\'t let his height full you. If he dies this show might as well end.</string>
-    <string name="petyrBaelish">Kniving, and cunning. His motives are never known. Never to be trusted. Rose to power from nothing. He would watch the world burn if he could be king of the ashes.</string>
+    <string name="tyrionLannister">Also known as the Imp and the Halfman. Cunning and wise. The only Lannister worth a damn kinda. I do enjoy Jaime now. Don\'t let his height full you. If he dies this show might as well end.</string>
+    <string name="petyrBaelish">Also known as Littlefinger. Kniving, and cunning. His motives are never known. Never to be trusted. Rose to power from nothing. He would watch the world burn if he could be king of the ashes.</string>
     <string name="varys">Sneaky unich from essos. Master of whispers, he knows all that happens in the kingdom. His allegiances are to Westeros. His little birds are everywhere.</string>
     <string name="jeorMormont">Commander of the Night\'s Watch. Father to Jorah. Gave Jon Snow his Valyrian Steel blade.</string>
     <string name="doranMartell">Lord of Dorne. A cripple. A man with a plan to be revealed soon.</string>
-    <string name="aegonTargaryen">Conquered the seven kingdoms with his dragons. Last of the great Valyrian Empire. He created the kingdom of Westeros we know today.</string>
-    <string name="eddardStark">Loyal man, Warden of the North, and Lord of Winterfell. Robert Baratheon\'s righthand man in his rebellion. Winter is coming.</string>
-    <string name="melissandre">Red Woman. Priestess for the Lord of Light. Believees Stannis Baratheon is the reincarnated Azor Ahai.</string>
+    <string name="aegonTargaryen">Aegon the Conqueror. First of his name. Conquered the seven kingdoms with his dragons. Last of the great Valyrian Empire. He created the kingdom of Westeros we know today.</string>
+    <string name="eddardStark">Goes by Ned. Loyal man, Warden of the North, and Lord of Winterfell. Robert Baratheon\'s righthand man in his rebellion. Winter is coming.</string>
+    <string name="melissandre">The Red Woman. Priestess for the Lord of Light. Believees Stannis Baratheon is the reincarnated Azor Ahai.</string>
     <string name="branStark">Crippled who can see visions. Son of Eddard Stark. Hopefully his role get more interesting.</string>
     <string name="tywinLannister">Warden of the East and Lord of Casterly Rock. One of the richest and most powerful lords in all the kingdoms. Not a man to be messed with.</string>
     <string name="viserysTargaryen">"Rightful" heir to the Iron Throne. Tries to gain an army to take back his throne. Brother to Daenerys. He\'s a large douche.</string>
@@ -31,6 +31,17 @@
     <string name="margaery">Desperately wants to queen. She will marry anyone in order to secure that. Well versed in the Game of Thrones.</string>
     <string name="loras">Member of the Kingsguard, a gifted knight and jouster. He likes dudes.</string>
     <string name="stannis">Younger brother to Robert. Father of the year candidate. Entitled to the throne in his opinion. Believer in the Lord of Light.</string>
+    <string name="sansa">Eldest daughter of Eddard Stark. One of the most unfortunate characters in the books or show. Her storyline just gets worse and worse. It says something that she downgraded from Joffery.</string>
+    <string name="ramsay">The scariest character in the world quite possibly. He will torture you in the worst possible ways and laugh as he does it. Seriously that sausage scene.</string>
+    <string name="roose">Lord of the dreadfort, sigil is the flayed man. Quiet and meticulous. His motives are to secure more power to House Bolton. He will send your regards.</string>
+    <string name="davos">The Onion Pirate. Raised up to a Lord by Stannis Baratheon. A man that will fight for what he believes in. Truly underrated character.</string>
+    <string name="robb">King of the North! Eldest son of Eddard Stark. Events thrust him into a leadership position. Great general. Married for Love, which is dumb.</string>
+    <string name="bronn">The coolest sellsword in Westeros. He\'s a skilled fighter and is loyal to whichever Lannister will pay him the most.</string>
+    <string name="brienne">Lady Brienne is not much a lady. One of the greatest fighters in Westeros but never gets her credit. Her Valyrian Steel blade is name Oathkeeper.</string>
+    <string name="hodor">Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor Hodor</string>
+    <string name="khal">My moon and stars. This dude is awesome. Khal to one of the largest khalsars in all the world. Feared fighter. Married Daenerys. Only two dudes in the world can rock I makeup. He\'s on of them.</string>
+    <string name="olenna">The Queen of Thorns. Her name is apt. She is the true power in Highgarden. She always find a way to get things done that benefit her family.</string>
+    <string name="tommen">Younger brother to Joffery. Nothing like his brother. A kind, warm hearted boy. However I really don\'t care anything about him.</string>
     <string-array name="continent">
         <item>No Selection</item>
         <item>Westeros</item>
@@ -50,6 +61,7 @@
         <item>Baratheon</item>
         <item>Lannister</item>
         <item>Tyrell</item>
+        <item>Bolton</item>
         <item>None</item>
     </string-array>
 </resources>

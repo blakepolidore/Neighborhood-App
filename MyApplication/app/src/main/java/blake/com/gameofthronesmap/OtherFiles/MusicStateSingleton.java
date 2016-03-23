@@ -1,4 +1,4 @@
-package blake.com.gameofthronesmap.OtherFiles;
+package blake.com.gameofthronesmap.otherFiles;
 
 /**
  * Created by Raiders on 3/22/16.

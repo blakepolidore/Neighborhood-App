@@ -1,4 +1,4 @@
-package blake.com.gameofthronesmap.OtherFiles;
+package blake.com.gameofthronesmap.otherFiles;
 
 import android.app.Service;
 import android.content.Intent;
