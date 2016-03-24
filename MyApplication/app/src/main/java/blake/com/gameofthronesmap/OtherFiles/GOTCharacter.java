@@ -49,6 +49,9 @@ public class GOTCharacter {
         this.characterReviews = characterReviews;
     }
 
+    public GOTCharacter() {
+    }
+
     public String getName() {
         return name;
     }
