@@ -27,13 +27,17 @@ import blake.com.gameofthronesmap.otherFiles.SongService;
  * Created by Raiders on 3/12/16.
  * <h1>Search Results</h1>
  * Shows the results of the user's search in a list view
+ * User can select a character in the list by clicking on the row.
+ * The user will be sent to this character's activity
  */
 public class SearchResultsActivity extends AppCompatActivity {
 
+    //region Public Keys For Intents
     public static final String CONTINENT_KEY = "CONTINENT";
     public static final String SEX_KEY = "SEX";
     public static final String HOUSE_KEY = "HOUSE";
     public static final String ID_INTENT_KEY = "id";
+    //endregion Public Keys For Intents
 
     //region private variables
     private ListView searchResultsListView;
@@ -50,6 +54,8 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         instantiateItems();
         getMainActivityIntent();
+        createCursorAndPutInCursorAdapter();
+        setOnListItemClickListerners(searchResultsListView, cursor); //Set on item click listener for each character
         getDatabaseHelper();
         handleIntent(getIntent());
         musicState = MusicStateSingleton.getInstance(); //Creates music state instance
@@ -114,7 +120,8 @@ public class SearchResultsActivity extends AppCompatActivity {
     }
 
     /**
-     * Gets the intent from the main activity. Cursor searches the database with the criteria from the main activity.
+     * Gets the intent from the main activity.
+     * The intent includes the three search criteria strings
      */
     private void getMainActivityIntent() {
         Intent intent = getIntent();
@@ -122,11 +129,17 @@ public class SearchResultsActivity extends AppCompatActivity {
             characterContinent = intent.getExtras().getString(CONTINENT_KEY);
             characterSex = intent.getExtras().getString(SEX_KEY);
             characterHouse = intent.getExtras().getString(HOUSE_KEY);
-
-            cursor = getDatabaseHelper().searchCriteriaCursor(characterContinent, characterSex, characterHouse); //Creates cursor from selection criteria
-            createCursorAdapterForSearchList(cursor); //Puts cursor in custom cursor adapter
-            setOnListItemClickListerners(searchResultsListView, cursor); //Set on item click listener for each character
         }
+    }
+
+    /**
+     * Cursor searches the database with the criteria from the main activity.
+     * The cursor is put into the cursor adapter
+     */
+    private void createCursorAndPutInCursorAdapter() {
+        cursor = getDatabaseHelper().searchCriteriaCursor(characterContinent, characterSex, characterHouse); //Creates cursor from selection criteria
+        createCursorAdapterForSearchList(cursor); //Puts cursor in custom cursor adapter
+
     }
 
     /**
@@ -139,7 +152,8 @@ public class SearchResultsActivity extends AppCompatActivity {
     }
 
     /**
-     * Custom cursor adapter for list view
+     * Custom cursor adapter for list view.
+     * Takes in cursor and sets the appropriate fields in the list based off the cursor
      * @param cursor
      */
     private void createCursorAdapterForSearchList(Cursor cursor) {
@@ -195,7 +209,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     }
 
     /**
-     * Allows user to click on character and go to the characters page with more descriptions
+     * Allows user to click on character and go to the CharacterActivity
      * @param listView
      * @param cursor
      */
@@ -222,7 +236,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             cursor = getDatabaseHelper().getCharacterByNameSearch(query);
             cursorAdapterForSearchList.swapCursor(cursor);
             cursorAdapterForSearchList.notifyDataSetChanged();
-            setOnListItemClickListerners(searchResultsListView, cursor);
+            setOnListItemClickListerners(searchResultsListView, cursor); //Resets the updated cursor so correct character activity appears when clicked
         }
     }
 

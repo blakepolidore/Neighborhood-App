@@ -22,12 +22,14 @@ import blake.com.gameofthronesmap.R;
  * <h1>User Comments</h1>
  * Shows the users comments and when the user made the comments for the selected character.
  */
-public class ReviewActivity extends AppCompatActivity {
+public class UsersCommentsActivity extends AppCompatActivity {
 
+    //region Private Variables
     private TextView reviewTitleText;
     private ListView reviewListView;
     private ArrayList<String> reviewsArrayList;
     private MusicStateSingleton musicState;
+    //endregion Private Variables
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +90,12 @@ public class ReviewActivity extends AppCompatActivity {
      * @return
      */
     private DatabaseHelper databaseHelper() {
-        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(ReviewActivity.this);
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(UsersCommentsActivity.this);
         return databaseHelper;
     }
 
     /**
-     * Gets the reviews left by users of the characters and displays them
+     * Gets the comments left by users of the characters and displays them
      */
     private void getCharacterReviews() {
         final int id = getIntent().getIntExtra(CharacterActivity.USER_COMMENT_ID_KEY, -1);

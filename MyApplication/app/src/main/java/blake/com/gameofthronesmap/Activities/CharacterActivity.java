@@ -32,15 +32,17 @@ public class CharacterActivity extends AppCompatActivity {
 
     public static final String USER_COMMENT_ID_KEY = "userCommentID";
 
-    TextView locationTitleText;
-    TextView locationDescription;
-    ImageView locationImage;
-    EditText reviewEditText;
-    String characterNameText;
-    FloatingActionButton isLikedButton;
-    Button reviewButton;
-    ImageView likedIcon;
-    MusicStateSingleton musicState;
+    //region Private Variables
+    private TextView locationTitleText;
+    private TextView locationDescription;
+    private ImageView locationImage;
+    private EditText reviewEditText;
+    private String characterNameText;
+    private FloatingActionButton isLikedButton;
+    private Button reviewButton;
+    private ImageView likedIcon;
+    private MusicStateSingleton musicState;
+    //endregion Private Variables
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +120,7 @@ public class CharacterActivity extends AppCompatActivity {
     }
 
     /**
+     * Grabs the id of which character to show from the previous intent
      * Gets character details and name from the database and shows them in the activity
      */
     private void getCharacterDetails() {
@@ -143,6 +146,7 @@ public class CharacterActivity extends AppCompatActivity {
 
     /**
      * Shows the favorited icon if the character is favorited
+     * The icon is invisible if the character is not favorited
      */
     private void setIcon() {
         final int id = getIntent().getIntExtra("id", -1);
@@ -157,7 +161,8 @@ public class CharacterActivity extends AppCompatActivity {
     }
 
     /**
-     * Allows you to click on the fab and like or unlike a character. Liking a character stores them in your favorites
+     * Allows the user to click on the fab and like or unlike a character.
+     * If a character is liked or favorited, the character will appear in the FavoritesListActivity
      */
     private void setIsLikedButton() {
         final int id = getIntent().getIntExtra(SearchResultsActivity.ID_INTENT_KEY, -1);
@@ -192,7 +197,8 @@ public class CharacterActivity extends AppCompatActivity {
     }
 
     /**
-     * Grabs the comments left by a user and adds them to the database. Then sends the user to the ReviewActivity
+     * Grabs the comments left by a user and adds them to the database.
+     * Then sends the user to the UsersCommentsActivity
      */
     private void setReviewButton() {
         final int id = getIntent().getIntExtra(SearchResultsActivity.ID_INTENT_KEY, -1);
@@ -203,7 +209,7 @@ public class CharacterActivity extends AppCompatActivity {
                     if (!(userComment().isEmpty())) {
                         databaseHelper().addReviewOfCharacter(id, userComment());
                     }
-                    Intent goToReviewActivityIntent = new Intent(CharacterActivity.this, ReviewActivity.class);
+                    Intent goToReviewActivityIntent = new Intent(CharacterActivity.this, UsersCommentsActivity.class);
                     goToReviewActivityIntent.putExtra(USER_COMMENT_ID_KEY, id);
                     startActivity(goToReviewActivityIntent);
                 }

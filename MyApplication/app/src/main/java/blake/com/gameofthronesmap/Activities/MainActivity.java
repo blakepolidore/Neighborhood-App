@@ -37,11 +37,13 @@ import blake.com.gameofthronesmap.otherFiles.SongService;
 
 public class MainActivity extends AppCompatActivity {
 
+    //region variables
     private Button searchButton;
     private Spinner continentSpinner;
     private Spinner sexSpinner;
     private Spinner houseSpinner;
     private MusicStateSingleton musicState;
+    //endregion variables
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
         musicState = MusicStateSingleton.getInstance(); //Creates instance of music state in this class
         startService(new Intent(this, SongService.class)); //Starts the music when the app starts
         intstantiateItems();
-        fillSpinners();
-        createSQLiteDatabaseHelper();
-        toSearchResults();
+        setSearchCriteriaSpinners();
+        createDatabaseOfGOTCharacters();
+        toSearchResultsActivityWithSearchResultsIntent();
 
     }
 
@@ -105,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Fills the search spinners with the appropriate search criteria options.
+     * Creates the spinners for the search criteria and fills them with the appropriate search criteria
      */
-    private void fillSpinners() {
+    private void setSearchCriteriaSpinners() {
         ArrayAdapter<CharSequence> adapterContinent = ArrayAdapter.createFromResource(this,
                 R.array.continent, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> adapterSex = ArrayAdapter.createFromResource(this,
@@ -129,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
      * Grabs the character array list from the GOT Characters Manager and places them in the database.
      * The database is only created once
      */
-    private void createSQLiteDatabaseHelper() {
+    private void createDatabaseOfGOTCharacters() {
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(MainActivity.this);
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         String count = "SELECT count(*) FROM " + DatabaseHelper.CHARACTERS_TABLE_NAME;
@@ -139,15 +141,25 @@ public class MainActivity extends AppCompatActivity {
         if(icount<=0) { //If statement ensures the database is created once. It is created when the user first turns on the app
             ArrayList<GOTCharacter> gotCharacters = GOTCharactersManager.getGOTCharacters(this);
             for (GOTCharacter character : gotCharacters){
-                databaseHelper.insert(character.getName(), character.getSex(), character.getContinent(), character.getHouse(), character.getDescription(), character.getIsLiked(), character.getLargeImage(), character.getBadAss(), character.getCharacterReviews());
+                databaseHelper.insert(
+                        character.getName(),
+                        character.getSex(),
+                        character.getContinent(),
+                        character.getHouse(),
+                        character.getDescription(),
+                        character.getIsLiked(),
+                        character.getLargeImage(),
+                        character.getBadAss(),
+                        character.getCharacterReviews());
             }
         }
     }
 
     /**
      * Takes the search criteria in an intent and moves the user and the intent to the search results activity.
+     * Also set the search button on click listeners
      */
-    private void toSearchResults() {
+    private void toSearchResultsActivityWithSearchResultsIntent() {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Get the chosen search criteria from the spinners
      * @param spinner
-     * @return
+     * @return users search criteria as string
      */
     private String getSpinnerSelections(Spinner spinner) {
         TextView textView = (TextView) spinner.getSelectedView();
