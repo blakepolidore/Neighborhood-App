@@ -20,15 +20,13 @@ import java.util.Date;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    /**
-     * Creates all final strings to be used, written in SQL.
-     */
+    //region Database Final Strings
     private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "characters.db";
     public static final String CHARACTERS_TABLE_NAME = "characters";
-    /*
-    Columns for the database
-     */
+    //endregion Database Final Strings
+
+    //region Table Columns
     public static final String COL_ID = "_id";
     public static final String COL_NAME = "name";
     public static final String COL_SEX = "sex";
@@ -39,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_BADASS = "badAss";
     public static final String COL_LARGE_IMAGE = "largeImage";
     public static final String COL_REVIEWS = "characterReview";
+    //endregion Table Columns
 
     private static final String SQL_CREATE_CHARACTERS_TABLE = "CREATE TABLE IF NOT EXISTS " + CHARACTERS_TABLE_NAME +
             "(" +
@@ -152,7 +151,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     *Get the isLiked boolean for a character
+     * Get the isLiked boolean for a character
      * @param id
      * @return returns the boolean whether or not the character has been liked
      */
@@ -179,7 +178,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Gives the user the ability to return all characters in database. Used when no search criteria is specified
-     * @return
+     * @return cursor for all database objects
      */
     public Cursor getCharacter() {
         SQLiteDatabase db = getReadableDatabase();
@@ -200,7 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Method gives character name and description strings to put on individual character page.
+     * Method gets character name and description strings to put on individual character page.
      * @param id
      * @return Character name and description strings in an array of strings.
      */
@@ -231,7 +230,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Returns  character image for character page.
      * @param id
-     * @return image of character
+     * @return image of character from database
      */
     public int getCharacterImage(int id){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -256,7 +255,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Allows user to search database for character by name
      * @param query
-     * @return cursor for search
+     * @return cursor for search by name
      */
     public Cursor getCharacterByNameSearch(String query){
 
@@ -277,7 +276,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Allows user to search for favorited characters
-     * @return cursor for search
+     * @return cursor for search of favorited characters
      */
     public Cursor getFavoriteCharacterCursor(){
 
@@ -298,7 +297,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Allows user to search database for character by name but only for characters that have been favorited
      * @param query
-     * @return cursor for search
+     * @return cursor for search of favorite characters
      */
     public Cursor getCharactersBySearchOfFavorites(String query){
 
@@ -389,7 +388,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Gets the users comments on the characters.
      * @param id
-     * @return
+     * @return users comments for a character
      */
     public String getUsersReview(int id){
         SQLiteDatabase db = this.getReadableDatabase();

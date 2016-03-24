@@ -13,6 +13,7 @@ import blake.com.gameofthronesmap.R;
  */
 public class GOTCharactersManager {
 
+    //region Character Criteria Strings
     public static final String GENDER_MALE = "Male";
     public static final String GENDER_FEMALE = "Female";
 
@@ -28,6 +29,7 @@ public class GOTCharactersManager {
     public static final String HOUSE_None = "None";
     public static final String HOUSE_TYRELL = "Tyrell";
     public static final String HOUSE_BOLTON = "Bolton";
+    //endregion Character Criteria Strings
 
     /**
      * Creates all the character's objects and places them into an arraylist

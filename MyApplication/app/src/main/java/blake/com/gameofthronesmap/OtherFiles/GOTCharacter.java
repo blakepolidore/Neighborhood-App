@@ -4,7 +4,7 @@ package blake.com.gameofthronesmap.otherFiles;
  * Created by Raiders on 3/14/16.
  * <h1>Game of Thrones Characters</h1>
  * Default character object that gets put into the database.
- *@author Blake Polidore
+ * @author Blake Polidore
  * @version 1.0
  * @since 2016-03-20
  */
@@ -35,6 +35,7 @@ public class GOTCharacter {
 
     /*
     Constructor for character. Each character must have all of these traits.
+    This constructor is not used for the creation of the database
      */
     public GOTCharacter(String name, String sex, String continent, String house, String description,
                         Boolean isLiked, int largeImage, String badAss, String characterReviews) {

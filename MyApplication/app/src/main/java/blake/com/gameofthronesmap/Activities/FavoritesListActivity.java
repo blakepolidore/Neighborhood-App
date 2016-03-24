@@ -30,10 +30,12 @@ import blake.com.gameofthronesmap.otherFiles.SongService;
  */
 public class FavoritesListActivity extends AppCompatActivity{
 
+    //region private variables
     private ListView favoriteCharactersList;
     private CursorAdapter cursorAdapterForSearchList;
     private MusicStateSingleton musicState;
     private Cursor cursor;
+    //endregion private variables
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,9 @@ public class FavoritesListActivity extends AppCompatActivity{
         handleIntent(getIntent());
     }
 
+    /**
+     * When the activity is resumed, the cursor is swapped to update if characters have been liked or unliked
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -56,11 +61,10 @@ public class FavoritesListActivity extends AppCompatActivity{
 
     /**
      * Creates menu at the top
+     * Search lines allow for user to search by characters by name
      * @param menu
      * @return
      */
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -152,6 +156,7 @@ public class FavoritesListActivity extends AppCompatActivity{
 
     /**
      * Custom cursor adapter for list view
+     * Sets the appropriate fields based off of the cursor
      * @param cursor
      */
     private void createCursorAdapterForSearchList(Cursor cursor) {
