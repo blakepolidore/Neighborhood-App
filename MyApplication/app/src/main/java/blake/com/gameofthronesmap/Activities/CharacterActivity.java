@@ -1,6 +1,7 @@
 package blake.com.gameofthronesmap.activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -33,9 +34,9 @@ public class CharacterActivity extends AppCompatActivity {
     public static final String USER_COMMENT_ID_KEY = "userCommentID";
 
     //region Private Variables
-    private TextView locationTitleText;
-    private TextView locationDescription;
-    private ImageView locationImage;
+    private TextView characterTitleText;
+    private TextView characterDescription;
+    private ImageView characterImage;
     private EditText reviewEditText;
     private String characterNameText;
     private FloatingActionButton isLikedButton;
@@ -50,6 +51,7 @@ public class CharacterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_character);
 
         instantiateItems();
+        setFontText();
         getCharacterDetails();
         setIcon();
         setIsLikedButton();
@@ -100,13 +102,21 @@ public class CharacterActivity extends AppCompatActivity {
     }
 
     private void instantiateItems() {
-        locationTitleText = (TextView) findViewById(R.id.locationTitleText);
-        locationDescription = (TextView) findViewById(R.id.locationDescription);
-        locationImage = (ImageView) findViewById(R.id.imageViewLocation);
+        characterTitleText = (TextView) findViewById(R.id.locationTitleText);
+        characterDescription = (TextView) findViewById(R.id.locationDescription);
+        characterImage = (ImageView) findViewById(R.id.imageViewLocation);
         reviewEditText = (EditText) findViewById(R.id.reviewEditText);
         isLikedButton = (FloatingActionButton) findViewById(R.id.fabButton);
         likedIcon = (ImageView) findViewById(R.id.likedImage);
         reviewButton = (Button) findViewById(R.id.enterReviewButton);
+    }
+
+    /**
+     * Sets the character's name text to a special font
+     */
+    private void setFontText() {
+        Typeface gotFont = Typeface.createFromAsset(getAssets(), "got_font.ttf");
+        characterTitleText.setTypeface(gotFont);
     }
 
     /**

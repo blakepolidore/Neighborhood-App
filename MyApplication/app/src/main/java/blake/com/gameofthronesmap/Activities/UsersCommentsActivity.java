@@ -1,6 +1,7 @@
 package blake.com.gameofthronesmap.activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -37,6 +38,7 @@ public class UsersCommentsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reviews);
 
         instantiateItems();
+        setFontText();
         musicState = MusicStateSingleton.getInstance(); //Creates instance of the music state
         reviewsArrayList = new ArrayList<>();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, reviewsArrayList);
@@ -83,6 +85,14 @@ public class UsersCommentsActivity extends AppCompatActivity {
     private void instantiateItems() {
         reviewListView = (ListView) findViewById(R.id.reviewsListView);
         reviewTitleText = (TextView) findViewById(R.id.reviewTitleText);
+    }
+
+    /**
+     * Sets the character's name text to a special font
+     */
+    private void setFontText() {
+        Typeface gotFont = Typeface.createFromAsset(getAssets(), "got_font.ttf");
+        reviewTitleText.setTypeface(gotFont);
     }
 
     /**
