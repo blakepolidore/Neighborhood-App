@@ -6,19 +6,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import blake.com.gameofthronesmap.R;
+import blake.com.gameofthronesmap.otherFiles.CustomCursorAdapter;
 import blake.com.gameofthronesmap.otherFiles.DatabaseHelper;
 import blake.com.gameofthronesmap.otherFiles.MusicStateSingleton;
 import blake.com.gameofthronesmap.otherFiles.SongService;
@@ -138,8 +135,7 @@ public class SearchResultsActivity extends AppCompatActivity {
      */
     private void createCursorAndPutInCursorAdapter() {
         cursor = getDatabaseHelper().searchCriteriaCursor(characterContinent, characterSex, characterHouse); //Creates cursor from selection criteria
-        createCursorAdapterForSearchList(cursor); //Puts cursor in custom cursor adapter
-
+        setCursorAdapterAndListView(); //Puts cursor in custom cursor adapter
     }
 
     /**
@@ -154,58 +150,10 @@ public class SearchResultsActivity extends AppCompatActivity {
     /**
      * Custom cursor adapter for list view.
      * Takes in cursor and sets the appropriate fields in the list based off the cursor
-     * @param cursor
      */
-    private void createCursorAdapterForSearchList(Cursor cursor) {
-        cursorAdapterForSearchList = new CursorAdapter(SearchResultsActivity.this, cursor, 0) {
-            @Override
-            public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
-            }
-
-            @Override
-            public void bindView(View view, Context context, Cursor cursor) {
-                TextView nameText = (TextView) view.findViewById(R.id.characterNameText);
-                TextView badassText = (TextView) view.findViewById(R.id.badassText);
-                ImageView iconImage = (ImageView) view.findViewById(R.id.iconImageView);
-
-                nameText.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_NAME)));
-                badassText.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_BADASS)));
-                int drawableID= getDrawableValue(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_HOUSE)));
-                iconImage.setBackgroundResource(drawableID);
-            }
-        };
-        ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(cursorAdapterForSearchList);
-    }
-    /**
-     * Gets icon for listview depending on the house of the favorited characters
-     * @param house
-     * @return
-     */
-    private int getDrawableValue(String house){
-        switch(house){
-            case "Targaryen":
-                return R.drawable.targaryen;
-            case "Stark":
-                return R.drawable.stark;
-            case "Lannister":
-                return R.drawable.lannister;
-            case "Martell":
-                return R.drawable.martell;
-            case "Mormont":
-                return R.drawable.mormont;
-            case "Baratheon":
-                return R.drawable.baratheon;
-            case "Tyrell":
-                return R.drawable.tyrell;
-            case "Bolton":
-                return R.drawable.bolton;
-            case "None":
-                return R.drawable.none;
-            default:
-                return 0;
-        }
+    private void setCursorAdapterAndListView() {
+        cursorAdapterForSearchList = CustomCursorAdapter.getCustomCursorAdapter(SearchResultsActivity.this, cursor);
+        searchResultsListView.setAdapter(cursorAdapterForSearchList);
     }
 
     /**
