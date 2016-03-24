@@ -71,6 +71,8 @@ public class CustomCursorAdapter {
                 return R.drawable.tyrell;
             case "Bolton":
                 return R.drawable.bolton;
+            case "Greyjoy":
+                return R.drawable.greyjoy;
             case "None":
                 return R.drawable.none;
             default:

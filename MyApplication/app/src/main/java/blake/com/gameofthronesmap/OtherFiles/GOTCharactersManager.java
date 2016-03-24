@@ -29,6 +29,7 @@ public class GOTCharactersManager {
     public static final String HOUSE_None = "None";
     public static final String HOUSE_TYRELL = "Tyrell";
     public static final String HOUSE_BOLTON = "Bolton";
+    public static final String HOUSE_GREYJOY = "Greyjoy";
     //endregion Character Criteria Strings
 
     /**
@@ -458,6 +459,66 @@ public class GOTCharactersManager {
         tommenBaratheon.setBadAss("Chode");
         tommenBaratheon.setCharacterReviews("");
         characterArrayList.add(tommenBaratheon);
+
+        GOTCharacter theonGreyjoy = new GOTCharacter();
+        theonGreyjoy.setName("Theon Greyjoy");
+        theonGreyjoy.setSex(GENDER_MALE);
+        theonGreyjoy.setContinent(CONTINENT_WESTEROS);
+        theonGreyjoy.setHouse(HOUSE_GREYJOY);
+        theonGreyjoy.setDescription(context.getString(R.string.theon));
+        theonGreyjoy.setIsLiked(false);
+        theonGreyjoy.setLargeImage(R.drawable.theon);
+        theonGreyjoy.setBadAss("Just Reek");
+        theonGreyjoy.setCharacterReviews("");
+        characterArrayList.add(theonGreyjoy);
+
+        GOTCharacter yaraGreyjoy = new GOTCharacter();
+        yaraGreyjoy.setName("Yara Greyjoy");
+        yaraGreyjoy.setSex(GENDER_FEMALE);
+        yaraGreyjoy.setContinent(CONTINENT_WESTEROS);
+        yaraGreyjoy.setHouse(HOUSE_GREYJOY);
+        yaraGreyjoy.setDescription(context.getString(R.string.yara));
+        yaraGreyjoy.setIsLiked(false);
+        yaraGreyjoy.setLargeImage(R.drawable.yara);
+        yaraGreyjoy.setBadAss("Warrioress Badass");
+        yaraGreyjoy.setCharacterReviews("");
+        characterArrayList.add(yaraGreyjoy);
+
+        GOTCharacter greyworm = new GOTCharacter();
+        greyworm.setName("Greyworm");
+        greyworm.setSex(GENDER_MALE);
+        greyworm.setContinent(CONTINENT_ESSOS);
+        greyworm.setHouse(HOUSE_TARGARYEN);
+        greyworm.setDescription(context.getString(R.string.greyworm));
+        greyworm.setIsLiked(false);
+        greyworm.setLargeImage(R.drawable.greyworm);
+        greyworm.setBadAss("Unsullied Badass");
+        greyworm.setCharacterReviews("");
+        characterArrayList.add(greyworm);
+
+        GOTCharacter daarioNaharis = new GOTCharacter();
+        daarioNaharis.setName("Daario Naharis");
+        daarioNaharis.setSex(GENDER_MALE);
+        daarioNaharis.setContinent(CONTINENT_ESSOS);
+        daarioNaharis.setHouse(HOUSE_None);
+        daarioNaharis.setDescription(context.getString(R.string.daario));
+        daarioNaharis.setIsLiked(false);
+        daarioNaharis.setLargeImage(R.drawable.daario);
+        daarioNaharis.setBadAss("Killer Badass");
+        daarioNaharis.setCharacterReviews("");
+        characterArrayList.add(daarioNaharis);
+
+        GOTCharacter samwellTarley = new GOTCharacter();
+        samwellTarley.setName("Samwell Tarley");
+        samwellTarley.setSex(GENDER_MALE);
+        samwellTarley.setContinent(CONTINENT_WESTEROS);
+        samwellTarley.setHouse(HOUSE_None);
+        samwellTarley.setDescription(context.getString(R.string.samwell));
+        samwellTarley.setIsLiked(false);
+        samwellTarley.setLargeImage(R.drawable.samwell);
+        samwellTarley.setBadAss("Fat Badass");
+        samwellTarley.setCharacterReviews("");
+        characterArrayList.add(samwellTarley);
 
         return characterArrayList;
     }
