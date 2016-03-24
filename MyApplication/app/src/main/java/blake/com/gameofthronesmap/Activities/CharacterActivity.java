@@ -30,6 +30,8 @@ import blake.com.gameofthronesmap.R;
  */
 public class CharacterActivity extends AppCompatActivity {
 
+    public static final String USER_COMMENT_ID_KEY = "userCommentID";
+
     TextView locationTitleText;
     TextView locationDescription;
     ImageView locationImage;
@@ -80,7 +82,7 @@ public class CharacterActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.infoActivity:
-                Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
+                Intent infoIntent = new Intent(getApplicationContext(), HelpActivity.class);
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
@@ -158,7 +160,7 @@ public class CharacterActivity extends AppCompatActivity {
      * Allows you to click on the fab and like or unlike a character. Liking a character stores them in your favorites
      */
     private void setIsLikedButton() {
-        final int id = getIntent().getIntExtra("id", -1);
+        final int id = getIntent().getIntExtra(SearchResultsActivity.ID_INTENT_KEY, -1);
         isLikedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,7 +195,7 @@ public class CharacterActivity extends AppCompatActivity {
      * Grabs the comments left by a user and adds them to the database. Then sends the user to the ReviewActivity
      */
     private void setReviewButton() {
-        final int id = getIntent().getIntExtra("id", -1);
+        final int id = getIntent().getIntExtra(SearchResultsActivity.ID_INTENT_KEY, -1);
         reviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -202,7 +204,7 @@ public class CharacterActivity extends AppCompatActivity {
                         databaseHelper().addReviewOfCharacter(id, userComment());
                     }
                     Intent goToReviewActivityIntent = new Intent(CharacterActivity.this, ReviewActivity.class);
-                    goToReviewActivityIntent.putExtra("id2", id);
+                    goToReviewActivityIntent.putExtra(USER_COMMENT_ID_KEY, id);
                     startActivity(goToReviewActivityIntent);
                 }
             }

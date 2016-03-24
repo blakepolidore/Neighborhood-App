@@ -16,9 +16,9 @@ import blake.com.gameofthronesmap.R;
  * <h1>Info Activity</h1>
  * Explains to user how to use the app
  */
-public class InfoActivity extends AppCompatActivity {
+public class HelpActivity extends AppCompatActivity {
 
-    MusicStateSingleton musicState;
+    private MusicStateSingleton musicState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class InfoActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.infoActivity:
-                Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
+                Intent infoIntent = new Intent(getApplicationContext(), HelpActivity.class);
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:

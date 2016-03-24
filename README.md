@@ -8,9 +8,15 @@ Features
 
 - Search for characters based on continent, gender, and house allegiance
 
-- Users can favorite characters
+- After selection criteria has been made, view a list of characters meeting the criteria
+
+- Visit character pages where users can favorite the character
 
 - Users can leave comments about GOT characters
+
+- Visit your favorite character's list by clicking the star
+
+- Search for characters in the search bar by name
 
 - And you of course can listen to the epic Game of Thrones theme song the whole time!
 

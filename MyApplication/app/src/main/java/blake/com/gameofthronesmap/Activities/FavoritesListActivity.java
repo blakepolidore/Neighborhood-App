@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -19,10 +18,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import blake.com.gameofthronesmap.R;
 import blake.com.gameofthronesmap.otherFiles.DatabaseHelper;
 import blake.com.gameofthronesmap.otherFiles.MusicStateSingleton;
 import blake.com.gameofthronesmap.otherFiles.SongService;
-import blake.com.gameofthronesmap.R;
 
 /**
  * Created by Raiders on 3/18/16.
@@ -31,11 +30,10 @@ import blake.com.gameofthronesmap.R;
  */
 public class FavoritesListActivity extends AppCompatActivity{
 
-    TextView searchResultsTextView;
-    ListView searchResultsListView;
+    private ListView favoriteCharactersList;
     private CursorAdapter cursorAdapterForSearchList;
-    MusicStateSingleton musicState;
-    Cursor cursor;
+    private MusicStateSingleton musicState;
+    private Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +43,15 @@ public class FavoritesListActivity extends AppCompatActivity{
         musicState = MusicStateSingleton.getInstance(); // Creates music state instance in this class
         instantiateItems();
         createCursorAdapterForSearchList(cursorForFavorites());
-        setOnListItemClickListerners(searchResultsListView, cursorForFavorites());
+        setOnListItemClickListerners(favoriteCharactersList, cursorForFavorites());
         handleIntent(getIntent());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cursorAdapterForSearchList.swapCursor(cursorForFavorites());
+        cursorAdapterForSearchList.notifyDataSetChanged();
     }
 
     /**
@@ -54,6 +59,8 @@ public class FavoritesListActivity extends AppCompatActivity{
      * @param menu
      * @return
      */
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -83,7 +90,7 @@ public class FavoritesListActivity extends AppCompatActivity{
                 startActivity(intent);
                 return true;
             case R.id.infoActivity:
-                Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
+                Intent infoIntent = new Intent(getApplicationContext(), HelpActivity.class);
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
@@ -99,8 +106,7 @@ public class FavoritesListActivity extends AppCompatActivity{
     }
 
     private void instantiateItems() {
-        searchResultsTextView = (TextView) findViewById(R.id.searchResultsTextFavorite1);
-        searchResultsListView = (ListView) findViewById(R.id.listViewFavorite);
+        favoriteCharactersList = (ListView) findViewById(R.id.listViewFavorite);
     }
 
     /**
@@ -108,11 +114,11 @@ public class FavoritesListActivity extends AppCompatActivity{
      * Raw query is not used in this version but I wanted to remember how to do this.
      * @return
      */
-    private SQLiteDatabase getDatabaseForFavorites() {
-        DatabaseHelper dbHelper = DatabaseHelper.getInstance(FavoritesListActivity.this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        return db;
-    }
+//    private SQLiteDatabase getDatabaseForFavorites() {
+//        DatabaseHelper dbHelper = DatabaseHelper.getInstance(FavoritesListActivity.this);
+//        SQLiteDatabase db = dbHelper.getReadableDatabase();
+//        return db;
+//    }
 
     /**
      * Creates instance of the database helper in this activity
@@ -206,9 +212,9 @@ public class FavoritesListActivity extends AppCompatActivity{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent listItemIntent = new Intent(FavoritesListActivity.this, FavoriteCharacterActivity.class);
+                Intent listItemIntent = new Intent(FavoritesListActivity.this, CharacterActivity.class);
                 cursor.moveToPosition(position);
-                listItemIntent.putExtra("idFavorite", cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
+                listItemIntent.putExtra(SearchResultsActivity.ID_INTENT_KEY, cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
                 startActivity(listItemIntent);
             }
         });

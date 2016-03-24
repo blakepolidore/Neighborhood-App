@@ -23,8 +23,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Creates all final strings to be used, written in SQL.
      */
-    public static final int DATABASE_VERSION = 2;
-    public static final String DATABASE_NAME = "characters.db";
+    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME = "characters.db";
     public static final String CHARACTERS_TABLE_NAME = "characters";
     /*
     Columns for the database
@@ -40,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_LARGE_IMAGE = "largeImage";
     public static final String COL_REVIEWS = "characterReview";
 
-    public static final String SQL_CREATE_CHARACTERS_TABLE = "CREATE TABLE IF NOT EXISTS " + CHARACTERS_TABLE_NAME +
+    private static final String SQL_CREATE_CHARACTERS_TABLE = "CREATE TABLE IF NOT EXISTS " + CHARACTERS_TABLE_NAME +
             "(" +
             COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COL_NAME + " TEXT,"
@@ -53,9 +53,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COL_BADASS + " TEXT,"
             + COL_REVIEWS + " TEXT)";
 
-    public static final String[] GOT_COLUMNS = {COL_ID,COL_NAME, COL_SEX, COL_CONTINENT, COL_HOUSE, COL_DESCRIPTION, COL_ISLIKED, COL_LARGE_IMAGE, COL_BADASS, COL_REVIEWS};
-    public static final String SQL_DROP_CHARACTERS_TABLE = "DROP TABLE IF EXISTS characters";
+    private static final String[] GOT_COLUMNS = {
+            COL_ID,
+            COL_NAME,
+            COL_SEX,
+            COL_CONTINENT,
+            COL_HOUSE,
+            COL_DESCRIPTION,
+            COL_ISLIKED,
+            COL_LARGE_IMAGE,
+            COL_BADASS,
+            COL_REVIEWS};
 
+    private static final String SQL_DROP_CHARACTERS_TABLE = "DROP TABLE IF EXISTS characters";
     private static DatabaseHelper instance;
 
     /**

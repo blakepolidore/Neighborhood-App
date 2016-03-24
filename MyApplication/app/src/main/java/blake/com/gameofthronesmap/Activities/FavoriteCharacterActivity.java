@@ -25,14 +25,14 @@ import blake.com.gameofthronesmap.R;
  */
 public class FavoriteCharacterActivity extends AppCompatActivity {
 
-    TextView locationTitleTextFavorite;
-    TextView locationDescriptionFavorite;
-    ImageView locationImageFavorite;
-    EditText reviewEditTextFavorite;
-    String characterNameText;
-    ImageView likedIcon;
-    Button enterCommentFromFavoritesButton;
-    MusicStateSingleton musicState;
+    private TextView locationTitleTextFavorite;
+    private TextView locationDescriptionFavorite;
+    private ImageView locationImageFavorite;
+    private EditText reviewEditTextFavorite;
+    private String characterNameText;
+    private ImageView likedIcon;
+    private Button enterCommentFromFavoritesButton;
+    private MusicStateSingleton musicState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class FavoriteCharacterActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.infoActivity:
-                Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
+                Intent infoIntent = new Intent(getApplicationContext(), HelpActivity.class);
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:

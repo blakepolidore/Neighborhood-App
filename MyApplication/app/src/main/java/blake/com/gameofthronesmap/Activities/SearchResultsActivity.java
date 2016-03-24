@@ -33,13 +33,15 @@ public class SearchResultsActivity extends AppCompatActivity {
     public static final String CONTINENT_KEY = "CONTINENT";
     public static final String SEX_KEY = "SEX";
     public static final String HOUSE_KEY = "HOUSE";
+    public static final String ID_INTENT_KEY = "id";
 
-    TextView searchResultsTextView;
-    ListView searchResultsListView;
-    String characterContinent, characterSex, characterHouse;
+    //region private variables
+    private ListView searchResultsListView;
+    private String characterContinent, characterSex, characterHouse;
     private CursorAdapter cursorAdapterForSearchList;
-    MusicStateSingleton musicState;
-    Cursor cursor;
+    private MusicStateSingleton musicState;
+    private Cursor cursor;
+    //endregion private variables
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +91,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.infoActivity:
-                Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
+                Intent infoIntent = new Intent(getApplicationContext(), HelpActivity.class);
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
@@ -108,7 +110,6 @@ public class SearchResultsActivity extends AppCompatActivity {
     }
 
     private void instantiateItems() {
-        searchResultsTextView = (TextView) findViewById(R.id.searchResultsText);
         searchResultsListView = (ListView) findViewById(R.id.listView);
     }
 
@@ -204,7 +205,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent listItemIntent =  new Intent(SearchResultsActivity.this, CharacterActivity.class);
                 cursor.moveToPosition(position);
-                listItemIntent.putExtra("id", cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
+                listItemIntent.putExtra(ID_INTENT_KEY, cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_ID)));
                 startActivity(listItemIntent);
             }
         });

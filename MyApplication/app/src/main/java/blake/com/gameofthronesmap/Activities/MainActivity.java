@@ -21,10 +21,10 @@ import blake.com.gameofthronesmap.R;
 
 /**
  * <h1>Main Activity for GOT Characters App</h1>
- * This is the main page for the application.
- * From here you can search for various characters in the books and show based on several criteria.
- * You can also access other activities such as the informational activity and favorite characters list from the menu bar.
- * You can also play music from the menu bar.
+ * This is the main page for the application. This activity is the first one that appears when the application starts.
+ * From here users can search for various characters in the books and show based on several criteria.
+ * Users can also access other activities such as the help activity and favorite characters list from the menu bar.
+ * Users can also play music from the menu bar.
  *
  * @author Blake Polidore
  * @version 1.0
@@ -33,11 +33,11 @@ import blake.com.gameofthronesmap.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button searchButton;
-    Spinner continentSpinner;
-    Spinner sexSpinner;
-    Spinner houseSpinner;
-    MusicStateSingleton musicState;
+    private Button searchButton;
+    private Spinner continentSpinner;
+    private Spinner sexSpinner;
+    private Spinner houseSpinner;
+    private MusicStateSingleton musicState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.infoActivity:
-                Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
+                Intent infoIntent = new Intent(getApplicationContext(), HelpActivity.class);
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:

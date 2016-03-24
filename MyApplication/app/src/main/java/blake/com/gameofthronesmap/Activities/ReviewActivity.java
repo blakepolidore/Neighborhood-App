@@ -24,10 +24,10 @@ import blake.com.gameofthronesmap.R;
  */
 public class ReviewActivity extends AppCompatActivity {
 
-    TextView reviewTitleText;
-    ListView reviewListView;
-    ArrayList<String> reviewsArrayList;
-    MusicStateSingleton musicState;
+    private TextView reviewTitleText;
+    private ListView reviewListView;
+    private ArrayList<String> reviewsArrayList;
+    private MusicStateSingleton musicState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class ReviewActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.infoActivity:
-                Intent infoIntent = new Intent(getApplicationContext(), InfoActivity.class);
+                Intent infoIntent = new Intent(getApplicationContext(), HelpActivity.class);
                 startActivity(infoIntent);
                 return true;
             case R.id.musicActivity:
@@ -96,7 +96,7 @@ public class ReviewActivity extends AppCompatActivity {
      * Gets the reviews left by users of the characters and displays them
      */
     private void getCharacterReviews() {
-        final int id = getIntent().getIntExtra("id2", -1);
+        final int id = getIntent().getIntExtra(CharacterActivity.USER_COMMENT_ID_KEY, -1);
         if (id >= 0) {
             String userComments = databaseHelper().getUsersReview(id);
             String[] arrayOfComments = userComments.split("aintNuthingButAGThang297"); //Unique string to split user comments string by. The array holds all the user comments

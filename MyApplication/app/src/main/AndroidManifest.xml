@@ -10,7 +10,7 @@
         android:theme="@style/Theme.AppCompat"
         android:logo="@drawable/none">
         <service android:name=".otherFiles.SongService"/>
-        <activity android:name=".activities.InfoActivity"
+        <activity android:name=".activities.HelpActivity"
             android:configChanges="orientation|screenSize"/>
         <activity android:name=".activities.CharacterActivity"
             android:windowSoftInputMode="stateHidden"

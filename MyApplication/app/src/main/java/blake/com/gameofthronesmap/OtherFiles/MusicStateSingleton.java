@@ -5,7 +5,7 @@ package blake.com.gameofthronesmap.otherFiles;
  * Creates one instance of the music player.
  */
 public class MusicStateSingleton {
-    boolean isPlaying;
+    public boolean isPlaying;
     static MusicStateSingleton instance;
 
     /**

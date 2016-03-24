@@ -16,7 +16,7 @@ import blake.com.gameofthronesmap.R;
  */
 public class SongService extends Service {
 
-    MediaPlayer themeMediaPlayer;
+    private MediaPlayer themeMediaPlayer;
 
     @Nullable
     @Override
