@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import blake.com.gameofthronesmap.R;
 import blake.com.gameofthronesmap.otherFiles.CustomCursorAdapter;
@@ -33,6 +35,7 @@ public class FavoritesListActivity extends AppCompatActivity{
     private MusicStateSingleton musicState;
     private Cursor cursor;
     private boolean hasBeenSearched =false;
+    private TextView favoriteCharactersTitle;
     //endregion private variables
 
     @Override
@@ -42,6 +45,7 @@ public class FavoritesListActivity extends AppCompatActivity{
 
         musicState = MusicStateSingleton.getInstance(); // Creates music state instance in this class
         instantiateItems();
+        setFontText();
         setCursorAdapterAndListView();
         setOnListItemClickListerners(favoriteCharactersList, cursorForFavorites());
         handleIntent(getIntent());
@@ -49,12 +53,13 @@ public class FavoritesListActivity extends AppCompatActivity{
 
     /**
      * When the activity is resumed, the cursor is swapped to update if characters have been liked or unliked
+     * If there has been a search the cursor is swapped so the search can commence
      */
     @Override
     protected void onResume() {
         super.onResume();
         if (hasBeenSearched) {
-            cursorAdapterForSearchList.swapCursor(cursor); //If I change to cursor search works and updating the list doesn't and vice versa
+            cursorAdapterForSearchList.swapCursor(cursor);
         } else {
             cursorAdapterForSearchList.swapCursor(cursorForFavorites());
         }
@@ -116,6 +121,15 @@ public class FavoritesListActivity extends AppCompatActivity{
 
     private void instantiateItems() {
         favoriteCharactersList = (ListView) findViewById(R.id.listViewFavorite);
+        favoriteCharactersTitle = (TextView) findViewById(R.id.searchResultsTextFavorite1);
+    }
+
+    /**
+     * Sets the character's name text to a special font
+     */
+    private void setFontText() {
+        Typeface gotFont = Typeface.createFromAsset(getAssets(), "got_font.ttf");
+        favoriteCharactersTitle.setTypeface(gotFont);
     }
 
     /**

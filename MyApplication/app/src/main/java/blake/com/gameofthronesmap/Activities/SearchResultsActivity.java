@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import blake.com.gameofthronesmap.R;
 import blake.com.gameofthronesmap.otherFiles.CustomCursorAdapter;
@@ -42,6 +44,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private CursorAdapter cursorAdapterForSearchList;
     private MusicStateSingleton musicState;
     private Cursor cursor;
+    private TextView searchResultsTitle;
     //endregion private variables
 
     @Override
@@ -50,6 +53,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_searchresults);
 
         instantiateItems();
+        setFontText();
         getMainActivityIntent();
         createCursorAndPutInCursorAdapter();
         setOnListItemClickListerners(searchResultsListView, cursor); //Set on item click listener for each character
@@ -114,6 +118,15 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     private void instantiateItems() {
         searchResultsListView = (ListView) findViewById(R.id.listView);
+        searchResultsTitle = (TextView) findViewById(R.id.searchResultsText);
+    }
+
+    /**
+     * Sets the character's name text to a special font
+     */
+    private void setFontText() {
+        Typeface gotFont = Typeface.createFromAsset(getAssets(), "got_font.ttf");
+        searchResultsTitle.setTypeface(gotFont);
     }
 
     /**
