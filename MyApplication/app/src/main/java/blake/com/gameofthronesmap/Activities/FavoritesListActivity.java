@@ -32,6 +32,7 @@ public class FavoritesListActivity extends AppCompatActivity{
     private CursorAdapter cursorAdapterForSearchList;
     private MusicStateSingleton musicState;
     private Cursor cursor;
+    private boolean hasBeenSearched =false;
     //endregion private variables
 
     @Override
@@ -52,7 +53,11 @@ public class FavoritesListActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        cursorAdapterForSearchList.swapCursor(cursorForFavorites());
+        if (hasBeenSearched) {
+            cursorAdapterForSearchList.swapCursor(cursor); //If I change to cursor search works and updating the list doesn't and vice versa
+        } else {
+            cursorAdapterForSearchList.swapCursor(cursorForFavorites());
+        }
         cursorAdapterForSearchList.notifyDataSetChanged();
     }
 
@@ -100,6 +105,9 @@ public class FavoritesListActivity extends AppCompatActivity{
                 } else {
                     startService(new Intent(this, SongService.class));
                 }
+                return true;
+            case R.id.search:
+                handleIntent(getIntent());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -186,6 +194,8 @@ public class FavoritesListActivity extends AppCompatActivity{
             cursor = getDatabaseHelperForFavorites().getCharactersBySearchOfFavorites(query);
             cursorAdapterForSearchList.swapCursor(cursor);
             cursorAdapterForSearchList.notifyDataSetChanged();
+            setOnListItemClickListerners(favoriteCharactersList, cursor); //Resets the updated cursor so correct character
+            hasBeenSearched =true;
         }
     }
 
