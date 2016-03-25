@@ -101,6 +101,15 @@ public class CharacterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Changes the favorited icon if it has been selected or deselected in another activity
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setIcon();
+    }
+
     private void instantiateItems() {
         characterTitleText = (TextView) findViewById(R.id.locationTitleText);
         characterDescription = (TextView) findViewById(R.id.locationDescription);
